@@ -43,19 +43,34 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#contact" th:text="${contact_Title}"></a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="window.location.href='http://localhost:8080/main/mza?lang=pl'"
+                           class="pll nav-link"
+                        th:text="pl"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="window.location.href='http://localhost:8080/main/mza?lang=en'"
+                           class="nav-link" th:text="en">
+                            <img src="images.jpg" alt="Logo kościoła" class="d-block" style="height:40px">
+                        </a>
+                    </li>
                 </ul>
                 <div class="lang-menu">
-                    <div id="language" value="English" class="selected-lang"></div>
+                    <div id="language" th:text="en" class="selected-lang"></div>
                     <ul>
                         <li class="nav-item">
-                            <a href="#" id="pl" onclick="return changeLanguage(this)" class="pl nav-link" value="Polish"></a>
+                            <a href="#" id="pl" onclick="window.location.href='http://localhost:8080/main/mza?lang=pl'"
+                               class="pl nav-link" th:text="pl"></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" id="en" onclick="return changeLanguage(this)" class="en nav-link" value="English"></a>
+                            <a href="#" id="en" onclick="window.location.href='http://localhost:8080/main/mza?lang=en'"
+                               class="en nav-link" th:text="en"></a>
                         </li>
                     </ul>
                 </div>
-                <button type="button" th:text="mza" onclick="window.location.href='http://localhost:8080/main/mza?lang=pl'">
+                <button type="button" class="pll" th:text="pl" onclick="window.location.href='http://localhost:8080/main/mza?lang=pl'">
+                </button>
+                <button type="button" class="enn" th:text="en" onclick="window.location.href='http://localhost:8080/main/mza?lang=en'">
                 </button>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

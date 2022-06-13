@@ -113,7 +113,7 @@ a {
     display: inline-block;
     width: 32px;
     height: 32px;
-    background-image: url(https://www.worldometers.info/img/flags/uk-flag.gif);
+    background-image: url("../main/globus.jpg");
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -122,7 +122,6 @@ a {
     margin: 0;
     padding: 0;
     display: none;
-    background-color: #fff;
     border: 1px solid #f8f8f8;
     position: absolute;
     top: 45px;
@@ -148,6 +147,7 @@ a {
 
 .lang-menu ul li:hover {
     background-color: #f2f2f2;
+    display: block;
 }
 
 .lang-menu ul li a:before {
@@ -171,6 +171,20 @@ a {
     color: #111;
 }
 
+.enn {
+    background-image: url(https://www.worldometers.info/img/flags/uk-flag.gif);
+    color: #111;
+}
+
+.pll {
+    background-image: url("https://www.worldometers.info/img/flags/pl-flag.gif");
+    color: #111;
+}
+
 .lang-menu:hover ul {
+    display: block;
+}
+
+.lang-menu:active ul {
     display: block;
 }
