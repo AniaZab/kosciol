@@ -11,11 +11,12 @@ import java.util.Locale;
 
 @Configuration
 public class LocaleConfiguration {
-    @Value("${app.baseName}")
+
+    @Value("messages")
     private String baseName;
 
-    @Value("${app.defaultLocale}")
-    private String defaultLocale;
+  //  @Value("pl")
+  //  private String defaultLocale;
 
     @Bean(name = "messages")
     public ResourceBundleMessageSource messageSource(){
@@ -25,11 +26,11 @@ public class LocaleConfiguration {
         messageSource.setUseCodeAsDefaultMessage(true);
         return messageSource;
     }
-
+/*
     @Bean
     public LocaleResolver localeResolver(){
         AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
         acceptHeaderLocaleResolver.setDefaultLocale(new Locale(defaultLocale));
         return acceptHeaderLocaleResolver;
     }
-}
+*/}

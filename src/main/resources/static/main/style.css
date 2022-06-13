@@ -1,18 +1,5 @@
-h2 {
-    font-family: sans-serif;
-    font-size: 1.5em;
-    text-transform: uppercase;
-}
-
-strong {
-    font-weight: 700;
-    background-color: yellow;
-}
-
-p {
-    font-family: sans-serif;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css');
 img {
     max-width: 100%;
     height: auto;
@@ -39,7 +26,8 @@ li a {
     text-decoration: none;
 }
 
-li a:hover:not(.active) {
+li a:hover:not(.active),
+.lang-menu .selected-lang:hover:not(.active) {
     background-color: #111;
 }
 
@@ -77,6 +65,11 @@ footer {
     margin-top: 5px;
 }
 
+label,
+button {
+    padding-top: 1%;
+}
+
 .carousel-item img {
     width: auto;
     max-height: 350px;
@@ -93,4 +86,91 @@ table.dataTable thead .sorting_desc:before,
 table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
     bottom: .5em;
+}
+
+a {
+    text-decoration: none;
+}
+
+.lang-menu {
+    width: 100px;
+    text-align: right;
+    font-weight: bold;
+    position: relative;
+    background-color: #333;
+    color: white;
+}
+
+.lang-menu .selected-lang {
+    display: flex;
+    justify-content: space-between;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.lang-menu .selected-lang:before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image: url(https://www.worldometers.info/img/flags/uk-flag.gif);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.lang-menu ul {
+    margin: 0;
+    padding: 0;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #f8f8f8;
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    width: 125px;
+    border-radius: 5px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.lang-menu ul li {
+    list-style: none;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+}
+
+.lang-menu ul li a {
+    text-decoration: none;
+    width: 125px;
+    padding: 5px 10px;
+    display: block;
+}
+
+.lang-menu ul li:hover {
+    background-color: #f2f2f2;
+}
+
+.lang-menu ul li a:before {
+    content: '';
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    margin-right: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.en:before {
+    background-image: url(https://www.worldometers.info/img/flags/uk-flag.gif);
+    color: #111;
+}
+
+.pl:before {
+    background-image: url(https://www.worldometers.info/img/flags/pl-flag.gif);
+    color: #111;
+}
+
+.lang-menu:hover ul {
+    display: block;
 }

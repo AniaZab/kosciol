@@ -3,57 +3,57 @@ package com.apka.kosciol.util;
 public class TranslationCode {
     public static final String [] names =
     {
-            "pageRegularEvents.Title",
-            "pageRegularEvents.firstEvent.title",
-            "pageRegularEvents.firstEvent.text",
-            "pageRegularEvents.secondEvent.title",
-            "pageRegularEvents.secondEvent.text",
-            "pageRegularEvents.thirdEvent.title",
-            "pageRegularEvents.thirdEvent.text",
-            "pageRegularEvents.fourthEvent.title",
-            "pageRegularEvents.fourthEvent.text",
+            "pageRegularEvents_Title",
+            "pageRegularEvents_firstEvent_title",
+            "pageRegularEvents_firstEvent_text",
+            "pageRegularEvents_secondEvent_title",
+            "pageRegularEvents_secondEvent_text",
+            "pageRegularEvents_thirdEvent_title",
+            "pageRegularEvents_thirdEvent_text",
+            "pageRegularEvents_fourthEvent_title",
+            "pageRegularEvents_fourthEvent_text",
 
-            "pageNewEvents.Title",
-            "pageNewEvents.table.category",
-            "pageNewEvents.table.title",
-            "pageNewEvents.table.when",
-            "pageNewEvents.table.ForWho",
-            "pageNewEvents.table.description",
-            "pageNewEvents.table.extraInfo",
-            "pageNewEvents.table.list",
+            "pageNewEvents_Title",
+            "pageNewEvents_table_category",
+            "pageNewEvents_table_title",
+            "pageNewEvents_table_when",
+            "pageNewEvents_table_ForWho",
+            "pageNewEvents_table_description",
+            "pageNewEvents_table_extraInfo",
+            "pageNewEvents_table_list",
 
-            "contact.Title",
-            "contact.nameOfTheChurch",
-            "contact.address",
-            "contact.eMail",
-            "contact.accountNumber",
-            "contact.code",
+            "contact_Title",
+            "contact_nameOfTheChurch",
+            "contact_address",
+            "contact_eMail",
+            "contact_accountNumber",
+            "contact_code",
 
-            "pageAddEvent.Title"
+            "pageAddEvent_Title"
     };
 }
-//         pageRegularEvents.Title
-//         pageRegularEvents.firstEvent.title
-//         pageRegularEvents.firstEvent.text
-//         pageRegularEvents.secondEvent.title
-//         pageRegularEvents.secondEvent.text
-//         pageRegularEvents.thirdEvent.title
-//         pageRegularEvents.thirdEvent.text
-//         pageRegularEvents.fourthEvent.title
-//         pageRegularEvents.fourthEvent.text
+//         pageRegularEvents_Title
+//         pageRegularEvents_firstEvent_title
+//         pageRegularEvents_firstEvent_text
+//         pageRegularEvents_secondEvent_title
+//         pageRegularEvents_secondEvent_text
+//         pageRegularEvents_thirdEvent_title
+//         pageRegularEvents_thirdEvent_text
+//         pageRegularEvents_fourthEvent_title
+//         pageRegularEvents_fourthEvent_text
 //
-//         pageNewEvents.Title
-//         pageNewEvents.table.category
-//         pageNewEvents.table.title
-//         pageNewEvents.table.when
-//         pageNewEvents.table.ForWho
-//         pageNewEvents.table.description
-//         pageNewEvents.table.extraInfo
-//         pageNewEvents.table.list
+//         pageNewEvents_Title
+//         pageNewEvents_table_category
+//         pageNewEvents_table_title
+//         pageNewEvents_table_when
+//         pageNewEvents_table_ForWho
+//         pageNewEvents_table_description
+//         pageNewEvents_table_extraInfo
+//         pageNewEvents_table_list
 //
-//         contact.Title
-//         contact.nameOfTheChurch
-//         contact.address
-//         contact.eMail
-//         contact.accountNumber
-//         contact.code
+//         contact_Title
+//         contact_nameOfTheChurch
+//         contact_address
+//         contact_eMail
+//         contact_accountNumber
+//         contact_code

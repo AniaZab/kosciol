@@ -7,4 +7,7 @@ function show(shown) {
     document.getElementById(shown).style.display = 'block';
     return false;
 }
+function changeLanguage(str) {
+    document.getElementById('language').value = str.value;
+}
 show("PageRegularEvents");

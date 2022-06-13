@@ -32,18 +32,31 @@
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return show('PageRegularEvents');" th:text="${pageRegularEvents.Title}"></a>
+                        <a class="nav-link" href="#" onclick="return show('PageRegularEvents');" th:text="${pageRegularEvents_Title}"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return show('PageNewEvents');" th:text="${pageNewEvents.Title}"></a>
+                        <a class="nav-link" href="#" onclick="return show('PageNewEvents');" th:text="${pageNewEvents_Title}"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return show('PageLogin');" th:text="${pageAddEvent.Title}"></a>
+                        <a class="nav-link" href="#" onclick="return show('PageAddEvent');" th:text="${pageAddEvent_Title}"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact" th:text="${contact.Title}"></a>
+                        <a class="nav-link" href="#contact" th:text="${contact_Title}"></a>
                     </li>
                 </ul>
+                <div class="lang-menu">
+                    <div id="language" value="English" class="selected-lang"></div>
+                    <ul>
+                        <li class="nav-item">
+                            <a href="#" id="pl" onclick="return changeLanguage(this)" class="pl nav-link" value="Polish"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" id="en" onclick="return changeLanguage(this)" class="en nav-link" value="English"></a>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" th:text="mza" onclick="window.location.href='http://localhost:8080/main/mza?lang=pl'">
+                </button>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-primary" type="submit">Search</button>
@@ -56,7 +69,7 @@
 <section id="PageRegularEvents" class="pt-2 p-1 bg-light">
     <div class="container-lg mt-lg-auto">
         <div class="p-2 rounded border-primary text-center">
-            <h1 th:text="${pageRegularEvents.Title}"></h1>
+            <h1 th:text="${pageRegularEvents_Title}"></h1>
         </div>
         <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
@@ -103,7 +116,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm-8">
                             <div class="p-2 rounded border-primary">
-                                <h3>Wieczór uwielbienia</h3>
+                                <h3>Wieczórł uwielbienia</h3>
                                 <p>W soboty co miesiąc o 18:00 spotykamy się na Białostockiej 22 na wieczór uwielbienia i modlitwy. Zarezerwuj czas, przyjdź i oczekuj wielkich rzeczy!</p>
                             </div>
                         </div>
@@ -149,7 +162,97 @@
 </section>
 
 <section id="PageLogin" style="display:none"></section>
-<section id="PageAddEvent" style="display:none"></section>
+<section id="PageAddEvent" class="pt-2 p-1" style="display:none">
+    <div class="p-2 rounded border-primary text-center">
+        <h1>Dodaj ogłoszenie</h1>
+    </div>
+    <div class="container-sm mt-sm-auto">
+        <form style="background-color: ivory;">
+            <div class="text-info p-3">
+                <div class="form-group">
+                    <label for="category" class="form-label">Kategoria</label>
+                    <select class="form-select" id="category">
+                        <option selected>Inne</option>
+                        <option>Modlitwa</option>
+                        <option>Uwielbienie</option>
+                        <option>Młodzież</option>
+                        <option>Dzieci</option>
+                        <option>Małżeństwa</option>
+                        <option>Obóz</option>
+                        <option>Konferencja</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title" class="form-label">Tytuł</label>
+                    <input type="text" class="form-control" id="title" placeholder="Podaj tytuł">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-7">
+                        <label for="dateStartPicker" class="form-label">Podaj datę rozpoczęcia</label>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="startTime">Podaj godzinę rozpoczęcia</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-7">
+                        <div class="input-group date" id="dateStartPicker">
+                            <input type="text" class="form-control">
+                            <span class="input-group-append">
+                                    <span class="input-group-text bg-white d-block">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <input type="time" class="form-control" id="startTime">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-7">
+                        <label for="dateFinishPicker" class="form-label">Podaj datę zakończenia</label>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="finishTime">Podaj godzinę zakończenia</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-7">
+                        <div class="input-group date" id="dateFinishPicker">
+                            <input type="text" class="form-control">
+                            <span class="input-group-append">
+                                    <span class="input-group-text bg-white d-block">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <input type="time" class="form-control" id="finishTime">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="forWho" class="form-label">Dla kogo?</label>
+                    <input type="text" class="form-control" id="for_who" placeholder="Podaj dla kogo jest to wydarzenie">
+                </div>
+                <div class="form-group">
+                    <label for="opis" class="form-label">Opis</label>
+                    <div class="form-outline">
+                        <textarea class="form-control" id="textAreaOpis" rows="4" placeholder="Napisz co będzie się działo na tym wydarzeniu"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dodatkoweInfo" class="form-label">Dodatkowe informacje</label>
+                    <textarea class="form-control" id="textAreaDodatkoweInfo" rows="2" placeholder="Podaj dodatkowe informacje"></textarea>
+                </div>
+                <input type="reset" class="btn btn-outline-danger" value="Resetuj">
+                <button type="submit" class="btn btn-outline-primary">Dodaj</button>
+            </div>
+        </form>
+    </div>
+</section>
 
 <section id="PageNewEvents" class="pt-2 p-1 bg-gradient" style="display:none">
     <div class="p-2 rounded border-primary text-center">
@@ -275,22 +378,16 @@
 </section>
 
 <footer class="bg-dark">
+    <button type="button" th:text="en"
+            onclick="window.location.href='http://localhost:8080/main/en'"></button>
+    <button type="button" th:text="pl"
+            onclick="window.location.href='http://localhost:8080/main/pl'"></button>
+    <button type="button" th:text="mza"
+            onclick="window.location.href='http://localhost:8080/main/mza?lang=pl'"></button>
     <div class="p-3 text-white text-center">
         <p>Dziękujemy za obejrzenie strony!</p>
     </div>
 </footer>
-<script>
-    const pagesInWebsite = ["PageRegularEvents", "PageNewEvents", "PageRegister", "PageLogin", "PageAddEvent"];
-
-    function show(shown) {
-        pagesInWebsite.forEach(page => {
-            document.getElementById(page).style.display = 'none'
-        })
-        document.getElementById(shown).style.display = 'block';
-        return false;
-    }
-    show("PageRegularEvents");
-</script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
