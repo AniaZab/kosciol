@@ -49,9 +49,9 @@ public class HomeController {
         event.setCategory("Uwielbienie");
         event.setDescription("Fajnie");
         event.setExtraInfo("Super");
-        event.setStart_date("12.04.2000");
+        event.setStart_date("12/04/2000");
         event.setStart_time("12:30");
-        event.setFinish_date("13.04.2000");
+        event.setFinish_date("13/04/2000");
         event.setFinish_time("12:30");
         event.setFor_who("Młodzież");
         allEvents.add(event);
