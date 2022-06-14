@@ -25,6 +25,7 @@ public class TranslationCode {
             "contact_Title",
             "contact_nameOfTheChurch",
             "contact_address",
+            "contact_address_name",
             "contact_eMail",
             "contact_accountNumber",
             "contact_code",

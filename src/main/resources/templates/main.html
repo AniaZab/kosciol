@@ -50,14 +50,14 @@
                     </li>
                 </ul>
                 <div class="lang-menu d-flex">
-                    <div id="language" th:text="en" class="selected-lang"></div>
+                    <div id="language" th:text="${navbar_choose_language}" class="selected-lang"></div>
                     <ul >
                         <li class="nav-item">
-                            <a href="#" id="pl" onclick="window.location.href='http://localhost:8080/main/mza?lang=pl'"
+                            <a href="#" id="pl" onclick="window.location.href='http://localhost:8080/main/language?lang=pl'"
                                class="pl nav-link" th:text="pl"></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" id="en" onclick="window.location.href='http://localhost:8080/main/mza?lang=en'"
+                            <a href="#" id="en" onclick="window.location.href='http://localhost:8080/main/language?lang=en'"
                                class="en nav-link" th:text="en"></a>
                         </li>
                     </ul>
@@ -88,10 +88,8 @@
                     <div class="row align-items-center">
                         <div class="col-sm-8">
                             <div class="p-2 rounded border-primary">
-                                <h3>Fundamenty wiary</h3>
-                                <p> Nie wiesz dlaczego mamy "pewność zbawienia" a jednocześnie "nadzieję zbawienia"? Przyjdź na środowe spotkanie, będziemy rozważać cały proces zbawienia człowieka przez Boga. Spotkania w sali nr 10 o 18:00. Nie musisz
-                                    uczestniczyć we wszystkich!
-                                </p>
+                                <h3 th:text="${pageRegularEvents_firstEvent_title}"></h3>
+                                <p th:text="${pageRegularEvents_firstEvent_text}"> </p>
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -103,9 +101,8 @@
                     <div class="row align-items-center">
                         <div class="col-sm-8">
                             <div class="p-2 rounded border-primary">
-                                <h3>Modlimy się razem</h3>
-                                <p>Piątek, godzina 6:00 rano to pora dla prawdziwych modlitewnych bohaterów. Wierzymy, że jest ich całkiem sporo wśród nas! Jeśli chcesz dołączyć do wspólnej modlitwy to zapraszamy w każdy piątek do sali nr 10. Wierzymy
-                                    w Bożą obietnicę, że On daje się znaleźć tym, którzy Go szukają.</p>
+                                <h3 th:text="${pageRegularEvents_secondEvent_title}"></h3>
+                                <p th:text="${pageRegularEvents_secondEvent_text}"></p>
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -117,8 +114,8 @@
                     <div class="row align-items-center">
                         <div class="col-sm-8">
                             <div class="p-2 rounded border-primary">
-                                <h3>Wieczórł uwielbienia</h3>
-                                <p>W soboty co miesiąc o 18:00 spotykamy się na Białostockiej 22 na wieczór uwielbienia i modlitwy. Zarezerwuj czas, przyjdź i oczekuj wielkich rzeczy!</p>
+                                <h3 th:text="${pageRegularEvents_thirdEvent_title}"></h3>
+                                <p th:text="${pageRegularEvents_thirdEvent_text}"></p>
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -130,8 +127,8 @@
                     <div class="row align-items-center">
                         <div class="col-sm-8">
                             <div class="p-2 rounded border-primary">
-                                <h3>Nabożeństwo</h3>
-                                <p>W każdą niedzielę o 11:00 rano spotykamy się na Białostockiej 22 na nabożeństwie. Serdecznie zapraszamy!</p>
+                                <h3 th:text="${pageRegularEvents_fourthEvent_title}"></h3>
+                                <p th:text="${pageRegularEvents_fourthEvent_text}"></p>
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -165,40 +162,40 @@
 <section id="PageLogin" style="display:none"></section>
 <section id="PageAddEvent" class="pt-2 p-1" style="display:none">
     <div class="p-2 rounded border-primary text-center">
-        <h1>Dodaj ogłoszenie</h1>
+        <h1 th:text="${pageAddEvent_Title}"></h1>
     </div>
     <div class="container-sm mt-sm-auto">
-        <form style="background-color: ivory;">
+        <form action="#" method="POST" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${event}" style="background-color: ivory;">
             <div class="text-info p-3">
                 <div class="form-group">
-                    <label for="category" class="form-label">Kategoria</label>
+                    <label th:text="${pageAddEvent_form_category_label}" for="category" class="form-label"></label>
                     <select class="form-select" id="category">
-                        <option selected>Inne</option>
-                        <option>Modlitwa</option>
-                        <option>Uwielbienie</option>
-                        <option>Młodzież</option>
-                        <option>Dzieci</option>
-                        <option>Małżeństwa</option>
-                        <option>Obóz</option>
-                        <option>Konferencja</option>
+                        <option th:text="${pageAddEvent_form_category_others}" selected></option>
+                        <option th:text="${pageAddEvent_form_category_prayer}"></option>
+                        <option th:text="${pageAddEvent_form_category_worship}"></option>
+                        <option th:text="${pageAddEvent_form_category_youth}"></option>
+                        <option th:text="${pageAddEvent_form_category_children}"></option>
+                        <option th:text="${pageAddEvent_form_category_marriages}"></option>
+                        <option th:text="${pageAddEvent_form_category_camp}"></option>
+                        <option th:text="${pageAddEvent_form_category_conference}"></option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="title" class="form-label">Tytuł</label>
-                    <input type="text" class="form-control" id="title" placeholder="Podaj tytuł">
+                    <label th:text="${pageAddEvent_form_label_title}" for="title" class="form-label"></label>
+                    <input th:field="*{title}" th:placeholder="${pageAddEvent_form_placeholder_title}" type="text" class="form-control" id="title">
                 </div>
                 <div class="row">
                     <div class="form-group col-md-7">
-                        <label for="dateStartPicker" class="form-label">Podaj datę rozpoczęcia</label>
+                        <label th:text="${pageAddEvent_form_label_when_date_start}" for="dateStartPicker" class="form-label"></label>
                     </div>
                     <div class="form-group col-md-5">
-                        <label for="startTime">Podaj godzinę rozpoczęcia</label>
+                        <label th:text="${pageAddEvent_form_label_when_hour_start}" for="startTime"></label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-7">
                         <div class="input-group date" id="dateStartPicker">
-                            <input type="text" class="form-control">
+                            <input th:field="*{start_date}" type="text" class="form-control">
                             <span class="input-group-append">
                                     <span class="input-group-text bg-white d-block">
                                         <i class="fa fa-calendar"></i>
@@ -207,22 +204,22 @@
                         </div>
                     </div>
                     <div class="form-group col-md-5">
-                        <input type="time" class="form-control" id="startTime">
+                        <input th:field="*{start_time}" type="time" class="form-control" id="startTime">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group col-md-7">
-                        <label for="dateFinishPicker" class="form-label">Podaj datę zakończenia</label>
+                        <label th:text="${pageAddEvent_form_label_when_date_finish}" for="dateFinishPicker" class="form-label"></label>
                     </div>
                     <div class="form-group col-md-5">
-                        <label for="finishTime">Podaj godzinę zakończenia</label>
+                        <label th:text="${pageAddEvent_form_label_when_hour_finish}" for="finishTime"></label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-7">
                         <div class="input-group date" id="dateFinishPicker">
-                            <input type="text" class="form-control">
+                            <input th:field="*{finish_date}" type="text" class="form-control">
                             <span class="input-group-append">
                                     <span class="input-group-text bg-white d-block">
                                         <i class="fa fa-calendar"></i>
@@ -231,25 +228,25 @@
                         </div>
                     </div>
                     <div class="form-group col-md-5">
-                        <input type="time" class="form-control" id="finishTime">
+                        <input th:field="*{finish_time}" type="time" class="form-control" id="finishTime">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="forWho" class="form-label">Dla kogo?</label>
-                    <input type="text" class="form-control" id="for_who" placeholder="Podaj dla kogo jest to wydarzenie">
+                    <label th:text="${pageAddEvent_form_label_ForWho}" for="forWho" class="form-label"></label>
+                    <input th:field="*{for_who}" th:placeholder="${pageAddEvent_form_placeholder_ForWho}" type="text" class="form-control" id="for_who">
                 </div>
                 <div class="form-group">
-                    <label for="opis" class="form-label">Opis</label>
+                    <label th:text="${pageAddEvent_form_label_description}" for="opis" class="form-label"></label>
                     <div class="form-outline">
-                        <textarea class="form-control" id="textAreaOpis" rows="4" placeholder="Napisz co będzie się działo na tym wydarzeniu"></textarea>
+                        <textarea th:field="*{description}" class="form-control" id="textAreaOpis" rows="4" th:placeholder="${pageAddEvent_form_placeholder_description}"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="dodatkoweInfo" class="form-label">Dodatkowe informacje</label>
-                    <textarea class="form-control" id="textAreaDodatkoweInfo" rows="2" placeholder="Podaj dodatkowe informacje"></textarea>
+                    <label th:text="${pageAddEvent_form_label_extraInfo}" for="dodatkoweInfo" class="form-label"></label>
+                    <textarea th:field="*{extraInfo}" class="form-control" id="textAreaDodatkoweInfo" rows="2" th:placeholder="${pageAddEvent_form_placeholder_extraInfo}"></textarea>
                 </div>
-                <input type="reset" class="btn btn-outline-danger" value="Resetuj">
-                <button type="submit" class="btn btn-outline-primary">Dodaj</button>
+                <button th:text="${pageAddEvent_form_button_reset}" type="reset" class="btn btn-outline-danger"></button>
+                <button th:text="${pageAddEvent_form_button_submit}" type="submit" class="btn btn-outline-primary"></button>
             </div>
         </form>
     </div>
@@ -257,70 +254,43 @@
 
 <section id="PageNewEvents" class="pt-2 p-1 bg-gradient" style="display:none">
     <div class="p-2 rounded border-primary text-center">
-        <h1>Nowe ogłoszenia</h1>
+        <h1 th:text="${pageNewEvents_Title}">Nowe ogłoszenia</h1>
     </div>
     <div class="container-lg mt-lg-auto text-center">
         <div class="table-responsive-md">
             <table id="dtBasicExample" class="table align-middle table-hover table-success table-striped" cellspacing="0">
-                <caption>Lista nowych ogłoszeń</caption>
+                <caption th:text="${pageNewEvents_table_list}"></caption>
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Kategoria</th>
-                    <th scope="col">Tytuł</th>
-                    <th scope="col">Kiedy?</th>
-                    <th scope="col">Dla kogo?</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Dodatkowe informacje</th>
+                    <th th:text="${pageNewEvents_table_category}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_title}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_when}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_description}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody th:each="eventToDisplay, stats : ${eventsListToDisplay}">
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row" th:text="${stats.index+1}"></th>
+                    <td th:text="${eventToDisplay.category}"></td>
+                    <td th:text="${eventToDisplay.title}"></td>
+                    <td th:text="${eventToDisplay.start_date}"></td>
+                    <td th:text="${eventToDisplay.for_who}"></td>
+                    <td th:text="${eventToDisplay.description}"></td>
+                    <td th:text="${eventToDisplay.extraInfo}"></td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Kategoria</th>
-                    <th scope="col">Tytuł</th>
-                    <th scope="col">Kiedy?</th>
-                    <th scope="col">Dla kogo?</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Dodatkowe informacje</th>
+                    <th th:text="${pageNewEvents_table_category}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_title}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_when}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_description}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>
                 </tr>
                 </tfoot>
             </table>
@@ -332,25 +302,27 @@
     <div class="container p-md-2 p-sm-1 pb-2">
         <div class="row">
             <div class="col-sm-6">
-                <h2 class="text-center mb-4">Kontakt</h2>
+                <h2 th:text="${contact_Title}" class="text-center mb-4"></h2>
                 <ul class="list-group list-group-flush lead">
                     <li class="list-group-item">
-                        <span class="fw-bold">Kościół Boży w Chrystusie, Zbór "Dom Boży"</span>
+                        <span th:text="${contact_nameOfTheChurch}" class="fw-bold"></span>
+                    </li>
+                    <li class="list-group-item" style="display:flex">
+                        <span th:text="${contact_address}" class="fw-bold"></span>
+                        <pre> </pre>
+                        <p th:text="${contact_address_name}"></p>
                     </li>
                     <li class="list-group-item">
-                        <span class="fw-bold">Adres:</span> ul. Białostocka 22, 03-741 Warszawa
+                        <span th:text="${contact_eMail}" class="fw-bold"></span> dombozy@kbwch.pl
                     </li>
                     <li class="list-group-item">
-                        <span class="fw-bold">E-mail:</span> dombozy@kbwch.pl
-                    </li>
-                    <li class="list-group-item">
-                        <span class="fw-bold">Nr konta:</span> 71 1020 1097 0000 7402 0107 1240
+                        <span th:text="${contact_accountNumber}" class="fw-bold"></span> 71 1020 1097 0000 7402 0107 1240
                     </li>
                     <li class="list-group-item">
                         <span class="fw-bold">IBAN:</span> PL71 1020 1097 0000 7402 0107 1240
                     </li>
                     <li class="list-group-item">
-                        <span class="fw-bold">Kod SWIFT/BIC:</span> BPKOPLPW
+                        <span th:text="${contact_code}" class="fw-bold"></span> BPKOPLPW
                     </li>
                     <li class="list-group-item">
                         <div class="h1 mb-3">
