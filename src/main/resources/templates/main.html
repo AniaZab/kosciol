@@ -165,7 +165,7 @@
         <h1 th:text="${pageAddEvent_Title}"></h1>
     </div>
     <div class="container-sm mt-sm-auto">
-        <form action="#" method="POST" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${event}" style="background-color: ivory;">
+        <form action="#" method="POST" th:action="@{addEvent}" th:object="${event}" style="background-color: ivory;">
             <div class="text-info p-3">
                 <div class="form-group">
                     <label th:text="${pageAddEvent_form_category_label}" for="category" class="form-label"></label>

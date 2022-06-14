@@ -21,7 +21,7 @@ import static com.apka.kosciol.util.TranslationCode.names;
 
 @Controller
 //@RestController
-@RequestMapping("/")
+@RequestMapping(value="/main")
 public class HomeController {
 
     private TranslationService translationService;
@@ -62,20 +62,20 @@ public class HomeController {
         String[] translation = translationService.getTranslation();
         return ResponseEntity.ok(translation);
     }*/
-    @GetMapping("/main")
+    @GetMapping()
     public String getHelloWorld(Model model) {
         setModelAttributes(model);
         return "main";
     }
 
-    @RequestMapping("/main/language")
+    @RequestMapping("/language")
     public String setLanguage(Model model, @RequestParam("lang") String lang) {
         Locale.setDefault(new Locale(lang));
         setModelAttributes(model);
         return "main";
     }
 
-    @PostMapping("/main")
+    @PostMapping("/addEvent")
     public String addEvent(Model model, @Valid Event event, Errors errors, BindingResult bindingResult){
         if(!bindingResult.hasErrors()){
             allEvents.add(event);
