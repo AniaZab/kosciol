@@ -53,7 +53,7 @@
                     <div id="language" th:text="${navbar_choose_language}" class="selected-lang"></div>
                     <ul >
                         <li class="nav-item">
-                            <a href="#" id="pl" onclick="window.location.href='http://localhost:8080/main/language?lang=pl'"
+                            <a href="#" id="pl" th:action="@{addEvent}" onclick="window.location.href='http://localhost:8080/main/language?lang=pl'"
                                class="pl nav-link" th:text="pl"></a>
                         </li>
                         <li class="nav-item">
