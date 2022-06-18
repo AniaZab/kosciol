@@ -2,18 +2,20 @@ package com.apka.kosciol.controller;
 
 import com.apka.kosciol.model.Event;
 import com.apka.kosciol.service.TranslationService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static com.apka.kosciol.util.TranslationCode.names;
 
@@ -40,6 +42,7 @@ public class HomeController {
     @NotEmpty(message = "You have to enter a description!")
     String description;
     String extraInfo;
+
     public HomeController(TranslationService translationService) {
         this.translationService = translationService;
         Event event = new Event();
@@ -74,8 +77,8 @@ public class HomeController {
     }
 
     @PostMapping("/addEvent")
-    public String addEvent(Model model, @Valid Event event, Errors errors, BindingResult bindingResult){
-        if(!bindingResult.hasErrors()){
+    public String addEvent(Model model, @Valid Event event, Errors errors, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
             allEvents.add(event);
         }
         setModelAttributes(model);
@@ -89,27 +92,5 @@ public class HomeController {
         }
         model.addAttribute("event", new Event());
         model.addAttribute("eventsListToDisplay", allEvents);
-    }
-    @RequestMapping(value = "/error")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
-        //
-        //  Map<String, Object> body = getErrorAttributes(request, getTraceParameter(request));
-        Map<String, Object> body = new HashMap();//Map.of("cos", "sdtr");
-        HttpStatus status = getStatus(request);
-        return new ResponseEntity<Map<String, Object>>(body, status);
-    }
-
-    private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request
-                .getAttribute("javax.servlet.error.status_code");
-        if (statusCode != null) {
-            try {
-                return HttpStatus.valueOf(statusCode);
-            }
-            catch (Exception ex) {
-            }
-        }
-        return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }
