@@ -53,11 +53,11 @@
                     <div id="language" th:text="${navbar_choose_language}" class="selected-lang"></div>
                     <ul >
                         <li class="nav-item">
-                            <a href="#" id="pl" th:action="@{addEvent}" onclick="window.location.href='http://localhost:8080/main/language?lang=pl'"
+                            <a href="#" id="pl" onclick="window.location.href='/main/language?lang=pl'"
                                class="pl nav-link" th:text="pl"></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" id="en" onclick="window.location.href='http://localhost:8080/main/language?lang=en'"
+                            <a href="#" id="en" onclick="window.location.href='/main/language?lang=en'"
                                class="en nav-link" th:text="en"></a>
                         </li>
                     </ul>
