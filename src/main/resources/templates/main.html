@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" xmlns:https="http://www.w3.org/1999/xhtml">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,9 +49,16 @@
                         <a class="nav-link" href="#contact" th:text="${contact_Title}"></a>
                     </li>
                 </ul>
+
+                <button class="btn language_button nav-item d-flex pl_button" th:text="pl"
+                        onclick="window.location.href='/main/language?lang=pl'">
+                </button>
+                <button class="btn language_button nav-item d-flex en_button" th:text="en"
+                        onclick="window.location.href='/main/language?lang=en'">
+                </button>
                 <div class="lang-menu d-flex">
                     <div id="language" th:text="${navbar_choose_language}" class="selected-lang"></div>
-                    <ul >
+                    <ul>
                         <li class="nav-item">
                             <a href="#" id="pl" onclick="window.location.href='/main/language?lang=pl'"
                                class="pl nav-link" th:text="pl"></a>

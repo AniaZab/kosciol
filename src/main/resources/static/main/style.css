@@ -26,6 +26,28 @@ li a {
     text-decoration: none;
 }
 
+.img-center{
+    position: relative;
+    margin: auto;
+}
+
+.pl_button{
+    color: black;
+    background-image: url('/main/flaga_polski.png');
+}
+.en_button{
+    color: white;
+    background-image: url('/main/flaga_anglii.png');
+}
+
+.language_button {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: auto;
+}
+
 li a:hover:not(.active),
 .lang-menu .selected-lang:hover:not(.active) {
     background-color: #111;
