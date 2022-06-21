@@ -3,6 +3,8 @@ package com.apka.kosciol.util;
 public class TranslationCode {
     public static final String [] names =
     {
+            "page_Title",
+
             "pageRegularEvents_Title",
             "pageRegularEvents_firstEvent_title",
             "pageRegularEvents_firstEvent_text",
