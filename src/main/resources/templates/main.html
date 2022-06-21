@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:https="http://www.w3.org/1999/xhtml">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
@@ -161,7 +160,7 @@
         <form action="#" method="POST" th:action="@{addEvent}" th:object="${event}" style="background-color: ivory;">
             <div class="text-info p-3">
                 <div class="form-group">
-                    <label th:text="${pageAddEvent_form_category_label}" for="category" class="form-label"></label>
+                    <label th:text="${pageAddEvent_form_category_label}" class="form-label"></label>
                     <select th:field="*{category}" class="form-select" id="category">
                         <option th:value="${pageAddEvent_form_category_others}" th:text="${pageAddEvent_form_category_others}" selected></option>
                         <option th:value="${pageAddEvent_form_category_prayer}" th:text="${pageAddEvent_form_category_prayer}"></option>
@@ -174,15 +173,15 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_title}" for="title" class="form-label"></label>
+                    <label th:text="${pageAddEvent_form_label_title}" class="form-label"></label>
                     <input th:field="*{title}" th:placeholder="${pageAddEvent_form_placeholder_title}" type="text" class="form-control" id="title">
                 </div>
                 <div class="row">
                     <div class="form-group col-md-7">
-                        <label th:text="${pageAddEvent_form_label_when_date_start}" for="dateStartPicker" class="form-label"></label>
+                        <label th:text="${pageAddEvent_form_label_when_date_start}" class="form-label"></label>
                     </div>
                     <div class="form-group col-md-5">
-                        <label th:text="${pageAddEvent_form_label_when_hour_start}" for="startTime"></label>
+                        <label th:text="${pageAddEvent_form_label_when_hour_start}"></label>
                     </div>
                 </div>
                 <div class="row">
@@ -203,10 +202,10 @@
 
                 <div class="row">
                     <div class="form-group col-md-7">
-                        <label th:text="${pageAddEvent_form_label_when_date_finish}" for="dateFinishPicker" class="form-label"></label>
+                        <label th:text="${pageAddEvent_form_label_when_date_finish}" class="form-label"></label>
                     </div>
                     <div class="form-group col-md-5">
-                        <label th:text="${pageAddEvent_form_label_when_hour_finish}" for="finishTime"></label>
+                        <label th:text="${pageAddEvent_form_label_when_hour_finish}"></label>
                     </div>
                 </div>
                 <div class="row">
@@ -225,17 +224,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_ForWho}" for="forWho" class="form-label"></label>
+                    <label th:text="${pageAddEvent_form_label_ForWho}" class="form-label"></label>
                     <input th:field="*{for_who}" th:placeholder="${pageAddEvent_form_placeholder_ForWho}" type="text" class="form-control" id="for_who">
                 </div>
                 <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_description}" for="opis" class="form-label"></label>
+                    <label th:text="${pageAddEvent_form_label_description}" class="form-label"></label>
                     <div class="form-outline">
                         <textarea th:field="*{description}" class="form-control" id="textAreaOpis" rows="4" th:placeholder="${pageAddEvent_form_placeholder_description}"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_extraInfo}" for="dodatkoweInfo" class="form-label"></label>
+                    <label th:text="${pageAddEvent_form_label_extraInfo}" class="form-label"></label>
                     <textarea th:field="*{extraInfo}" class="form-control" id="textAreaDodatkoweInfo" rows="2" th:placeholder="${pageAddEvent_form_placeholder_extraInfo}"></textarea>
                 </div>
                 <button th:text="${pageAddEvent_form_button_reset}" type="reset" class="btn btn-outline-danger"></button>
@@ -251,7 +250,7 @@
     </div>
     <div class="container-lg mt-lg-auto text-center">
         <div class="table-responsive-md">
-            <table id="dtBasicExample" class="table align-middle table-hover table-success table-striped" cellspacing="0">
+            <table id="dtBasicExample" class="table align-middle table-hover table-success table-striped">
                 <caption th:text="${pageNewEvents_table_list}"></caption>
                 <thead>
                 <tr>
@@ -356,7 +355,7 @@
                 </ul>
             </div>
             <div class="col-sm-6">
-                <iframe class="embedGoogleMap" style="border: 0px solid #000000" src="https://www.google.com/maps?q=KBwCH+%22Dom+Bo%C5%BCy%22%2C+Bia%C5%82ostocka+22%2C+Warszawa&amp;z=14&amp;t=m&amp;output=embed" width="100%" height="100%">
+                <iframe class="embedGoogleMap" style="border: 0px solid #000000" src="https://www.google.com/maps?q=KBwCH+%22Dom+Bo%C5%BCy%22%2C+Bia%C5%82ostocka+22%2C+Warszawa&amp;z=14&amp;t=m&amp;output=embed">
                 </iframe>
             </div>
         </div>
