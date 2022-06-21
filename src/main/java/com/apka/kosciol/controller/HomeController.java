@@ -26,22 +26,6 @@ public class HomeController {
 
     private TranslationService translationService;
     private List<Event> allEvents = new ArrayList<Event>();
-    String category;
-    @NotEmpty(message = "You have to enter a title!")
-    String title;
-    @NotEmpty(message = "You have to enter a start date!")
-    String start_date;
-    @NotEmpty(message = "You have to enter a start time!")
-    String start_time;
-    @NotEmpty(message = "You have to enter a finish date!")
-    String finish_date;
-    @NotEmpty(message = "You have to enter a finish time!")
-    String finish_time;
-    @NotEmpty(message = "You have to enter for who is the event!")
-    String for_who;
-    @NotEmpty(message = "You have to enter a description!")
-    String description;
-    String extraInfo;
 
     public HomeController(TranslationService translationService) {
         this.translationService = translationService;
@@ -50,19 +34,14 @@ public class HomeController {
         event.setCategory("Uwielbienie");
         event.setDescription("Fajnie");
         event.setExtraInfo("Super");
-        event.setStart_date("12/04/2000");
+        event.setStart_date("04/06/2030");
         event.setStart_time("12:30");
-        event.setFinish_date("13/04/2000");
+        event.setFinish_date("07/04/2030");
         event.setFinish_time("12:30");
         event.setFor_who("Młodzież");
         allEvents.add(event);
     }
 
-    /*@GetMapping("/translation")
-    public ResponseEntity<String> getTranslation(){
-        String[] translation = translationService.getTranslation();
-        return ResponseEntity.ok(translation);
-    }*/
     @GetMapping()
     public String getHelloWorld(Model model) {
         setModelAttributes(model);
