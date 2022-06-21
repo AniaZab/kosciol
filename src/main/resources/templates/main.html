@@ -37,13 +37,13 @@
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return show('PageRegularEvents');" th:text="${pageRegularEvents_Title}"></a>
+                        <a class="nav-link" href="#" onclick="return showPage('PageRegularEvents');" th:text="${pageRegularEvents_Title}"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return show('PageNewEvents');" th:text="${pageNewEvents_Title}"></a>
+                        <a class="nav-link" href="#" onclick="return showPage('PageNewEvents');" th:text="${pageNewEvents_Title}"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return show('PageAddEvent');" th:text="${pageAddEvent_Title}"></a>
+                        <a class="nav-link" href="#" onclick="return showPage('PageAddEvent');" th:text="${pageAddEvent_Title}"></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact" th:text="${contact_Title}"></a>
@@ -258,7 +258,9 @@
                     <th scope="col">#</th>
                     <th th:text="${pageNewEvents_table_category}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_title}" scope="col"></th>
-                    <th th:text="${pageNewEvents_table_when}" scope="col"></th>
+                    <th scope="col">
+                        <a id="toastbtn1" th:text="${pageNewEvents_table_when}" href="#"></a>
+                    </th>
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>
@@ -269,7 +271,23 @@
                     <th scope="row" th:text="${stats.index+1}"></th>
                     <td th:text="${eventToDisplay.category}"></td>
                     <td th:text="${eventToDisplay.title}"></td>
-                    <td th:text="${eventToDisplay.start_date}"></td>
+                    <td>
+                        <div class="toast">
+                            <div class="toast-header">
+                                <strong class="me-auto" th:text="${eventToDisplay.title}"></strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                            </div>
+                            <div class="toast-body">
+                                <div class="d-inline" th:text="${eventToDisplay.start_date}"></div>
+                                <div class="d-inline" th:text="${eventToDisplay.start_time}"></div>
+                                <pre class="d-inline"> </pre>
+                                <div class="d-inline">-</div>
+                                <pre class="d-inline"> </pre>
+                                <div class="d-inline" th:text="${eventToDisplay.finish_date}"></div>
+                                <div class="d-inline" th:text="${eventToDisplay.finish_time}"></div>
+                            </div>
+                        </div>
+                    </td>
                     <td th:text="${eventToDisplay.for_who}"></td>
                     <td th:text="${eventToDisplay.description}"></td>
                     <td th:text="${eventToDisplay.extraInfo}"></td>
@@ -280,7 +298,9 @@
                     <th scope="col">#</th>
                     <th th:text="${pageNewEvents_table_category}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_title}" scope="col"></th>
-                    <th th:text="${pageNewEvents_table_when}" scope="col"></th>
+                    <th scope="col">
+                        <a id="toastbtn" th:text="${pageNewEvents_table_when}" href="#"></a>
+                    </th>
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>
@@ -348,7 +368,6 @@
         <p>Dziękujemy za obejrzenie strony!</p>
     </div>
 </footer>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function() {
         $('#dateFinishPicker').datepicker();
@@ -357,6 +376,16 @@
     $(function() {
         $('#dateStartPicker').datepicker();
     });
+    const showToast = function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function(toastEl) {
+            return new bootstrap.Toast(toastEl)
+        })
+        toastList.forEach(toast => toast.show())
+    }
+
+    document.getElementById("toastbtn1").onclick = showToast();
+    document.getElementById("toastbtn").onclick = showToast();
 </script>
 </body>
 </html>
