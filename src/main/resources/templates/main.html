@@ -42,7 +42,7 @@
                         <a class="nav-link" href="#" onclick="return showPage('PageNewEvents');" th:text="${pageNewEvents_Title}"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return showPage('PageAddEvent');" th:text="${pageAddEvent_Title}"></a>
+                        <a class="nav-link" href="#" onclick="return showPage('PageLogin');" th:text="${pageAddEvent_Title}"></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact" th:text="${contact_Title}"></a>
@@ -129,8 +129,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Left and right controls/icons -->
             <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </button>
@@ -141,17 +139,83 @@
     </div>
 </section>
 <section id="PageRegister" style="display:none" class="pt-2 p-1 bg-light ">
+    <div class="p-2 rounded border-primary text-center">
+        <h1 th:text="${pageRegister_Title}"></h1>
+    </div>
     <div class="container-lg mt-lg-auto">
-        <div class="p-2 rounded border-primary text-center">
-            <h1>Rejestracja</h1>
-        </div>
         <form>
-
+            <div class="form-group">
+                <label>Login</label>
+                <input type="text" class="form-control" id="inputLogin" placeholder="Login">
+            </div>
+            <div class="form-group">
+                <label >Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label th:text="${pageRegister_first_name}"></label>
+                <input type="text" class="form-control" id="inputFirstName" th:placeholder="${pageRegister_first_name}">
+            </div>
+            <div class="form-group">
+                <label th:text="${pageRegister_last_name}"></label>
+                <input type="text" class="form-control" id="inputLastName" th:placeholder="${pageRegister_last_name}">
+            </div>
+            <div class="form-group">
+                <label th:text="${pageRegister_password}"></label>
+                <input type="password" class="form-control" id="inputPassword" th:placeholder="${pageRegister_password}">
+            </div>
+            <div class="form-group">
+                <label th:text="${pageRegister_new_password}"></label>
+                <input type="password" class="form-control" id="inputNewPassword" th:placeholder="${pageRegister_new_password}">
+            </div>
+            <div class="form-group">
+                <label th:text="${pageRegister_confirm_password}"></label>
+                <input type="password" class="form-control" id="inputConfirmPassword" th:placeholder="${pageRegister_confirm_password}">
+            </div>
+            <div class="form-group">
+                <label class="form-check-label"><input type="checkbox"> Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="${pageRegister_Title}"></button>
         </form>
     </div>
 </section>
 
-<section id="PageLogin" style="display:none"></section>
+<section id="PageLogin" style="display:none">
+    <div class="p-2 rounded border-primary text-center">
+        <h1 th:text="${pageLogin_Title}"></h1>
+    </div>
+    <div class="container-lg mt-lg-auto">
+        <form>
+            <div class="form-group">
+                <label >Email</label>
+                <input type="email" class="form-control" id="inputLoginEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label th:text="${pageLogin_password}"></label>
+                <input type="password" class="form-control" id="inputLoginPassword" th:placeholder="${pageLogin_password}">
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="${pageLogin_Title}"></button>
+            <button class="btn btn-primary" th:text="${pageResetPassword_Title}"
+                    onclick="return showPage('PageResetPassword');"></button>
+            <button class="btn btn-primary" th:text="${pageRegister_Title}"
+                    onclick="return showPage('PageRegister');"></button>
+        </form>
+    </div>
+</section>
+<section id="PageResetPassword" style="display:none">
+    <div class="p-2 rounded border-primary text-center">
+        <h1 th:text="${pageResetPassword_Title}"></h1>
+    </div>
+    <div class="container-lg mt-lg-auto">
+        <form>
+            <div class="form-group">
+                <label >Email</label>
+                <input type="email" class="form-control" id="inputEmailReset" placeholder="Email">
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="${pageResetPassword_Title}"></button>
+        </form>
+    </div>
+</section>
 <section id="PageAddEvent" class="pt-2 p-1" style="display:none">
     <div class="p-2 rounded border-primary text-center">
         <h1 th:text="${pageAddEvent_Title}"></h1>
@@ -213,10 +277,10 @@
                         <div class="input-group date" id="dateFinishPicker">
                             <input th:field="*{finish_date}" type="text" class="form-control">
                             <span class="input-group-append">
-                                    <span class="input-group-text bg-white d-block">
-                                        <i class="fa fa-calendar"></i>
-                                    </span>
+                                <span class="input-group-text bg-white d-block">
+                                    <i class="fa fa-calendar"></i>
                                 </span>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group col-md-5">

@@ -57,7 +57,19 @@ public class TranslationCode {
             "pageAddEvent_form_button_reset",
             "pageAddEvent_form_button_submit",
 
-            "navbar_choose_language"
+            "navbar_choose_language",
+
+            "pageRegister_Title",
+            "pageRegister_password",
+            "pageRegister_new_password",
+            "pageRegister_confirm_password",
+            "pageRegister_first_name",
+            "pageRegister_last_name",
+
+            "pageLogin_Title",
+            "pageLogin_password",
+
+            "pageResetPassword_Title"
     };
 }
 //         pageRegularEvents_Title
