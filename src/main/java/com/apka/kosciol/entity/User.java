@@ -1,7 +1,13 @@
 package com.apka.kosciol.entity;
 
-import javax.persistence.*;
+import com.apka.kosciol.validations.PasswordMatches;
+import com.apka.kosciol.validations.ValidEmail;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+@PasswordMatches
 @Entity
 public class User {
     @Id
@@ -12,6 +18,9 @@ public class User {
     @Column(name = "login", nullable = false, length = 50)
     private String login;
 
+    //@ValidEmail
+    @NotNull
+    @NotEmpty
     @Column(name = "email")
     private String email;
 
@@ -114,6 +123,9 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getMatchingPassword() {
     }
 
     //TODO Reverse Engineering! Migrate other columns to the entity
