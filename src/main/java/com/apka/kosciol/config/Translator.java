@@ -21,7 +21,7 @@ public class Translator {
 
     public String[] toLocale(String[] code) {
        Locale locale=Locale.getDefault();
-        System.out.println("mza " + locale);
+        //System.out.println("mza " + locale);
         String[] codeResult = new String[code.length];
         for (int i = 0; i < codeResult.length; i++) {
             codeResult[i] = messageSource.getMessage(code[i], null, locale);
