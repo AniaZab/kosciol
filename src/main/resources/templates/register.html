@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageRegister_Title}"></title>
+    <script type="text/javascript" th:src="@{/userPage/register.js}"></script>
+</head>
+<body>
+
+<div id="idRegister" class="modal">
+    <form onsubmit="return checkRegisterForm(this)" action="#"
+          method="POST" th:action="@{register}" class="modal-content animate"
+          th:object="${user}" style="background-color: ivory;">
+        <div class="form-group">
+            <label>Login</label>
+            <input type="text" class="form-control" name="login" id="inputLogin"
+                   placeholder="Login"  th:field="*{login}">
+        </div>
+        <div class="form-group">
+            <label th:text="${pageRegister_new_password}"></label>
+            <input type="password" name="password1" class="form-control" id="inputPassword1"
+               th:placeholder="${pageRegister_new_password}">
+            <div style="display:none" id="errorPassword"></div>
+        </div>
+        <div class="form-group">
+            <label th:text="${pageRegister_confirm_password}"></label>
+            <input type="password" name="password2" class="form-control" id="inputPassword2" th:placeholder="${pageRegister_confirm_password}">
+        </div>
+        <button type="submit" class="btn btn-primary" th:text="${pageRegister_Title}"
+                onclick="window.location.href='/user/register'"></button>
+    </form>
+</div>
+</body>
+</html>
