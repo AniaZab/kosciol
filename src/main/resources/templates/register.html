@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageRegister_Title}"></title>
+    <script type="text/javascript" th:src="@{/userPage/register.js}"></script>
+    <link rel="stylesheet" th:href="@{/main/login.css}" type="text/css" />
+</head>
+<body>
+
+<button onclick="document.getElementById('idRegister').style.display='block'" style="width:auto;">Login</button>
+
+<div id="idRegister" class="modal">
+    <form onsubmit="return checkRegisterForm(this)" action="#"
+          method="POST" th:action="@{register}" class="modal-content animate"
+          th:object="${user}" style="background-color: ivory;">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('idRegister').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+        </div>
+        <div class="container">
+            <label>Login</label>
+            <input type="text" class="form-control" name="login" id="inputLogin"
+                   placeholder="Login"  th:field="*{login}">
+            <div style="display:none" id="errorLogin"></div>
+            <label th:text="${pageRegister_new_password}"></label>
+            <input type="password" name="password1" class="form-control" id="inputPassword1"
+               th:placeholder="${pageRegister_new_password}" th:field="*{password}">
+            <div style="display:none" id="errorPassword"></div>
+            <label th:text="${pageRegister_confirm_password}"></label>
+            <input type="password" name="password2" class="form-control" id="inputPassword2" th:placeholder="${pageRegister_confirm_password}">
+            <div style="display:none" id="errorPasswordConfirm"></div>
+            <button type="submit" class="btn btn-primary" th:text="${pageRegister_Title}"
+                onclick="window.location.href='/user/register'"></button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -143,36 +143,43 @@
         <h1 th:text="${pageRegister_Title}"></h1>
     </div>
     <div class="container-lg mt-lg-auto">
-        <form>
+        <form action="#" method="POST" th:action="@{register}" th:object="${user}" style="background-color: ivory;">
             <div class="form-group">
                 <label>Login</label>
-                <input type="text" class="form-control" id="inputLogin" placeholder="Login">
+                <input type="text" class="form-control" id="inputLogin"
+                       placeholder="Login"  th:field="*{login}">
             </div>
             <div class="form-group">
                 <label >Email</label>
-                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                <input type="email" class="form-control" id="inputEmail"
+                       placeholder="Email" th:field="*{email}">
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_first_name}"></label>
-                <input type="text" class="form-control" id="inputFirstName" th:placeholder="${pageRegister_first_name}">
+                <input type="text" class="form-control" id="inputFirstName"
+                       th:placeholder="${pageRegister_first_name}" th:field="*{firstName}">
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_last_name}"></label>
-                <input type="text" class="form-control" id="inputLastName" th:placeholder="${pageRegister_last_name}">
+                <input type="text" class="form-control" id="inputLastName"
+                       th:placeholder="${pageRegister_last_name}"  th:field="*{lastName}">
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_password}"></label>
-                <input type="password" class="form-control" id="inputPassword" th:placeholder="${pageRegister_password}">
+                <input type="password" class="form-control" id="inputPassword"
+                       th:placeholder="${pageRegister_password}" >
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_new_password}"></label>
-                <input type="password" class="form-control" id="inputNewPassword" th:placeholder="${pageRegister_new_password}">
+                <input type="password" class="form-control" id="inputNewPassword"
+                       th:placeholder="${pageRegister_new_password}">
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_confirm_password}"></label>
                 <input type="password" class="form-control" id="inputConfirmPassword" th:placeholder="${pageRegister_confirm_password}">
             </div>
-            <button type="submit" class="btn btn-primary" th:text="${pageRegister_Title}"></button>
+            <button type="submit" class="btn btn-primary" th:text="${pageRegister_Title}"
+                    onclick="window.location.href='/user/register'"></button>
         </form>
     </div>
 </section>
@@ -182,16 +189,19 @@
         <h1 th:text="${pageLogin_Title}"></h1>
     </div>
     <div class="container-lg mt-lg-auto">
-        <form>
+        <form action="#" method="POST" th:action="@{user/login}" th:object="${user}" style="background-color: ivory;">
             <div class="form-group">
                 <label >Email</label>
-                <input type="email" class="form-control" id="inputLoginEmail" placeholder="Email">
+                <input type="email" class="form-control" id="inputLoginEmail"
+                       placeholder="Email" th:field="*{email}">
             </div>
             <div class="form-group">
                 <label th:text="${pageLogin_password}"></label>
-                <input type="password" class="form-control" id="inputLoginPassword" th:placeholder="${pageLogin_password}">
+                <input type="password" class="form-control" id="inputLoginPassword"
+                       th:placeholder="${pageLogin_password}" th:field="*{password}">
             </div>
-            <button type="submit" class="btn btn-primary" th:text="${pageLogin_Title}"></button>
+            <button type="submit" class="btn btn-primary" th:text="${pageLogin_Title}"
+                    onclick="window.location.href='/user/login'"></button>
             <button class="btn btn-primary" th:text="${pageResetPassword_Title}"
                     onclick="return showPage('PageResetPassword');"></button>
             <button class="btn btn-primary" th:text="${pageRegister_Title}"
@@ -204,12 +214,13 @@
         <h1 th:text="${pageResetPassword_Title}"></h1>
     </div>
     <div class="container-lg mt-lg-auto">
-        <form>
+        <form action="#" method="POST" th:action="@{reset}" th:object="${user}" style="background-color: ivory;">
             <div class="form-group">
                 <label >Email</label>
-                <input type="email" class="form-control" id="inputEmailReset" placeholder="Email">
+                <input type="email" class="form-control" id="inputEmailReset" placeholder="Email" th:field="*{email}">
             </div>
-            <button type="submit" class="btn btn-primary" th:text="${pageResetPassword_Title}"></button>
+            <button type="submit" class="btn btn-primary" th:text="${pageResetPassword_Title}"
+                    onclick="window.location.href='/user/reset'"></button>
         </form>
     </div>
 </section>
@@ -220,7 +231,7 @@
     <div class="container-sm mt-sm-auto">
         <form action="#" method="POST" th:action="@{addEvent}" th:object="${event}" style="background-color: ivory;">
             <div class="text-info p-3">
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label th:text="${pageAddEvent_form_category_label}" class="form-label"></label>
                     <select th:field="*{category}" class="form-select" id="category">
                         <option th:value="${pageAddEvent_form_category_others}" th:text="${pageAddEvent_form_category_others}" selected></option>
@@ -232,7 +243,7 @@
                         <option th:value="${pageAddEvent_form_category_camp}" th:text="${pageAddEvent_form_category_camp}"></option>
                         <option th:value="${pageAddEvent_form_category_conference}" th:text="${pageAddEvent_form_category_conference}"></option>
                     </select>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label th:text="${pageAddEvent_form_label_title}" class="form-label"></label>
                     <input th:field="*{title}" th:placeholder="${pageAddEvent_form_placeholder_title}" type="text" class="form-control" id="title">
@@ -296,7 +307,7 @@
                 </div>
                 <div class="form-group">
                     <label th:text="${pageAddEvent_form_label_extraInfo}" class="form-label"></label>
-                    <textarea th:field="*{extraInfo}" class="form-control" id="textAreaDodatkoweInfo" rows="2" th:placeholder="${pageAddEvent_form_placeholder_extraInfo}"></textarea>
+<!--                    <textarea th:field="*{extraInfo}" class="form-control" id="textAreaDodatkoweInfo" rows="2" th:placeholder="${pageAddEvent_form_placeholder_extraInfo}"></textarea>-->
                 </div>
                 <button th:text="${pageAddEvent_form_button_reset}" type="reset" class="btn btn-outline-danger"></button>
                 <button th:text="${pageAddEvent_form_button_submit}" type="submit" class="btn btn-outline-primary"></button>
@@ -329,7 +340,7 @@
                 <tbody th:each="eventToDisplay, stats : ${eventsListToDisplay}">
                 <tr>
                     <th scope="row" th:text="${stats.index+1}"></th>
-                    <td th:text="${eventToDisplay.category}"></td>
+<!--                    <td th:text="${eventToDisplay.category}"></td>-->
                     <td th:text="${eventToDisplay.title}"></td>
                     <td>
                         <div class="toast">
@@ -350,7 +361,7 @@
                     </td>
                     <td th:text="${eventToDisplay.for_who}"></td>
                     <td th:text="${eventToDisplay.description}"></td>
-                    <td th:text="${eventToDisplay.extraInfo}"></td>
+<!--                    <td th:text="${eventToDisplay.extraInfo}"></td>-->
                 </tr>
                 </tbody>
                 <tfoot>
@@ -363,7 +374,7 @@
                     </th>
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
-                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>
+<!--                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>-->
                 </tr>
                 </tfoot>
             </table>

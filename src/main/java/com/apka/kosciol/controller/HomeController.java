@@ -1,6 +1,9 @@
 package com.apka.kosciol.controller;
 
-import com.apka.kosciol.model.Event;
+import com.apka.kosciol.entity.Event;
+import com.apka.kosciol.entity.MeetingCategory;
+import com.apka.kosciol.entity.RecipientCategory;
+import com.apka.kosciol.entity.User;
 import com.apka.kosciol.service.TranslationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -20,7 +26,6 @@ import java.util.Locale;
 import static com.apka.kosciol.util.TranslationCode.names;
 
 @Controller
-//@RestController
 @RequestMapping(value="/main")
 public class HomeController {
 
@@ -31,19 +36,18 @@ public class HomeController {
         this.translationService = translationService;
         Event event = new Event();
         event.setTitle("uwielbionkoTytuł");
-        event.setCategory("Uwielbienie");
+        event.setMeetingCategory(MeetingCategory.UWIELBIENIE.toString());
         event.setDescription("Fajnie");
-        event.setExtraInfo("Super");
-        event.setStart_date("04/06/2030");
-        event.setStart_time("12:30");
-        event.setFinish_date("07/04/2030");
-        event.setFinish_time("12:30");
-        event.setFor_who("Młodzież");
+        event.setStartDate(LocalDate.of(2023, Month.JANUARY, 1));
+        event.setStartTime(LocalTime.of(12, 0));
+        event.setFinishDate(LocalDate.of(2023, Month.JANUARY, 14));
+        event.setFinishTime(LocalTime.of(12, 0));
+        event.setRecipientCategory(RecipientCategory.WSZYSCY.toString());
         allEvents.add(event);
     }
 
     @GetMapping()
-    public String getHelloWorld(Model model) {
+    public String showMain(Model model) {
         setModelAttributes(model);
         return "main";
     }
@@ -70,6 +74,7 @@ public class HomeController {
             model.addAttribute(names[i], translation[i]);
         }
         model.addAttribute("event", new Event());
+        model.addAttribute("user", new User());
         model.addAttribute("eventsListToDisplay", allEvents);
     }
 }
