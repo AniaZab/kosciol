@@ -15,8 +15,8 @@ public class LocaleConfiguration {
     @Value("messages")
     private String baseName;
 
-  //  @Value("pl")
-  //  private String defaultLocale;
+    @Value("pl")
+    private String defaultLocale;
 
     @Bean(name = "messages")
     public ResourceBundleMessageSource messageSource(){
