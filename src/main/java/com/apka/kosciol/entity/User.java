@@ -6,8 +6,10 @@ import com.apka.kosciol.validations.ValidEmail;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@PasswordMatches
+//@PasswordMatches
 @Entity
 public class User {
     @Id
@@ -15,12 +17,13 @@ public class User {
     @Column(name = "id_user", nullable = false)
     private Integer id;
 
+    @NotNull
     @Column(name = "login", nullable = false, length = 50)
     private String login;
 
     //@ValidEmail
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotEmpty
     @Column(name = "email")
     private String email;
 
@@ -30,12 +33,14 @@ public class User {
     @Column(name = "lastName", length = 50)
     private String lastName;
 
+    @NotNull
     @Column(name = "password", nullable = false, length = 50)
     private String password;
 
     @Column(name = "qtyOfWrongPassword")
     private Integer qtyOfWrongPassword;
 
+    //@NotNull
     @Column(name = "role", nullable = false, length = 5)
     private String role;
 
@@ -44,6 +49,17 @@ public class User {
 
     @Column(name = "changedPassword")
     private Boolean changedPassword;
+
+    @OneToMany(mappedBy = "idUser")
+    private Set<Event> events = new LinkedHashSet<>();
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
 
     public Boolean getChangedPassword() {
         return changedPassword;
@@ -125,8 +141,7 @@ public class User {
         this.id = id;
     }
 
-    public String getMatchingPassword() {
-    }
+
 
     //TODO Reverse Engineering! Migrate other columns to the entity
 }

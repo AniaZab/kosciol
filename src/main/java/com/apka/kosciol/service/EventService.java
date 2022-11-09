@@ -2,9 +2,11 @@ package com.apka.kosciol.service;
 import com.apka.kosciol.entity.Event;
 import com.apka.kosciol.repository.IEvent;
 import com.apka.kosciol.repository.IUser;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class EventService extends AbstractChangeService{
 
     private IEvent eventRepository;

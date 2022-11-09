@@ -3,23 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/main/login.css}" type="text/css" />
+    <script type="text/javascript" th:src="@{/main/login.js}"></script>
 </head>
 
 <body>
-<div class="container">
-    <form class="form-signin" method="post" action="/login">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
-        </p>
-        <input name="_csrf" type="hidden" value="254c85dc-bbeb-47a3-9dc7-1869ad29da66">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+<h2>Modal Login Form</h2>
+
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+
+<div id="id01" class="modal">
+    <form onsubmit="return checkLoginForm(this)" class="modal-content animate" method="post" action="#" th:action="@{login}" th:object="${user}">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+        </div>
+
+        <div class="container">
+            <label><b>Username</b></label>
+            <input type="text" th:field="*{login}" placeholder="Enter Username" name="uname" required>
+
+            <label><b>Password</b></label>
+            <input type="password" th:field="*{password}" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit" onclick="window.location.href='/user/login'">Login</button>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+            <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
     </form>
 </div>
+
 </body>
 </html>
