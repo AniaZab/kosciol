@@ -29,4 +29,7 @@ var serverContext = "[[@{/}]]"
                 $("#errormsg").show().html(data.responseJSON.message);
             });
     }
+
+
 showPage("PageEvents");
+
