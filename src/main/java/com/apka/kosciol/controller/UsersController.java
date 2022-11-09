@@ -1,23 +1,24 @@
 package com.apka.kosciol.controller;
 
+import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
+import com.apka.kosciol.exceptions.UserAlreadyExistException;
 import com.apka.kosciol.service.TranslationService;
+import com.apka.kosciol.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import static com.apka.kosciol.util.TranslationCode.names;
 
@@ -27,25 +28,65 @@ public class UsersController {
 
     private TranslationService translationService;
     private List<User> allUsers = new ArrayList<User>();
+    private UserService userService;
 
-    public UsersController(TranslationService translationService) {
+    public UsersController(TranslationService translationService, UserService userService) {
+        this.userService = userService;
         this.translationService = translationService;
     }
 
-    @GetMapping("/register")
+    @GetMapping("/register") //do poprawienia potem
     public String showRegistrationForm( Model model) { //WebRequest request,
         User user = new User();
+        user.setRole(Role.USER.toString());
         model.addAttribute("user", user);
-        return "usersPage";
+        setModelAttributes(model);
+        System.out.println("registerGet");
+        return "register";
     }
     @PostMapping("/register")
-    public String register(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
+    public String register(Model model, @ModelAttribute("user") @Valid User user, Errors errors, BindingResult bindingResult) {
+
+        user.setRole(Role.USER.toString());
         if (!bindingResult.hasErrors()) {
+            try {
+                userService.registerNewUserAccount(user);
+                System.out.println("registerPost user");
+            } catch (UserAlreadyExistException uaeEx) {
+                return uaeEx.getMessage(); //do popr. pozniej
+            }
             allUsers.add(user);
         }
-        System.out.println("register");
+        else{
+            System.out.println(bindingResult.hasErrors());
+            String[] fields = { "login", "role", "password", "id_user"};
+
+            for (String field : fields) {
+                if (errors.hasFieldErrors(field)) {
+                    System.out.println((field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage()));
+                }
+            }
+        }
+        try {
+            User userToRegister = new User();
+            userToRegister.setLogin(user.getLogin());
+            userToRegister.setPassword(user.getPassword());
+            userService.registerNewUserAccount(userToRegister);
+            System.out.println("registerPost user");
+        } catch (UserAlreadyExistException uaeEx) {
+            return uaeEx.getMessage(); //do popr. pozniej
+        }
+        System.out.println("registerPost");
         setModelAttributes(model);
-        return "usersPage";
+        return "register";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        System.out.println("loginGet");
+        return "login";
     }
 
     @PostMapping("/login")
@@ -53,9 +94,9 @@ public class UsersController {
         if (!bindingResult.hasErrors()) {
             allUsers.add(user);
         }
-        System.out.println("login");
+        System.out.println("loginPost");
         setModelAttributes(model);
-        return "main";
+        return "login";
     }
 
     @PostMapping("/reset")
