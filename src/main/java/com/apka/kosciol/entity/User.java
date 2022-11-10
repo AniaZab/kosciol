@@ -41,8 +41,9 @@ public class User {
     private Integer qtyOfWrongPassword;
 
     //@NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 5)
-    private String role;
+    private Role role;
 
     @Column(name = "active")
     private Boolean active;
@@ -77,11 +78,11 @@ public class User {
         this.active = active;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
