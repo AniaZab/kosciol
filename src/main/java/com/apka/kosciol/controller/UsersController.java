@@ -1,5 +1,6 @@
 package com.apka.kosciol.controller;
 
+import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.UserAlreadyExistException;
@@ -37,25 +38,31 @@ public class UsersController {
 
     @GetMapping("/register") //do poprawienia potem
     public String showRegistrationForm( Model model) { //WebRequest request,
-        User user = new User();
-        user.setRole(Role.USER.toString());
-        model.addAttribute("user", user);
+        UserDto userDto = new UserDto();
+        //user.setRole(Role.USER.toString());
+        //UserDto powinien miec tylko te co sa wazne na froncie
+        //service mapuje UserDto a User bd
+        //nad zmienna role w user
+        //wywolywanie uslug serwisowych
+        //lapac exception w froncie
+        //spr to co mama mi wysylala
+        model.addAttribute("user", userDto);
         setModelAttributes(model);
         System.out.println("registerGet");
         return "register";
     }
     @PostMapping("/register")
-    public String register(Model model, @ModelAttribute("user") @Valid User user, Errors errors, BindingResult bindingResult) {
+    public String register(Model model, @ModelAttribute("user") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
 
-        user.setRole(Role.USER.toString());
         if (!bindingResult.hasErrors()) {
             try {
-                userService.registerNewUserAccount(user);
                 System.out.println("registerPost user");
+                userService.registerNewUserAccount(userDto);
+                System.out.println("registerPost2 user");
             } catch (UserAlreadyExistException uaeEx) {
                 return uaeEx.getMessage(); //do popr. pozniej
             }
-            allUsers.add(user);
+            //allUsers.add(user);
         }
         else{
             System.out.println(bindingResult.hasErrors());
@@ -67,7 +74,7 @@ public class UsersController {
                 }
             }
         }
-        try {
+        /*try {
             User userToRegister = new User();
             userToRegister.setLogin(user.getLogin());
             userToRegister.setPassword(user.getPassword());
@@ -75,7 +82,7 @@ public class UsersController {
             System.out.println("registerPost user");
         } catch (UserAlreadyExistException uaeEx) {
             return uaeEx.getMessage(); //do popr. pozniej
-        }
+        }*/
         System.out.println("registerPost");
         setModelAttributes(model);
         return "register";

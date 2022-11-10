@@ -1,5 +1,7 @@
 package com.apka.kosciol.service;
 
+import com.apka.kosciol.dto.UserDto;
+import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.UserAlreadyExistException;
 import com.apka.kosciol.repository.IUser;
@@ -71,12 +73,16 @@ public class UserService extends AbstractChangeService {
         return userRepository.findByEmail(email);
     }
 
-    public void registerNewUserAccount(User user) throws UserAlreadyExistException {
-//        if (loginExists(user.getLogin())) { //emailExists(user.getEmail()) &&
-//            throw new UserAlreadyExistException("There is an account with that email address: "
-//                    + user.getEmail() +" or login: " + user.getLogin());
-//        }
-        user.setRole("USER");
+    public void registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
+        if (loginExists(userDto.getLogin())) {
+            throw new UserAlreadyExistException("There is an account with that login: "
+                    + userDto.getLogin());
+        }
+        User user = new User();
+        user.setLogin(userDto.getLogin());
+        user.setPassword(userDto.getPassword());
+        user.setRole(Role.USER);
+        user.setChangedPassword(false);
         userRepository.save(user);
     }
 
