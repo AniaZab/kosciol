@@ -6,6 +6,8 @@ import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.UserAlreadyExistException;
 import com.apka.kosciol.repository.IUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -80,7 +82,8 @@ public class UserService extends AbstractChangeService {
         }
         User user = new User();
         user.setLogin(userDto.getLogin());
-        user.setPassword(userDto.getPassword());
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRole(Role.USER);
         user.setChangedPassword(false);
         userRepository.save(user);
