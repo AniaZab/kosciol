@@ -2,6 +2,7 @@ package com.apka.kosciol.entity;
 
 import com.apka.kosciol.validations.PasswordMatches;
 import com.apka.kosciol.validations.ValidEmail;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -10,7 +11,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 //@PasswordMatches
+@Data
 @Entity
+@Table(name="User_Account")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,8 +56,7 @@ public class User {
 
     @OneToMany(mappedBy = "idUser")
     private Set<Event> events = new LinkedHashSet<>();
-
-    public Set<Event> getEvents() {
+public Set<Event> getEvents() {
         return events;
     }
 
@@ -62,14 +64,8 @@ public class User {
         this.events = events;
     }
 
-    public Boolean getChangedPassword() {
-        return changedPassword;
-    }
 
-    public void setChangedPassword(Boolean changedPassword) {
-        this.changedPassword = changedPassword;
-    }
-
+    /*
     public Boolean getActive() {
         return active;
     }
@@ -140,7 +136,7 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
-    }
+    }*/
 
 
 

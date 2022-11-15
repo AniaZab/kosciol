@@ -76,23 +76,26 @@ public class UserService extends AbstractChangeService {
     }
 
     public void registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
-        if (loginExists(userDto.getLogin())) {
+        if (loginExists(userDto.getLogin()) || emailExists(userDto.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that login: "
                     + userDto.getLogin());
         }
         User user = new User();
         user.setLogin(userDto.getLogin());
+        user.setEmail(userDto.getEmail());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRole(Role.USER);
+        //user.setRole(Role.valueOf("ADMIN"));
+        user.setRole(Role.ADMIN);
+        //emial dopisac do form frontend
         user.setChangedPassword(false);
         userRepository.save(user);
     }
 
     private boolean emailExists(String email) {
-        return userRepository.findByEmail(email) != null;
+        return userRepository.findByEmail(email).isPresent();
     }
     private boolean loginExists(String login) {
-        return userRepository.findByLogin(login) != null;
+        return userRepository.findByLogin(login).isPresent(); //metoda exist, w repo ja napisac
     }
 }

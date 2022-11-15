@@ -41,7 +41,7 @@ public class UsersController {
         UserDto userDto = new UserDto();
         //user.setRole(Role.USER.toString());
         //UserDto powinien miec tylko te co sa wazne na froncie
-        //service mapuje UserDto a User bd
+        //service mapuje UserDto na User bd
         //nad zmienna role w user
         //wywolywanie uslug serwisowych
         //lapac exception w froncie
@@ -98,6 +98,25 @@ public class UsersController {
 
     @PostMapping("/login")
     public String login(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            allUsers.add(user);
+        }
+        System.out.println("loginPost");
+        setModelAttributes(model);
+        return "login";
+    }
+
+
+    @GetMapping("/eventList")
+    public String eventList(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        System.out.println("loginGet");
+        return "login";
+    }
+
+    @PostMapping("/eventList")
+    public String eventList(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             allUsers.add(user);
         }

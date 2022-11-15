@@ -23,6 +23,9 @@
             <input type="text" class="form-control" name="login" id="inputLogin"
                    placeholder="Login"  th:field="*{login}">
             <div style="display:none" id="errorLogin"></div>
+            <input type="text" class="form-control" name="email" id="inputEmail"
+                   placeholder="Email"  th:field="*{email}">
+            <div style="display:none" id="errorEmail"></div>
             <label th:text="${pageRegister_new_password}"></label>
             <input type="password" name="password1" class="form-control" id="inputPassword1"
                th:placeholder="${pageRegister_new_password}" th:field="*{password}">

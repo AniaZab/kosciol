@@ -9,6 +9,7 @@ public class UserDto {
         private String login;
         @NotNull
         private String password;
+        @NotNull
         private String email;
         private String firstName;
         private String lastName;
