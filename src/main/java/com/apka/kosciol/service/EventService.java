@@ -61,9 +61,17 @@ public class EventService extends AbstractChangeService{
         return setAllFieldsOfEventDto(event);
     }
 
+    private List<Event> findAll() {
+        return eventRepository.findAll();
+    }
+
     public List<EventDto> returnAllEvents(){
-        List<EventDto> listEventDto = new ArrayList<>();
-        return listEventDto;
+        List<EventDto> eventDtoList = new ArrayList<>();
+        List<Event> eventList = findAll();
+        for (Event event: eventList) {
+            eventDtoList.add(setAllFieldsOfEventDto(event));
+        }
+        return eventDtoList;
     }
 
 
