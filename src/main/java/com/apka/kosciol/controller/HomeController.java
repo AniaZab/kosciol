@@ -1,5 +1,7 @@
 package com.apka.kosciol.controller;
 
+import com.apka.kosciol.dto.EventDto;
+import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Event;
 import com.apka.kosciol.entity.MeetingCategory;
 import com.apka.kosciol.entity.RecipientCategory;
@@ -30,19 +32,19 @@ import static com.apka.kosciol.util.TranslationCode.names;
 public class HomeController {
 
     private TranslationService translationService;
-    private List<Event> allEvents = new ArrayList<Event>();
+    private List<EventDto> allEvents = new ArrayList<EventDto>();
 
     public HomeController(TranslationService translationService) {
         this.translationService = translationService;
-        Event event = new Event();
+        EventDto event = new EventDto();
         event.setTitle("uwielbionkoTytuł");
-        event.setMeetingCategory(MeetingCategory.UWIELBIENIE.toString());
+        event.setMeetingCategory(MeetingCategory.UWIELBIENIE);
         event.setDescription("Fajnie");
         event.setStartDate(LocalDate.of(2023, Month.JANUARY, 1));
         event.setStartTime(LocalTime.of(12, 0));
         event.setFinishDate(LocalDate.of(2023, Month.JANUARY, 14));
         event.setFinishTime(LocalTime.of(12, 0));
-        event.setRecipientCategory(RecipientCategory.WSZYSCY.toString());
+        event.setRecipientCategory(RecipientCategory.WSZYSCY);
         allEvents.add(event);
     }
 
@@ -60,7 +62,7 @@ public class HomeController {
     }
 
     @PostMapping("/addEvent")
-    public String addEvent(Model model, @Valid Event event, Errors errors, BindingResult bindingResult) {
+    public String addEvent(Model model, @Valid EventDto event, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             allEvents.add(event);
         }
@@ -73,8 +75,8 @@ public class HomeController {
         for (int i = 0; i < translation.length; i++) {
             model.addAttribute(names[i], translation[i]);
         }
-        model.addAttribute("event", new Event());
-        model.addAttribute("user", new User());
+        model.addAttribute("event", new EventDto());
+        model.addAttribute("user", new UserDto());
         model.addAttribute("eventsListToDisplay", allEvents);
     }
 }

@@ -28,7 +28,6 @@ import static com.apka.kosciol.util.TranslationCode.names;
 public class UsersController {
 
     private TranslationService translationService;
-    private List<User> allUsers = new ArrayList<User>();
     private UserService userService;
 
     public UsersController(TranslationService translationService, UserService userService) {
@@ -39,13 +38,8 @@ public class UsersController {
     @GetMapping("/register") //do poprawienia potem
     public String showRegistrationForm( Model model) { //WebRequest request,
         UserDto userDto = new UserDto();
-        //user.setRole(Role.USER.toString());
-        //UserDto powinien miec tylko te co sa wazne na froncie
-        //service mapuje UserDto na User bd
-        //nad zmienna role w user
         //wywolywanie uslug serwisowych
         //lapac exception w froncie
-        //spr to co mama mi wysylala
         model.addAttribute("user", userDto);
         setModelAttributes(model);
         System.out.println("registerGet");
@@ -99,26 +93,6 @@ public class UsersController {
     @PostMapping("/login")
     public String login(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            allUsers.add(user);
-        }
-        System.out.println("loginPost");
-        setModelAttributes(model);
-        return "login";
-    }
-
-
-    @GetMapping("/eventList")
-    public String eventList(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        System.out.println("loginGet");
-        return "login";
-    }
-
-    @PostMapping("/eventList")
-    public String eventList(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            allUsers.add(user);
         }
         System.out.println("loginPost");
         setModelAttributes(model);
@@ -128,7 +102,6 @@ public class UsersController {
     @PostMapping("/reset")
     public String reset(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            allUsers.add(user);
         }
         System.out.println("reset");
         setModelAttributes(model);
