@@ -224,97 +224,6 @@
         </form>
     </div>
 </section>
-<section id="PageAddEvent" class="pt-2 p-1" style="display:none">
-    <div class="p-2 rounded border-primary text-center">
-        <h1 th:text="${pageAddEvent_Title}"></h1>
-    </div>
-    <div class="container-sm mt-sm-auto">
-        <form action="#" method="POST" th:action="@{addEvent}" th:object="${event}" style="background-color: ivory;">
-            <div class="text-info p-3">
-                <!--<div class="form-group">
-                    <label th:text="${pageAddEvent_form_category_label}" class="form-label"></label>
-                    <select th:field="*{category}" class="form-select" id="category">
-                        <option th:value="${pageAddEvent_form_category_others}" th:text="${pageAddEvent_form_category_others}" selected></option>
-                        <option th:value="${pageAddEvent_form_category_prayer}" th:text="${pageAddEvent_form_category_prayer}"></option>
-                        <option th:value="${pageAddEvent_form_category_worship}" th:text="${pageAddEvent_form_category_worship}"></option>
-                        <option th:value="${pageAddEvent_form_category_youth}" th:text="${pageAddEvent_form_category_youth}"></option>
-                        <option th:value="${pageAddEvent_form_category_children}" th:text="${pageAddEvent_form_category_children}"></option>
-                        <option th:value="${pageAddEvent_form_category_marriages}" th:text="${pageAddEvent_form_category_marriages}"></option>
-                        <option th:value="${pageAddEvent_form_category_camp}" th:text="${pageAddEvent_form_category_camp}"></option>
-                        <option th:value="${pageAddEvent_form_category_conference}" th:text="${pageAddEvent_form_category_conference}"></option>
-                    </select>
-                </div>-->
-                <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_title}" class="form-label"></label>
-                    <input th:field="*{title}" th:placeholder="${pageAddEvent_form_placeholder_title}" type="text" class="form-control" id="title">
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-7">
-                        <label th:text="${pageAddEvent_form_label_when_date_start}" class="form-label"></label>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label th:text="${pageAddEvent_form_label_when_hour_start}"></label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-7">
-                        <div class="input-group date" id="dateStartPicker">
-                            <input th:field="*{start_date}" type="text" class="form-control">
-                            <span class="input-group-append">
-                                    <span class="input-group-text bg-white d-block">
-                                        <i class="fa fa-calendar"></i>
-                                    </span>
-                                </span>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <input th:field="*{start_time}" type="time" class="form-control" id="startTime">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-7">
-                        <label th:text="${pageAddEvent_form_label_when_date_finish}" class="form-label"></label>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label th:text="${pageAddEvent_form_label_when_hour_finish}"></label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-7">
-                        <div class="input-group date" id="dateFinishPicker">
-                            <input th:field="*{finish_date}" type="text" class="form-control">
-                            <span class="input-group-append">
-                                <span class="input-group-text bg-white d-block">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <input th:field="*{finish_time}" type="time" class="form-control" id="finishTime">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_ForWho}" class="form-label"></label>
-                    <input th:field="*{for_who}" th:placeholder="${pageAddEvent_form_placeholder_ForWho}" type="text" class="form-control" id="for_who">
-                </div>
-                <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_description}" class="form-label"></label>
-                    <div class="form-outline">
-                        <textarea th:field="*{description}" class="form-control" id="textAreaOpis" rows="4" th:placeholder="${pageAddEvent_form_placeholder_description}"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label th:text="${pageAddEvent_form_label_extraInfo}" class="form-label"></label>
-<!--                    <textarea th:field="*{extraInfo}" class="form-control" id="textAreaDodatkoweInfo" rows="2" th:placeholder="${pageAddEvent_form_placeholder_extraInfo}"></textarea>-->
-                </div>
-                <button th:text="${pageAddEvent_form_button_reset}" type="reset" class="btn btn-outline-danger"></button>
-                <button th:text="${pageAddEvent_form_button_submit}" type="submit" class="btn btn-outline-primary"></button>
-            </div>
-        </form>
-    </div>
-</section>
 
 <section id="PageNewEvents" class="pt-2 p-1 bg-gradient" style="display:none">
     <div class="p-2 rounded border-primary text-center">
@@ -334,13 +243,13 @@
                     </th>
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
-                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>
                 </tr>
                 </thead>
                 <tbody th:each="eventToDisplay, stats : ${eventsListToDisplay}">
                 <tr>
                     <th scope="row" th:text="${stats.index+1}"></th>
-<!--                    <td th:text="${eventToDisplay.category}"></td>-->
+                    <!--                    <td th:text="${eventToDisplay.category}"></td>-->
+                    <td th:text="${eventToDisplay.meetingCategory}"></td>
                     <td th:text="${eventToDisplay.title}"></td>
                     <td>
                         <div class="toast">
@@ -349,19 +258,19 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
                             </div>
                             <div class="toast-body">
-                                <div class="d-inline" th:text="${eventToDisplay.start_date}"></div>
-                                <div class="d-inline" th:text="${eventToDisplay.start_time}"></div>
+                                <div class="d-inline" th:text="${eventToDisplay.startDate}"></div>
+                                <div class="d-inline" th:text="${eventToDisplay.startTime}"></div>
                                 <pre class="d-inline"> </pre>
                                 <div class="d-inline">-</div>
                                 <pre class="d-inline"> </pre>
-                                <div class="d-inline" th:text="${eventToDisplay.finish_date}"></div>
-                                <div class="d-inline" th:text="${eventToDisplay.finish_time}"></div>
+                                <div class="d-inline" th:text="${eventToDisplay.finishDate}"></div>
+                                <div class="d-inline" th:text="${eventToDisplay.finishTime}"></div>
                             </div>
                         </div>
                     </td>
-                    <td th:text="${eventToDisplay.for_who}"></td>
+                    <td th:text="${eventToDisplay.recipientCategory}"></td>
                     <td th:text="${eventToDisplay.description}"></td>
-<!--                    <td th:text="${eventToDisplay.extraInfo}"></td>-->
+                    <!--                    <td th:text="${eventToDisplay.extraInfo}"></td>-->
                 </tr>
                 </tbody>
                 <tfoot>
@@ -374,7 +283,7 @@
                     </th>
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
-<!--                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>-->
+                    <!--                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>-->
                 </tr>
                 </tfoot>
             </table>

@@ -1,4 +1,4 @@
-const pagesInWebsite = ["PageRegularEvents", "PageNewEvents", "PageRegister", "PageLogin", "PageAddEvent", "PageResetPassword"];
+const pagesInWebsite = ["PageRegularEvents", "PageNewEvents", "PageRegister", "PageLogin", "PageResetPassword"];
 
 function showPage(shown) {
     try {
