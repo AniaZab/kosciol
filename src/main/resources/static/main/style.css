@@ -204,3 +204,7 @@ a {
 .lang-menu:active ul {
     display: block;
 }
+
+.checkboxLabel{
+    color: black;
+}
