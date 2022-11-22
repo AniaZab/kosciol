@@ -3,6 +3,7 @@ package com.apka.kosciol.controller;
 import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Event;
+import com.apka.kosciol.entity.MeetingCategory;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.EventAlreadyExistException;
 import com.apka.kosciol.exceptions.UserAlreadyExistException;
@@ -53,6 +54,7 @@ public class EventController {
     public String add(Model model) {
         setModelAttributes(model);
         model.addAttribute("event", new EventDto());
+        //model.addAttribute("meetingCategoriesListToDisplay", MeetingCategory.values());
         System.out.println("eventAddGet");
         return "addEvent"; //"eventList";
     }
