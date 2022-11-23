@@ -54,7 +54,7 @@ public class User {
     @Column(name = "changedPassword")
     private Boolean changedPassword;
 
-    @OneToMany(mappedBy = "idUser")
+    @OneToMany(mappedBy = "user_user")
     private Set<Event> events = new LinkedHashSet<>();
 public Set<Event> getEvents() {
         return events;

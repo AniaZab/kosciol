@@ -16,8 +16,8 @@ public class Event {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")
-    private User idUser;
+    @JoinColumn(name = "user_user")
+    private User user_user;
 
     @Column(name = "version")
     private Integer version;

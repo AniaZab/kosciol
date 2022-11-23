@@ -1,6 +1,8 @@
 package com.apka.kosciol.entity;
 
 public enum RecipientCategory {
+
+    INNE("Inne"),
     MŁODZIEŻ("Młodzież"),
     DZIECI("Dzieci"),
     DOROŚLI("Dorośli"),
@@ -8,8 +10,7 @@ public enum RecipientCategory {
     LIDERZY("Liderzy"),
     MAŁŻEŃSTWA("Małżeństwa"),
     RODZINY("Rodziny"),
-    SINGLE("Single"),
-    INNE("Inne");
+    SINGLE("Single");
 
     private final String displayValue;
 
