@@ -28,7 +28,7 @@
         <h1 th:text="${pageAddEvent_Title}"></h1>
     </div>
     <div class="container-sm mt-sm-auto">
-        <form action="#" method="POST" th:action="@{addEvent}" th:object="${event}" style="background-color: ivory;">
+        <form action="#" method="POST" th:action="@{add}" th:object="${event}" style="background-color: ivory;">
             <div class="text-info p-3">
                 <div class="form-group">
                     <label th:text="${pageAddEvent_form_label_title}" class="form-label"></label>
@@ -131,10 +131,35 @@
                     </div>
                 </div>
                 <button th:text="${pageAddEvent_form_button_reset}" type="reset" class="btn btn-outline-danger"></button>
-                <button th:text="${pageAddEvent_form_button_submit}" type="submit" class="btn btn-outline-primary"></button>
+                <button th:text="${pageAddEvent_form_button_submit}" type="submit"
+                        onclick="window.location.href='/event/add'" class="btn btn-outline-primary"></button>
             </div>
         </form>
     </div>
 </section>
+<script type="text/javascript">
+    $(function() {
+        $('#dateFinishPicker').datepicker();
+    });
+
+    $(function() {
+        $('#dateStartPicker').datepicker();
+    });
+
+    document.getElementById("toastbtn1").onclick = function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function(toastEl) {
+            return new bootstrap.Toast(toastEl)
+        })
+        toastList.forEach(toast => toast.show())
+    }
+    document.getElementById("toastbtn").onclick = function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function(toastEl) {
+            return new bootstrap.Toast(toastEl)
+        })
+        toastList.forEach(toast => toast.show())
+    }
+</script>
 </body>
 </html>
