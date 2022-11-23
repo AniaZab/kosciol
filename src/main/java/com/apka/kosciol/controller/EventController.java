@@ -54,23 +54,27 @@ public class EventController {
     public String add(Model model) {
         setModelAttributes(model);
         model.addAttribute("event", new EventDto());
-        //model.addAttribute("meetingCategoriesListToDisplay", MeetingCategory.values());
         System.out.println("eventAddGet");
         return "addEvent"; //"eventList";
     }
     @PostMapping("/add")
     public String add(Model model, @ModelAttribute("event") @Valid EventDto eventDto, Errors errors, BindingResult bindingResult) {
-        setModelAttributes(model);
+        System.out.println("addPost1");
         if (!bindingResult.hasErrors()) {
             try {
                 eventService.addNewEvent(eventDto);
                 System.out.println("addPost");
-            } catch (EventAlreadyExistException uaeEx) {
-                return uaeEx.getMessage(); //do popr. pozniej
+            } catch (EventAlreadyExistException eaeEx) {
+                model.addAttribute("info", eaeEx.getMessage());
+                model.addAttribute("hrefLink", "add");
+                return "errorAdded";
             }
         }
+        setModelAttributes(model);
+        model.addAttribute("info", "Congratulations, your event has been successfully created.");
+        model.addAttribute("hrefLink", "eventsPage");
         System.out.println("eventAddPost");
-        return "addEvent"; //"eventList";
+        return "sucessfullyAdded"; //"eventList";
     }
     @GetMapping("/edit")
     public String edit(Model model) {

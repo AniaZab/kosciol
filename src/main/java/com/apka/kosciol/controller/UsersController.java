@@ -54,7 +54,9 @@ public class UsersController {
                 userService.registerNewUserAccount(userDto);
                 System.out.println("registerPost2 user");
             } catch (UserAlreadyExistException uaeEx) {
-                return uaeEx.getMessage(); //do popr. pozniej
+                model.addAttribute("info", uaeEx.getMessage());
+                model.addAttribute("hrefLink", "register");
+                return "errorAdded";
             }
             //allUsers.add(user);
         }
@@ -78,8 +80,24 @@ public class UsersController {
             return uaeEx.getMessage(); //do popr. pozniej
         }*/
         System.out.println("registerPost");
+        model.addAttribute("info", "Congratulations, your account has been successfully created.");
+        model.addAttribute("hrefLink", "login");
         setModelAttributes(model);
-        return "register";
+        return "sucessfullyAdded"; //"register";
+    }
+    @GetMapping("/success")
+    public String success(Model model) {
+        model.addAttribute("info", "Congratulations, your account has been successfully created.");
+        model.addAttribute("hrefLink", "login");
+
+        return "sucessfullyAdded";
+    }
+    @GetMapping("/error")
+    public String error(Model model) {
+        model.addAttribute("info", "Error, your account has not been successfully created.");
+        model.addAttribute("hrefLink", "register");
+
+        return "errorAdded";
     }
 
     @GetMapping("/login")
@@ -93,10 +111,17 @@ public class UsersController {
     @PostMapping("/login")
     public String login(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
+            try{
+            }
+            catch(Exception e){
+                model.addAttribute("info", e.getMessage());
+                model.addAttribute("hrefLink", "login");
+                return "errorAdded";
+            }
         }
         System.out.println("loginPost");
         setModelAttributes(model);
-        return "login";
+        return "eventsPage";
     }
 
     @PostMapping("/reset")
