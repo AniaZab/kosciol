@@ -1,5 +1,10 @@
 function checkRegisterForm(form){
-    return checkLogin(form) && checkIfPasswordsMatches(form);
+    if(checkLogin(form)){
+        return checkIfPasswordsMatches(form);
+    }
+    else{
+        return false;
+    }
 }
 
 function checkLogin(form){

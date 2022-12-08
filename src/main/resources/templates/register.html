@@ -16,13 +16,14 @@
           th:object="${user}" style="background-color: ivory;">
         <div class="imgcontainer">
             <span onclick="document.getElementById('idRegister').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+            <h1>Zarejestruj się</h1>
         </div>
         <div class="container">
             <label>Login</label>
             <input type="text" class="form-control" name="login" id="inputLogin"
                    placeholder="Login"  th:field="*{login}">
             <div style="display:none" id="errorLogin"></div>
+            <label>Email</label>
             <input type="text" class="form-control" name="email" id="inputEmail"
                    placeholder="Email"  th:field="*{email}">
             <div style="display:none" id="errorEmail"></div>
