@@ -26,14 +26,59 @@ li a {
     text-decoration: none;
 }
 
-.img-center{
-    position: relative;
-    margin: auto;
+article {
+    float: left;
+    width: 46%;
+    padding: 2%;
+    background-color: #f1f1f1;
 }
 
 iframe{
     width: 100%;
     height: 100%;
+}
+
+aside {
+    background-color: #666;
+    width: 48%;
+    padding: 1%;
+    float: left;
+}
+
+footer {
+    text-align: center;
+    clear: both;
+    color: white;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+label,
+button {
+    padding-top: 1%;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+    bottom: .5em;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+.img-center{
+    position: relative;
+    margin: auto;
 }
 
 .pl_button{
@@ -61,13 +106,6 @@ li a:hover:not(.active),
     background-color: rgb(140, 156, 184);
 }
 
-article {
-    float: left;
-    width: 46%;
-    padding: 2%;
-    background-color: #f1f1f1;
-}
-
 .tab {
     display: table;
     clear: both;
@@ -76,46 +114,9 @@ article {
     padding: 1%;
 }
 
-aside {
-    background-color: #666;
-    width: 48%;
-    padding: 1%;
-    float: left;
-}
-
-footer {
-    text-align: center;
-    clear: both;
-    color: white;
-    padding: 5px;
-    margin-top: 5px;
-}
-
-label,
-button {
-    padding-top: 1%;
-}
-
 .carousel-item img {
     width: auto;
     max-height: 350px;
-}
-
-table.dataTable thead .sorting:after,
-table.dataTable thead .sorting:before,
-table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_asc_disabled:after,
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_desc:after,
-table.dataTable thead .sorting_desc:before,
-table.dataTable thead .sorting_desc_disabled:after,
-table.dataTable thead .sorting_desc_disabled:before {
-    bottom: .5em;
-}
-
-a {
-    text-decoration: none;
 }
 
 .lang-menu {

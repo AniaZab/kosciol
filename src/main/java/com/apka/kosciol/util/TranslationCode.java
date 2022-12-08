@@ -80,8 +80,11 @@ public class TranslationCode {
             "pageEventsPage_publish_event",
 
             "pageUsersPage_logout",
+            "pageUsers_ChangeUserData_Title",
+            "pageUsers_ChangeUserPassword_Title",
 
             "pageAny_reset"
+
     };
 }
 //         pageRegularEvents_Title
