@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static com.apka.kosciol.util.TranslationCode.names;
@@ -34,6 +35,13 @@ public class EventController {
     public EventController(TranslationService translationService, EventService eventService) {
         this.translationService = translationService;
         this.eventService = eventService;
+    }
+
+    @RequestMapping("/language")
+    public String setLanguage(Model model, @RequestParam("lang") String lang) {
+        Locale.setDefault(new Locale(lang));
+        setModelAttributes(model);
+        return "main";
     }
 
     @GetMapping("/list")

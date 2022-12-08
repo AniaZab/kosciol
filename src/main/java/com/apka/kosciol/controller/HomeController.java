@@ -6,6 +6,7 @@ import com.apka.kosciol.entity.Event;
 import com.apka.kosciol.entity.MeetingCategory;
 import com.apka.kosciol.entity.RecipientCategory;
 import com.apka.kosciol.entity.User;
+import com.apka.kosciol.exceptions.EventAlreadyExistException;
 import com.apka.kosciol.service.TranslationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import static com.apka.kosciol.util.TranslationCode.names;
 
@@ -40,10 +42,10 @@ public class HomeController {
         event.setTitle("uwielbionkoTytuł");
         event.setMeetingCategory(MeetingCategory.UWIELBIENIE);
         event.setDescription("Fajnie");
-        event.setStartDate(LocalDate.of(2023, Month.JANUARY, 1));
+        /*event.setStartDate(LocalDate.of(2023, Month.JANUARY, 1));
         event.setStartTime(LocalTime.of(12, 0));
         event.setFinishDate(LocalDate.of(2023, Month.JANUARY, 14));
-        event.setFinishTime(LocalTime.of(12, 0));
+        event.setFinishTime(LocalTime.of(12, 0));*/
         event.setRecipientCategory(RecipientCategory.WSZYSCY);
         allEvents.add(event);
     }
@@ -79,4 +81,52 @@ public class HomeController {
         model.addAttribute("user", new UserDto());
         model.addAttribute("eventsListToDisplay", allEvents);
     }
+
+/*
+    @GetMapping("/add")
+    public String add(Model model) {
+        setModelAttributes(model);
+        model.addAttribute("user", new userDto());
+        System.out.println("userAddGet");
+        model.addAttribute("hrefLink", "/user/add");
+        return "adduser"; //"userList";
+    }
+    @PostMapping("/add")
+    public String add(Model model, @ModelAttribute("user") @Valid userDto userDto, Errors errors, BindingResult bindingResult) {
+        System.out.println("addPost1");
+        setModelAttributes(model);
+        if (!bindingResult.hasErrors()) {
+            try {
+                userService.addNewuser(userDto);
+                System.out.println("addPost");
+            } catch (userAlreadyExistException eaeEx) {
+                model.addAttribute("info", eaeEx.getMessage());
+                model.addAttribute("hrefLink", "add");
+                System.out.println("ErrorAddPost");
+                return "errorAdded";
+            }
+            model.addAttribute("info", "Congratulations, your user has been successfully created.");
+            model.addAttribute("hrefLink", "list");
+            System.out.println("userAddPost");
+            return "sucessfullyAdded";
+        }
+        else{
+            String[] fields = { "title", "startDate", "startTime", "finishDate"};
+            String fullEr = "";
+            for (String field : fields) {
+                if (errors.hasFieldErrors(field)) {
+                    String er = field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
+                    System.out.println(er);
+                    fullEr+=er;
+                }
+            }
+
+            model.addAttribute("info", fullEr);
+            model.addAttribute("hrefLink", "/user/add");
+            return "errorAdded";
+        }
+    }*/
+
+
+
 }
