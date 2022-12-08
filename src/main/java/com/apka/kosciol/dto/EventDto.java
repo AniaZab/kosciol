@@ -21,18 +21,20 @@ import java.time.LocalTime;
 @Data
 public class EventDto {
 
+    private Integer id;
     private String userLogin;
     @NotEmpty
     private String title;
     private MeetingCategory meetingCategory;
     private RecipientCategory recipientCategory;
-    private LocalDate startDate;
+    private String startDate;
     private LocalTime startTime;
-    private LocalDate finishDate;
+    private String finishDate;
     private LocalTime finishTime;
     private String description;
     private Boolean facebookPublish;
     private Boolean messengerPublish;
     private Boolean emailPublish;
     private Status status;
+    private String place;
 }

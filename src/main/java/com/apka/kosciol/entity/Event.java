@@ -61,4 +61,7 @@ public class Event {
     @Column(name = "status", length = 50)
     private Status status;
 
+    @Column(name = "place", length = 100)
+    private String place;
+
 }

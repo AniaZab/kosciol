@@ -6,6 +6,7 @@ import com.apka.kosciol.entity.Event;
 import com.apka.kosciol.entity.MeetingCategory;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.EventAlreadyExistException;
+import com.apka.kosciol.exceptions.EventDoesNotExistException;
 import com.apka.kosciol.exceptions.UserAlreadyExistException;
 import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.TranslationService;
@@ -14,14 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.apka.kosciol.util.TranslationCode.names;
 
@@ -37,7 +36,7 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping("/listOfAll")
+    @GetMapping("/list")
     public String listOfAll(Model model) {
         setModelAttributes(model);
         List<EventDto> eventDtoList = eventService.returnAllEvents();
@@ -55,11 +54,13 @@ public class EventController {
         setModelAttributes(model);
         model.addAttribute("event", new EventDto());
         System.out.println("eventAddGet");
+        model.addAttribute("hrefLink", "/event/add");
         return "addEvent"; //"eventList";
     }
     @PostMapping("/add")
     public String add(Model model, @ModelAttribute("event") @Valid EventDto eventDto, Errors errors, BindingResult bindingResult) {
         System.out.println("addPost1");
+        setModelAttributes(model);
         if (!bindingResult.hasErrors()) {
             try {
                 eventService.addNewEvent(eventDto);
@@ -67,19 +68,100 @@ public class EventController {
             } catch (EventAlreadyExistException eaeEx) {
                 model.addAttribute("info", eaeEx.getMessage());
                 model.addAttribute("hrefLink", "add");
+                System.out.println("ErrorAddPost");
                 return "errorAdded";
             }
+            model.addAttribute("info", "Congratulations, your event has been successfully created.");
+            model.addAttribute("hrefLink", "list");
+            System.out.println("eventAddPost");
+            return "sucessfullyAdded";
         }
-        setModelAttributes(model);
-        model.addAttribute("info", "Congratulations, your event has been successfully created.");
-        model.addAttribute("hrefLink", "eventsPage");
-        System.out.println("eventAddPost");
-        return "sucessfullyAdded"; //"eventList";
+        else{
+            String[] fields = { "title", "startDate", "startTime", "finishDate"};
+            String fullEr = "";
+            for (String field : fields) {
+                if (errors.hasFieldErrors(field)) {
+                    String er = field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
+                    System.out.println(er);
+                    fullEr+=er;
+                }
+            }
+
+            model.addAttribute("info", fullEr);
+            model.addAttribute("hrefLink", "/event/add");
+            return "errorAdded";
+        }
     }
-    @GetMapping("/edit")
-    public String edit(Model model) {
+    @GetMapping("/edit/{id}")
+    public String edit(Model model, @PathVariable Integer id) throws EventDoesNotExistException {
         setModelAttributes(model);
-        return "eventList";
+        try{
+            model.addAttribute("event", eventService.findEventDtoById(id));
+            model.addAttribute("hrefLink", "/event/edit/{"+id+"}");
+        }
+        catch(EventDoesNotExistException ednee){
+            model.addAttribute("info", ednee.getMessage());
+            model.addAttribute("hrefLink", "list");
+            System.out.println("ErrorEditGet");
+            return "errorAdded";
+        }
+        return "addEvent";
+    }
+    @PostMapping("/edit/{id}")
+    public String edit(Model model, @ModelAttribute("event") @Valid EventDto eventDto, Errors errors, BindingResult bindingResult) {
+            System.out.println("editPost1");
+            setModelAttributes(model);
+            if (!bindingResult.hasErrors()) {
+                try {
+                    eventService.edit(eventDto);
+                    System.out.println("editPost");
+                } catch (Exception eaeEx) {
+                    System.out.println("Something went wrong edit");
+                    model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit");
+                    model.addAttribute("hrefLink", "edit/{"+eventDto.getId()+"}");
+                    System.out.println("ErrorAddPost");
+                    return "errorAdded";
+                }
+                model.addAttribute("info", "Congratulations, your event has been successfully edited.");
+                model.addAttribute("hrefLink", "/event/list");
+                System.out.println("eventEditPost");
+                return "sucessfullyAdded";
+            }
+            else{
+                System.out.println("Wrong bindingResult");
+                String[] fields = { "title", "startDate", "startTime", "finishDate"};
+                String fullEr = "";
+                for (String field : fields) {
+                    if (errors.hasFieldErrors(field)) {
+                        String er = field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
+                        System.out.println(er);
+                        fullEr+=er;
+                    }
+                }
+
+                model.addAttribute("info", fullEr);
+                model.addAttribute("hrefLink", "/event/edit/{"+eventDto.getId()+"}");
+                return "errorAdded";
+            }
+        //return "addEvent";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(Model model, @PathVariable Integer id) throws EventDoesNotExistException {
+        setModelAttributes(model);
+        try{
+            eventService.delete(id);
+            model.addAttribute("info", "Congratulations, your event has been successfully deleted.");
+            model.addAttribute("hrefLink", "/event/list");
+            System.out.println("eventDelete");
+            return "sucessfullyAdded";
+        }
+        catch(EventDoesNotExistException ednee){
+            model.addAttribute("info", ednee.getMessage());
+            model.addAttribute("hrefLink", "/event/list");
+            System.out.println("ErrorDelete");
+            return "errorAdded";
+        }
     }
 
     /*@PostMapping("/list")
