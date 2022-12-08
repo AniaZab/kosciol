@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" th:href="@{/main/style.css}" type="text/css" />
     <link rel="stylesheet" th:href="@{/main/login.css}" type="text/css" />
+    <script type="text/javascript" th:src="@{/events/addEvent.js}"></script>
     <script type="text/javascript" th:src="@{/userPage/javaScript.js}"></script>
     <script type="text/javascript" th:src="@{/userPage/register.js}"></script>
 
@@ -134,7 +135,7 @@
                     <th th:text="${pageNewEvents_table_place}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
                     <th>
-                        <button id="addNewRow" th:text="${pageEventsPage_add_new_event}" class="btn btn-primary btn-sm" onclick="window.location.href='add'"></button>
+                        <button id="addNewRow" th:text="${pageEventsPage_add_new_event}" class="btn btn-primary btn-sm" onclick="window.location.href='/event/add'"></button>
                     </th>
                     <!--                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>-->
                 </tr>
