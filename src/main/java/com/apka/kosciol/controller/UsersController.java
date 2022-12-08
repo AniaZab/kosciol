@@ -107,6 +107,13 @@ public class UsersController {
         System.out.println("loginGet");
         return "login";
     }
+    @GetMapping("/startPage")
+    public String startPage(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        setModelAttributes(model);
+        return "usersPage";
+    }
 
     @PostMapping("/login")
     public String login(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {

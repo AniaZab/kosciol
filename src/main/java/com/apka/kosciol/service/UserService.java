@@ -76,9 +76,13 @@ public class UserService extends AbstractChangeService {
     }
 
     public void registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
-        if (loginExists(userDto.getLogin()) || emailExists(userDto.getEmail())) {
+        if (loginExists(userDto.getLogin())) {
             throw new UserAlreadyExistException("There is an account with that login: "
-                    + userDto.getLogin());
+                    + userDto.getLogin() + ". Please enter diffrent login.");
+        }
+        if (emailExists(userDto.getEmail())) {
+            throw new UserAlreadyExistException("There is an account with that email: "
+                    + userDto.getLogin() + ". Please enter diffrent email.");
         }
         User user = new User();
         user.setLogin(userDto.getLogin());
