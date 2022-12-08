@@ -1,4 +1,4 @@
-function checkAddEventForm(form){
+function checkAdduserForm(form){
     return checkTitle(form);
 }
 
