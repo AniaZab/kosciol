@@ -80,7 +80,7 @@ public class EventController {
                 return "errorAdded";
             }
             model.addAttribute("info", "Congratulations, your event has been successfully created.");
-            model.addAttribute("hrefLink", "list");
+            model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("eventAddPost");
             return "sucessfullyAdded";
         }
@@ -109,7 +109,7 @@ public class EventController {
         }
         catch(EventDoesNotExistException ednee){
             model.addAttribute("info", ednee.getMessage());
-            model.addAttribute("hrefLink", "list");
+            model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorEditGet");
             return "errorAdded";
         }
@@ -160,7 +160,7 @@ public class EventController {
         try{
             eventService.delete(id);
             model.addAttribute("info", "Congratulations, your event has been successfully deleted.");
-            model.addAttribute("hrefLink", "/event/list");
+            model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("eventDelete");
             return "sucessfullyAdded";
         }

@@ -1,4 +1,4 @@
-const pagesInWebsite = ["PageEvents", "PageChangeUserData", "PageAddUser"];
+const pagesInWebsite = ["PageEvents", "PageChangeUserData", "PageAddUser", "PageChangeUserPassword"];
 
 function showPage(shown) {
     try {
@@ -31,5 +31,5 @@ var serverContext = "[[@{/}]]"
     }
 
 
-showPage("PageEvents");
+//showPage("PageEvents");
 
