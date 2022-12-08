@@ -195,13 +195,13 @@ public class UsersController {
             }
             catch(Exception e){
                 model.addAttribute("info", e.getMessage());
-                model.addAttribute("hrefLink", "login");
+                model.addAttribute("hrefLink", "/main");
                 return "errorAdded";
             }
         }
         System.out.println("loginPost");
         setModelAttributes(model);
-        return "eventsPage";
+        return "startPage";
     }
 
     @PostMapping("/reset")

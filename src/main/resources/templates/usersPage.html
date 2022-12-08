@@ -51,7 +51,8 @@
                         <a class="nav-link" href="#" onclick="return showPage('PageChangeUserPassword');" th:text="${pageUsers_ChangeUserPassword_Title}"></a>
                     </li>
                 </ul>
-                <button type="button" name="logout" style="color: white" class="btn nav-item d-flex mx-1" th:text="${pageUsers_logout}">
+                <button type="button" name="logout" style="color: white"
+                        class="btn nav-item d-flex mx-1" th:text="${pageUsers_logout}">
                 </button>
                 <button class="btn language_button nav-item pl_button mx-1" style="float: right" th:text="pl"
                         onclick="window.location.href='/user/startPage/language?lang=pl'">
@@ -65,6 +66,9 @@
 </header>
 <section id="PageEvents" class="pt-2 p-1 bg-gradient">
     <div class="container-lg mt-lg-auto text-center">
+        <div class="p-2 rounded border-primary text-center">
+            <h1 th:text="${pageNewEvents_table_list}"></h1>
+        </div>
         <div class="table-responsive-md">
             <table id="eventsTable" class="table align-middle table-hover table-success table-striped">
                 <caption th:text="${pageNewEvents_table_list}"></caption>
@@ -165,7 +169,7 @@
                 <input type="text" class="form-control" id="inputLastName"
                        th:placeholder="${pageRegister_last_name}"  th:field="*{lastName}">
             </div>
-            <button type="submit" class="btn btn-primary" th:text="${pageUsers_ChangeUserData_Title}"
+            <button type="submit" class="btn btn-success" th:text="${pageUsers_ChangeUserData_Title}"
                     onclick="window.location.href='/user/edit'"></button>
         </form>
     </div>
@@ -192,17 +196,8 @@
                 <input type="password" class="form-control" name = password2 id="inputConfirmPassword"
                        th:placeholder="${pageRegister_confirm_password}">
             </div>
-            <button type="submit" class="btn btn-primary" th:text="${pageRegister_Title}"></button>
+            <button type="submit" class="btn btn-success" th:text="${pageUsers_ChangeUserPassword_Title}"></button>
         </form>
-        <div id="errormsg" style="display:none"></div>
-        <div>
-            <input id="oldpass" name="oldpassword" type="password" />
-            <input id="pass" name="password" type="password" />
-            <input id="passConfirm" type="password" />
-            <span id="error" style="display:none">Password mismatch</span>
-
-            <button type="submit" onclick="savePass()">Change Password</button>
-        </div>
     </div>
 </section>
 <section id="PageAddUser" style="display:none" class="pt-2 p-1 bg-light ">

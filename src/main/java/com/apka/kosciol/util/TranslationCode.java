@@ -79,7 +79,7 @@ public class TranslationCode {
             "pageEventsPage_delete_event",
             "pageEventsPage_publish_event",
 
-            "pageUsersPage_logout",
+            "pageUsers_logout",
             "pageUsers_ChangeUserData_Title",
             "pageUsers_ChangeUserPassword_Title",
 
