@@ -11,6 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -75,6 +78,17 @@ public class UserService extends AbstractChangeService {
         return userRepository.findByEmail(email);
     }
 
+    public void edit(UserDto userDto) {
+        try{
+            User user = userRepository.getOne(userDto.getId());
+            user = setAllFieldsOfUser(userDto, user, false);
+            userRepository.save(user);
+        }
+        catch (Exception e){
+            int i = 0; // cos poszlo nie tak
+        }
+    }
+
     public void registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
         if (loginExists(userDto.getLogin())) {
             throw new UserAlreadyExistException("There is an account with that login: "
@@ -84,16 +98,7 @@ public class UserService extends AbstractChangeService {
             throw new UserAlreadyExistException("There is an account with that email: "
                     + userDto.getLogin() + ". Please enter diffrent email.");
         }
-        User user = new User();
-        user.setLogin(userDto.getLogin());
-        user.setEmail(userDto.getEmail());
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        //user.setRole(Role.valueOf("ADMIN"));
-        user.setRole(Role.ADMIN);
-        //emial dopisac do form frontend
-        user.setChangedPassword(false);
-        userRepository.save(user);
+        userRepository.save(setAllFieldsOfUser(userDto, new User(), true));
     }
 
     private boolean emailExists(String email) {
@@ -101,5 +106,39 @@ public class UserService extends AbstractChangeService {
     }
     private boolean loginExists(String login) {
         return userRepository.findByLogin(login).isPresent(); //metoda exist, w repo ja napisac
+    }
+
+    private User setAllFieldsOfUser(UserDto userDto, User user, boolean isNew) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
+        //te co musza byc:
+
+        user.setLogin(userDto.getLogin());
+        user.setEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        if(isNew){
+            user.setRole(Role.ADMIN);
+            user.setChangedPassword(false);
+            user.setQtyOfWrongPassword(0);
+            user.setActive(true);
+        }
+        else{
+            user.setChangedPassword(true); //todo
+        }
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(userDto.getPassword())); //todo czy jest haslo
+        return user;
+    }
+
+    private UserDto setAllFieldsOfUserDto(User user) {
+        //todo password odkodowac
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setLogin(user.getLogin());
+        userDto.setEmail(user.getEmail());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setPassword(user.getPassword());
+        return userDto;
     }
 }

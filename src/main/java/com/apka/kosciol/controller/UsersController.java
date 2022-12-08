@@ -5,7 +5,7 @@ import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.UserAlreadyExistException;
-import com.apka.kosciol.service.userService;
+import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.TranslationService;
 import com.apka.kosciol.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -84,9 +84,10 @@ public class UsersController {
         setModelAttributes(model);
         User user = new User();
         model.addAttribute("user", user);
+        model.addAttribute("loggedUser", user);
         model.addAttribute("whatPageToShow", "PageChangeUserPassword");
-        List<userDto> userDtoList = eventService.returnAllEvents();
-        model.addAttribute("usersListToDisplay", userDtoList);
+        List<EventDto> eventDtoList = eventService.returnAllEvents();
+        model.addAttribute("eventsListToDisplay", eventDtoList);
 
         return "usersPage";
     }
@@ -96,6 +97,7 @@ public class UsersController {
         setModelAttributes(model);
         User user = new User();
         model.addAttribute("user", user);
+        model.addAttribute("loggedUser", user);
         if(Objects.isNull(whatPageToShow))
         {
             model.addAttribute("whatPageToShow", "PageChangeUserPassword");
@@ -104,7 +106,7 @@ public class UsersController {
             model.addAttribute("whatPageToShow", whatPageToShow);
         }
 
-        List<userDto> userDtoList = userService.returnAllusers();
+        List<EventDto> userDtoList = eventService.returnAllEvents();
         model.addAttribute("usersListToDisplay", userDtoList);
 
         return "usersPage";
