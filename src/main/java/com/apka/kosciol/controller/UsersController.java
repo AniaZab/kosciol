@@ -1,9 +1,11 @@
 package com.apka.kosciol.controller;
 
+import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.UserAlreadyExistException;
+import com.apka.kosciol.service.userService;
 import com.apka.kosciol.service.TranslationService;
 import com.apka.kosciol.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,12 +31,86 @@ public class UsersController {
 
     private TranslationService translationService;
     private UserService userService;
+    private EventService eventService;
 
-    public UsersController(TranslationService translationService, UserService userService) {
+    public UsersController(EventService eventService, TranslationService translationService, UserService userService) {
         this.userService = userService;
         this.translationService = translationService;
+        this.eventService = eventService;
     }
 
+    @PostMapping("/edit/{id}")
+    public String edit(Model model, @ModelAttribute("loggedUser") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
+        System.out.println("editPost1");
+        setModelAttributes(model);
+        if (!bindingResult.hasErrors()) {
+            try {
+                userService.edit(userDto);
+                System.out.println("editPost");
+            } catch (Exception eaeEx) {
+                System.out.println("Something went wrong edit");
+                model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit");
+                model.addAttribute("hrefLink", "edit/{"+userDto.getId()+"}");
+                System.out.println("ErrorAddPost");
+                return "errorAdded";
+            }
+            model.addAttribute("info", "Congratulations, your data has been successfully edited.");
+            model.addAttribute("hrefLink", "/user/startPage"); ////user/list
+            System.out.println("userEditPost");
+            return "sucessfullyAdded";
+        }
+        else{
+            System.out.println("Wrong bindingResult");
+            String[] fields = { "title", "startDate", "startTime", "finishDate"};
+            String fullEr = "";
+            for (String field : fields) {
+                if (errors.hasFieldErrors(field)) {
+                    String er = field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
+                    System.out.println(er);
+                    fullEr+=er;
+                }
+            }
+
+            model.addAttribute("info", fullEr);
+            model.addAttribute("hrefLink", "/user/edit/{"+userDto.getId()+"}");
+            return "errorAdded";
+        }
+        //return "adduser";
+    }
+
+    @RequestMapping("/startPage/language")
+    public String setLanguage(Model model, @RequestParam("lang") String lang) {
+        Locale.setDefault(new Locale(lang));
+        setModelAttributes(model);
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("whatPageToShow", "PageChangeUserPassword");
+        List<userDto> userDtoList = eventService.returnAllEvents();
+        model.addAttribute("usersListToDisplay", userDtoList);
+
+        return "usersPage";
+    }
+
+    @GetMapping("/startPage")
+    public String startPage(Model model, String whatPageToShow) {//, String whatPageToShow
+        setModelAttributes(model);
+        User user = new User();
+        model.addAttribute("user", user);
+        if(Objects.isNull(whatPageToShow))
+        {
+            model.addAttribute("whatPageToShow", "PageChangeUserPassword");
+        }
+        else{
+            model.addAttribute("whatPageToShow", whatPageToShow);
+        }
+
+        List<userDto> userDtoList = userService.returnAllusers();
+        model.addAttribute("usersListToDisplay", userDtoList);
+
+        return "usersPage";
+    }
+
+    //nie bedzie potrzebny
     @GetMapping("/register") //do poprawienia potem
     public String showRegistrationForm( Model model) { //WebRequest request,
         UserDto userDto = new UserDto();
@@ -45,6 +121,7 @@ public class UsersController {
         System.out.println("registerGet");
         return "register";
     }
+
     @PostMapping("/register")
     public String register(Model model, @ModelAttribute("user") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
 
@@ -55,7 +132,8 @@ public class UsersController {
                 System.out.println("registerPost2 user");
             } catch (UserAlreadyExistException uaeEx) {
                 model.addAttribute("info", uaeEx.getMessage());
-                model.addAttribute("hrefLink", "register");
+                model.addAttribute("hrefLink", "startPage");
+                model.addAttribute("whatPageToShow", "PageAddUser");
                 return "errorAdded";
             }
             //allUsers.add(user);
@@ -81,7 +159,7 @@ public class UsersController {
         }*/
         System.out.println("registerPost");
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
-        model.addAttribute("hrefLink", "login");
+        model.addAttribute("hrefLink", "startPage");
         setModelAttributes(model);
         return "sucessfullyAdded"; //"register";
     }
@@ -106,13 +184,6 @@ public class UsersController {
         model.addAttribute("user", user);
         System.out.println("loginGet");
         return "login";
-    }
-    @GetMapping("/startPage")
-    public String startPage(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        setModelAttributes(model);
-        return "usersPage";
     }
 
     @PostMapping("/login")
