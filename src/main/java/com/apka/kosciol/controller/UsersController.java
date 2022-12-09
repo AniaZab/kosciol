@@ -1,10 +1,12 @@
 package com.apka.kosciol.controller;
 
 import com.apka.kosciol.dto.EventDto;
+import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.service.EventService;
+import com.apka.kosciol.service.RecipientService;
 import com.apka.kosciol.service.TranslationService;
 import com.apka.kosciol.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -28,11 +30,13 @@ public class UsersController {
     private TranslationService translationService;
     private UserService userService;
     private EventService eventService;
+    private RecipientService recipientService;
 
-    public UsersController(EventService eventService, TranslationService translationService, UserService userService) {
+    public UsersController(EventService eventService, TranslationService translationService, UserService userService, RecipientService recipientService) {
         this.userService = userService;
         this.translationService = translationService;
         this.eventService = eventService;
+        this.recipientService = recipientService;
     }
 
     @PostMapping("/edit/{id}")
@@ -84,6 +88,8 @@ public class UsersController {
         model.addAttribute("whatPageToShow", "PageChangeUserPassword");
         List<EventDto> eventDtoList = eventService.returnAllEvents();
         model.addAttribute("eventsListToDisplay", eventDtoList);
+        List<RecipientDto> recipientDtoList = recipientService.returnAllRecipients();
+        model.addAttribute("recipientsListToDisplay", recipientDtoList);
 
         return "usersPage";
     }
@@ -102,6 +108,8 @@ public class UsersController {
             model.addAttribute("whatPageToShow", whatPageToShow);
         }
 
+        List<RecipientDto> recipientDtoList = recipientService.returnAllRecipients();
+        model.addAttribute("recipientsListToDisplay", recipientDtoList);
         List<EventDto> eventDtoList = eventService.returnAllEvents();
         model.addAttribute("eventsListToDisplay", eventDtoList);
 

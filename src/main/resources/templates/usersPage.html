@@ -69,6 +69,60 @@
     </nav>
 </header>
 <section id="PageRecipients" class="pt-2 p-1 bg-gradient">
+    <div class="container-lg mt-lg-auto text-center">
+        <div class="p-2 rounded border-primary text-center">
+            <h1 th:text="${pageRecipient_recipientList}"></h1>
+        </div>
+        <div class="table-responsive-md">
+            <table id="recipientsTable" class="table align-middle table-hover table-success table-striped">
+                <caption th:text="${pageNewEvents_table_list}"></caption>
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th th:text="${pageNewEvents_table_category}" scope="col"></th>
+                    <th th:text="${pageRegister_first_name}" scope="col"></th>
+                    <th th:text="${pageRegister_last_name}" scope="col"></th>
+                    <th scope="col">Email</th>
+                    <th th:text="${pageUsers_options}" scope="col"></th>
+                </tr>
+                </thead>
+                <tbody th:each="recipientToDisplay, stats : ${recipientsListToDisplay}">
+                <tr>
+                    <th scope="row" th:text="${stats.index+1}"></th>
+                    <td>Nie ma jeszcze tego pola</td>
+                    <td th:text="${recipientToDisplay.firstName}"></td>
+                    <td th:text="${recipientToDisplay.lastName}"></td>
+                    <td th:text="${recipientToDisplay.email}"></td>
+                    <td>
+                        <a th:text="${pageEventsPage_edit_event}" id="editRecipientRow"
+                           th:href="@{/recipient/edit/{id}(id=${recipientToDisplay.id})}"
+                           class="btn btn-info btn-sm"></a>
+                        <a th:text="${pageEventsPage_delete_event}" id="delitRecipientRow"
+                           th:href="@{/recipient/delete/{id}(id=${recipientToDisplay.id})}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure you want to delete this item?');"></a>
+                        <!--<button id="" class="btn btn-info btn-danger">Usuń</button>-->
+                    </td>
+                    <!--                    <td th:text="${eventToDisplay.extraInfo}"></td>-->
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th scope="col">#</th>
+                    <th th:text="${pageNewEvents_table_category}" scope="col"></th>
+                    <th th:text="${pageRegister_first_name}" scope="col"></th>
+                    <th th:text="${pageRegister_last_name}" scope="col"></th>
+                    <th scope="col">Email</th>
+                    <th>
+                        <button id="addNewRecipientRow" th:text="${pageRecipient_addTitle}" class="btn btn-primary btn-sm"
+                                onclick="window.location.href='/recipient/add'"></button>
+                    </th>
+                    <!--                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>-->
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 </section>
 <section id="PageEvents" class="pt-2 p-1 bg-gradient">
     <div class="container-lg mt-lg-auto text-center">
@@ -89,7 +143,7 @@
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_place}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
-                    <th th:text="Opcje" scope="col"></th>
+                    <th th:text="${pageUsers_options}" scope="col"></th>
                 </tr>
                 </thead>
                 <tbody th:each="eventToDisplay, stats : ${eventsListToDisplay}">
@@ -215,8 +269,8 @@
             style="width:auto;" th:text="${pageRegister_Title}" class="buttonAddUser"></button>
 
     <div id="idRegister" class="modal">
-        <form onsubmit="return checkRegisterForm(this)" action="#"
-              method="POST" th:action="@{/user/register}" class="modal-content animate"
+        <form onsubmit="return checkAddUserForm()" th:action="@{/user/register}"
+              method="POST" class="modal-content animate"
               th:object="${user}" style="background-color: ivory;">
             <div class="imgcontainer">
                 <span onclick="document.getElementById('idRegister').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -225,21 +279,22 @@
             <div class="container">
                 <label>Login</label>
                 <input type="text" class="form-control" name="login" id="inputLogin"
-                       placeholder="Login"  th:field="*{login}">
+                       placeholder="Login"  th:field="*{login}" required>
                 <div style="display:none" id="errorLogin"></div>
                 <label>Email</label>
-                <input type="text" class="form-control" name="email" id="inputEmail"
-                       placeholder="Email"  th:field="*{email}">
+                <input type="text" class="form-control" name="email" id="addUser_inputEmail"
+                       placeholder="Email"  th:field="*{email}" required>
                 <div style="display:none" id="errorEmail"></div>
                 <label th:text="${pageRegister_new_password}"></label>
                 <input type="password" name="password1" class="form-control" id="inputPassword1"
-                       th:placeholder="${pageRegister_new_password}" th:field="*{password}">
+                       th:placeholder="${pageRegister_new_password}" th:field="*{password}" required>
                 <div style="display:none" id="errorPassword"></div>
                 <label th:text="${pageRegister_confirm_password}"></label>
-                <input type="password" name="password2" class="form-control" id="inputPassword2" th:placeholder="${pageRegister_confirm_password}">
+                <input type="password" name="password2" class="form-control" id="inputPassword2"
+                       th:placeholder="${pageRegister_confirm_password}" required>
                 <div style="display:none" id="errorPasswordConfirm"></div>
                 <button type="submit" class="buttonAddUser" th:text="${pageRegister_Title}"
-                        onclick="window.location.href='/user/register'"></button>
+                        th:onclick="checkAddUserForm() == true : window.location.href='/user/register'"></button>
             </div>
         </form>
     </div>
@@ -249,6 +304,7 @@
     showPage([[${whatPageToShow}]]);
 </script>
 <script type="text/javascript">
+
     $(function() {
         $('#dateFinishPicker').datepicker();
     });

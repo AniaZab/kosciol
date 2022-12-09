@@ -85,11 +85,13 @@ public class TranslationCode {
             "pageUsers_ChangeUserData_Title",
             "pageUsers_ChangeUserPassword_Title",
             "pageUsers_RecipientsList",
+            "pageUsers_options",
 
             "pageAny_reset",
 
             "pageRecipient_addTitle",
-            "pageRecipient_editTitle"
+            "pageRecipient_editTitle",
+            "pageRecipient_recipientList"
     };
 }
 //         pageRegularEvents_Title

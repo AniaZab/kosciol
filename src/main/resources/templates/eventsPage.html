@@ -41,7 +41,7 @@
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_place}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
-                    <th th:text="Opcje" scope="col"></th>
+                    <th th:text="${pageUsers_options}" scope="col"></th>
                 </tr>
                 </thead>
                 <tbody th:each="eventToDisplay, stats : ${eventsListToDisplay}">
