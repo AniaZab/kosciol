@@ -3,17 +3,14 @@ package com.apka.kosciol.service;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
-import com.apka.kosciol.exceptions.UserAlreadyExistException;
+import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.repository.IUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -89,13 +86,13 @@ public class UserService extends AbstractChangeService {
         }
     }
 
-    public void registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
+    public void registerNewUserAccount(UserDto userDto) throws AlreadyExistException {
         if (loginExists(userDto.getLogin())) {
-            throw new UserAlreadyExistException("There is an account with that login: "
+            throw new AlreadyExistException("There is an account with that login: "
                     + userDto.getLogin() + ". Please enter diffrent login.");
         }
         if (emailExists(userDto.getEmail())) {
-            throw new UserAlreadyExistException("There is an account with that email: "
+            throw new AlreadyExistException("There is an account with that email: "
                     + userDto.getLogin() + ". Please enter diffrent email.");
         }
         userRepository.save(setAllFieldsOfUser(userDto, new User(), true));

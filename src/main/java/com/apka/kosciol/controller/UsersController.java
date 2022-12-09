@@ -2,14 +2,11 @@ package com.apka.kosciol.controller;
 
 import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.UserDto;
-import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
-import com.apka.kosciol.exceptions.UserAlreadyExistException;
+import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.TranslationService;
 import com.apka.kosciol.service.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -132,7 +128,7 @@ public class UsersController {
                 System.out.println("registerPost user");
                 userService.registerNewUserAccount(userDto);
                 System.out.println("registerPost2 user");
-            } catch (UserAlreadyExistException uaeEx) {
+            } catch (AlreadyExistException uaeEx) {
                 model.addAttribute("info", uaeEx.getMessage());
                 model.addAttribute("hrefLink", "startPage");
                 model.addAttribute("whatPageToShow", "PageAddUser");

@@ -3,12 +3,11 @@ package com.apka.kosciol.service;
 import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.entity.Event;
 import com.apka.kosciol.entity.Status;
-import com.apka.kosciol.exceptions.EventAlreadyExistException;
-import com.apka.kosciol.exceptions.EventDoesNotExistException;
+import com.apka.kosciol.exceptions.AlreadyExistException;
+import com.apka.kosciol.exceptions.DoesNotExistException;
 import com.apka.kosciol.repository.IEvent;
 import org.springframework.stereotype.Service;
 
-import java.io.Console;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -31,14 +30,14 @@ public class EventService  { //extends AbstractChangeService
     }
 
     //@Override
-    public void delete(Integer id) throws EventDoesNotExistException {
+    public void delete(Integer id) throws DoesNotExistException {
         if(idExists(id)){
             Event event = eventRepository.getOne(id);
             eventRepository.delete(event);
         }
         else{
             System.out.println("Delete error.");
-            throw new EventDoesNotExistException("That event with id = "+ id +" doesn't exist.");
+            throw new DoesNotExistException("That event with id = "+ id +" doesn't exist.");
         }
     }
 
@@ -56,13 +55,13 @@ public class EventService  { //extends AbstractChangeService
         return Optional.of(eventRepository.findById(id));
     }
 
-    public EventDto findEventDtoById(Integer id) throws EventDoesNotExistException {
+    public EventDto findEventDtoById(Integer id) throws DoesNotExistException {
         if(idExists(id)){
             Event event = eventRepository.getOne(id);
             return setAllFieldsOfEventDto(event);
         }
         else{
-            throw new EventDoesNotExistException("That event with id = "+ id.intValue()+" doesn't exist.");
+            throw new DoesNotExistException("That event with id = "+ id.intValue()+" doesn't exist.");
         }
     }
 
@@ -88,9 +87,9 @@ public class EventService  { //extends AbstractChangeService
         }
     }
 
-    public void addNewEvent(EventDto eventDto) throws EventAlreadyExistException {
+    public void addNewEvent(EventDto eventDto) throws AlreadyExistException {
         if (titleExists(eventDto.getTitle())) {
-            throw new EventAlreadyExistException("An event with that title: '"
+            throw new AlreadyExistException("An event with that title: '"
                     + eventDto.getTitle() + "' already exists. Please enter diffrent title.");
         }
         Event event = setAllFieldsOfEvent(eventDto, new Event(), true);

@@ -2,11 +2,8 @@ package com.apka.kosciol.controller;
 
 import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.UserDto;
-import com.apka.kosciol.entity.Event;
 import com.apka.kosciol.entity.MeetingCategory;
 import com.apka.kosciol.entity.RecipientCategory;
-import com.apka.kosciol.entity.User;
-import com.apka.kosciol.exceptions.EventAlreadyExistException;
 import com.apka.kosciol.service.TranslationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import static com.apka.kosciol.util.TranslationCode.names;
 

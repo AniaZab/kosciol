@@ -1,16 +1,10 @@
 package com.apka.kosciol.controller;
 
 import com.apka.kosciol.dto.EventDto;
-import com.apka.kosciol.dto.UserDto;
-import com.apka.kosciol.entity.Event;
-import com.apka.kosciol.entity.MeetingCategory;
-import com.apka.kosciol.entity.User;
-import com.apka.kosciol.exceptions.EventAlreadyExistException;
-import com.apka.kosciol.exceptions.EventDoesNotExistException;
-import com.apka.kosciol.exceptions.UserAlreadyExistException;
+import com.apka.kosciol.exceptions.AlreadyExistException;
+import com.apka.kosciol.exceptions.DoesNotExistException;
 import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.TranslationService;
-import com.apka.kosciol.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +12,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -73,7 +66,7 @@ public class EventController {
             try {
                 eventService.addNewEvent(eventDto);
                 System.out.println("addPost");
-            } catch (EventAlreadyExistException eaeEx) {
+            } catch (AlreadyExistException eaeEx) {
                 model.addAttribute("info", eaeEx.getMessage());
                 model.addAttribute("hrefLink", "add");
                 System.out.println("ErrorAddPost");
@@ -101,13 +94,13 @@ public class EventController {
         }
     }
     @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable Integer id) throws EventDoesNotExistException {
+    public String edit(Model model, @PathVariable Integer id) throws DoesNotExistException {
         setModelAttributes(model);
         try{
             model.addAttribute("event", eventService.findEventDtoById(id));
             model.addAttribute("hrefLink", "/event/edit/{"+id+"}");
         }
-        catch(EventDoesNotExistException ednee){
+        catch(DoesNotExistException ednee){
             model.addAttribute("info", ednee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorEditGet");
@@ -155,7 +148,7 @@ public class EventController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(Model model, @PathVariable Integer id) throws EventDoesNotExistException {
+    public String delete(Model model, @PathVariable Integer id) throws DoesNotExistException {
         setModelAttributes(model);
         try{
             eventService.delete(id);
@@ -164,7 +157,7 @@ public class EventController {
             System.out.println("eventDelete");
             return "sucessfullyAdded";
         }
-        catch(EventDoesNotExistException ednee){
+        catch(DoesNotExistException ednee){
             model.addAttribute("info", ednee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorDelete");

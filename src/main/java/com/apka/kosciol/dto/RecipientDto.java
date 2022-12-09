@@ -1,7 +1,10 @@
 package com.apka.kosciol.dto;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 
+@Data
 public class RecipientDto {
     private Integer id;
     private String userLogin;
