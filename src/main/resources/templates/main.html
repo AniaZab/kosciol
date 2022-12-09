@@ -209,7 +209,8 @@
                 <label><b>Hasło</b></label>
                 <input type="password" th:field="*{password}" placeholder="Podaj hasło" name="psw" required>
 
-                <button type="submit" class="buttonAddUser" onclick="window.location.href='/user/login'">Zaloguj się</button>
+                <button type="submit" class="buttonAddUser" th:onclick="checkLoginForm(this) == true : window.location.href='/user/login'">
+                    Zaloguj się</button>
                 <label>
                     <input type="checkbox" checked="checked" name="remember"> Zapamiętaj mnie
                 </label>

@@ -7,6 +7,44 @@ function checkRegisterForm(form){
     }
 }
 
+var checkAddUserForm = function() {
+    if(checkIfPasswordsEqual()==true && checkIfEmailMeetsRequirments()==true){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+var checkIfPasswordsEqual = function() {
+    if (document.getElementById("inputPassword1").value == document.getElementById("inputPassword2").value) {
+        return true;
+    }
+    else{
+        alert ("\nPassword did not match: Please try again...")
+        return false;
+    }
+}
+
+const validateEmail = (email) => {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+};
+
+var checkIfEmailMeetsRequirments = function() {
+    if(validateEmail(document.getElementById("addUser_inputEmail").value)){
+        return true;
+    }
+    else{
+        alert ("\nEmail is not valid!")
+        return false;
+    }
+}
+
+
 function checkLogin(form){
     login = form.login.value;
 
@@ -35,34 +73,24 @@ function checkPasswordMeetsExceptation(){
     //document.getElementById("errorPassword").style.display = 'block';
     //document.getElementById("errorPassword").value = res;
 }
-function checkIfPasswordsMatches(form) {
-    password1 = form.password1.value;
-    password2 = form.password2.value;
 
-    // If password not entered
-    if (password1 == ''){
-        alert ("Please enter Password");
-        return false;
-    }
+function checkIfPasswordsMatches() {
 
-    // If confirm password not entered
-    else if (password2 == ''){
-        alert ("Please enter confirm password");
-        return false;
-    }
-
-    // If Not same return False.
-    else if (password1 != password2) {
-        alert ("\nPassword did not match: Please try again...")
-        return false;
+    if (document.getElementById("inputNewPassword").value == document.getElementById("inputConfirmPassword").value) {
+        alert("Passwords match.")
+        return true;
     }
 
     // If same return True.
     else{
-        alert("Passwords match.")
-        return true;
+        alert ("\nPassword did not match: Please try again...")
+        return false;
     }
 }
+
+
+
+
 //A password is correct if it contains:
 //
 //     At least 1 uppercase character.

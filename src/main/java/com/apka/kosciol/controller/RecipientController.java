@@ -29,14 +29,14 @@ public class RecipientController {
         this.recipientService = recipientService;
     }
 
-    @GetMapping("/list")
+    /*@GetMapping("/list")
     public String listOfAll(Model model) {
         setModelAttributes(model);
         List<RecipientDto> recipientDtoList = recipientService.returnAllRecipients();
         model.addAttribute("recipientsListToDisplay", recipientDtoList);
         System.out.println("eventListGet");
         return "recipientsList";
-    }
+    }*/
 
     @GetMapping("/add")
     public String add(Model model) {
