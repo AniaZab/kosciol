@@ -1,4 +1,4 @@
-const pagesInWebsite = ["PageEvents", "PageChangeUserData", "PageAddUser", "PageChangeUserPassword"];
+const pagesInWebsite = ["PageEvents", "PageChangeUserData", "PageAddUser", "PageChangeUserPassword", "PageRecipients"];
 
 function showPage(shown) {
     try {

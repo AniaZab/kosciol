@@ -82,6 +82,7 @@ public class TranslationCode {
             "pageUsers_logout",
             "pageUsers_ChangeUserData_Title",
             "pageUsers_ChangeUserPassword_Title",
+            "pageUsers_RecipientsList",
 
             "pageAny_reset"
 
