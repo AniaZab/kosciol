@@ -102,8 +102,8 @@ public class UsersController {
             model.addAttribute("whatPageToShow", whatPageToShow);
         }
 
-        List<EventDto> userDtoList = eventService.returnAllEvents();
-        model.addAttribute("usersListToDisplay", userDtoList);
+        List<EventDto> eventDtoList = eventService.returnAllEvents();
+        model.addAttribute("eventsListToDisplay", eventDtoList);
 
         return "usersPage";
     }

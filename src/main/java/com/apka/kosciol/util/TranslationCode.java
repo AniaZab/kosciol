@@ -78,14 +78,18 @@ public class TranslationCode {
             "pageEventsPage_edit_event",
             "pageEventsPage_delete_event",
             "pageEventsPage_publish_event",
+            "pageEvent_addTitle",
+            "pageEvent_editTitle",
 
             "pageUsers_logout",
             "pageUsers_ChangeUserData_Title",
             "pageUsers_ChangeUserPassword_Title",
             "pageUsers_RecipientsList",
 
-            "pageAny_reset"
+            "pageAny_reset",
 
+            "pageRecipient_addTitle",
+            "pageRecipient_editTitle"
     };
 }
 //         pageRegularEvents_Title

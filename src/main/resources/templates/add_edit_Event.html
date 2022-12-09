@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dodaj ogłoszenie</title>
+    <title th:text="${pageEvent_add_or_edit} == 'add' ? ${pageEvent_addTitle} : ${pageEvent_editTitle}"></title>
     <link rel="stylesheet" th:href="@{/main/style.css}" type="text/css" />
     <script type="text/javascript" th:src="@{/events/addEvent.js}"></script>
 
@@ -26,14 +26,15 @@
 
 <section id="PageAddEvent" class="pt-2 p-1">
     <div class="p-2 rounded border-primary text-center">
-        <h1 th:text="${pageAddEvent_Title}"></h1>
+        <h1 th:text="${pageEvent_add_or_edit} == 'add' ? ${pageEvent_addTitle} : ${pageEvent_editTitle}"></h1>
     </div>
     <div class="container-sm mt-sm-auto">
         <form onsubmit="return checkAddEventForm(this)" method="POST" th:object="${event}" style="background-color: ivory;">
             <div class="text-info p-3">
                 <div class="form-group">
                     <label th:text="${pageAddEvent_form_label_title}" class="form-label"></label>
-                    <input th:field="*{title}" th:placeholder="${pageAddEvent_form_placeholder_title}" type="text" class="form-control" id="title">
+                    <input th:field="*{title}" th:placeholder="${pageAddEvent_form_placeholder_title}"
+                           type="text" class="form-control" id="title" required>
                 </div>
                 <div class="form-group">
                     <label th:text="${pageAddEvent_form_category_label}" class="form-label"></label>

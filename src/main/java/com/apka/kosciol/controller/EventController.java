@@ -56,7 +56,8 @@ public class EventController {
         model.addAttribute("event", new EventDto());
         System.out.println("eventAddGet");
         model.addAttribute("hrefLink", "/event/add");
-        return "addEvent"; //"eventList";
+        model.addAttribute("pageEvent_add_or_edit", "add");
+        return "add_edit_Event"; //"eventList";
     }
     @PostMapping("/add")
     public String add(Model model, @ModelAttribute("event") @Valid EventDto eventDto, Errors errors, BindingResult bindingResult) {
@@ -99,14 +100,15 @@ public class EventController {
         try{
             model.addAttribute("event", eventService.findEventDtoById(id));
             model.addAttribute("hrefLink", "/event/edit/{"+id+"}");
+            model.addAttribute("pageEvent_add_or_edit", "edit");
         }
-        catch(DoesNotExistException ednee){
-            model.addAttribute("info", ednee.getMessage());
+        catch(DoesNotExistException dnee){
+            model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorEditGet");
             return "errorAdded";
         }
-        return "addEvent";
+        return "add_edit_Event";
     }
     @PostMapping("/edit/{id}")
     public String edit(Model model, @ModelAttribute("event") @Valid EventDto eventDto, Errors errors, BindingResult bindingResult) {
@@ -144,7 +146,7 @@ public class EventController {
                 model.addAttribute("hrefLink", "/event/edit/{"+eventDto.getId()+"}");
                 return "errorAdded";
             }
-        //return "addEvent";
+        //return "add_edit_Event";
     }
 
     @GetMapping("/delete/{id}")
@@ -157,8 +159,8 @@ public class EventController {
             System.out.println("eventDelete");
             return "sucessfullyAdded";
         }
-        catch(DoesNotExistException ednee){
-            model.addAttribute("info", ednee.getMessage());
+        catch(DoesNotExistException dnee){
+            model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorDelete");
             return "errorAdded";
