@@ -1,27 +1,28 @@
 package com.apka.kosciol.service;
 
 import com.apka.kosciol.dto.RecipientDto;
+import com.apka.kosciol.entity.MeetingCategory;
 import com.apka.kosciol.entity.Recipient;
-import com.apka.kosciol.entity.Status;
+import com.apka.kosciol.entity.Subscription;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
 import com.apka.kosciol.repository.IRecipient;
+import com.apka.kosciol.repository.ISubscription;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import javax.transaction.Transactional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class RecipientService {
-    private IRecipient recipientRepository;
+    private final IRecipient recipientRepository;
+    private final ISubscription subscriptionRepository;
 
-    public RecipientService(IRecipient recipientRepository) {
-        this.recipientRepository = recipientRepository;
-    }
 
     //@Override
     public long count() {
@@ -30,13 +31,12 @@ public class RecipientService {
 
     //@Override
     public void delete(Integer id) throws DoesNotExistException {
-        if(idExists(id)){
+        if (idExists(id)) {
             Recipient recipient = recipientRepository.getOne(id);
             recipientRepository.delete(recipient);
-        }
-        else{
+        } else {
             System.out.println("Delete error.");
-            throw new DoesNotExistException("That recipient with id = "+ id +" doesn't exist.");
+            throw new DoesNotExistException("That recipient with id = " + id + " doesn't exist.");
         }
     }
 
@@ -55,12 +55,11 @@ public class RecipientService {
     }
 
     public RecipientDto findRecipientDtoById(Integer id) throws DoesNotExistException {
-        if(idExists(id)){
+        if (idExists(id)) {
             Recipient recipient = recipientRepository.getOne(id);
             return setAllFieldsOfEventDto(recipient);
-        }
-        else{
-            throw new DoesNotExistException("That recipient with id = "+ id.intValue()+" doesn't exist.");
+        } else {
+            throw new DoesNotExistException("That recipient with id = " + id.intValue() + " doesn't exist.");
         }
     }
 
@@ -74,14 +73,17 @@ public class RecipientService {
     }
 
     //@Override
+    @Transactional
     public void edit(RecipientDto recipientDto) {
-        try{
+        try {
             Recipient recipient = recipientRepository.getOne(recipientDto.getId());
             recipient = setAllFieldsOfEvent(recipientDto, recipient, false);
-
+            log.debug("saving recipient with subsc {}", recipient.getSubscriptionList());
+           log.debug("del substr amount {}", subscriptionRepository.deleteAllByRecipient(recipient));
             recipientRepository.save(recipient);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
+            log.error("cos jest grubo nie tak!!! ",e.getMessage());
+            e.printStackTrace();
             int i = 0; // cos poszlo nie tak
         }
     }
@@ -107,16 +109,32 @@ public class RecipientService {
         return recipientRepository.existsRecipientByEmail(email);
     }
 
-    private Recipient setAllFieldsOfEvent(RecipientDto recipientDto, Recipient recipient, boolean isNew)
-    {
+    private Recipient setAllFieldsOfEvent(RecipientDto recipientDto, Recipient recipient, boolean isNew) {
+        log.debug("setting recipient from {}", recipientDto);
         //TODO set user_user
         recipient.setEmail(recipientDto.getEmail());
         recipient.setFirstName(recipientDto.getFirstName());
         recipient.setLastName(recipientDto.getLastName());
+        recipient.setSubscriptionList(buildSubscriptions(recipientDto.getMeetingCategoryList()));
         if (isNew) {
             recipient.setActive(true);
         }
         return recipient;
+    }
+
+    private List<Subscription> buildSubscriptions(List<MeetingCategory> meetingCategoryList) {
+        if (Objects.nonNull(meetingCategoryList)) {
+            return meetingCategoryList.stream()
+                    .map(this::buildSubscription)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    private Subscription buildSubscription(MeetingCategory meetingCategory) {
+        return Subscription.builder()
+                .meetingCategory(meetingCategory)
+                .build();
     }
 
     private RecipientDto setAllFieldsOfEventDto(Recipient recipient) {
@@ -127,6 +145,16 @@ public class RecipientService {
         recipientDto.setLastName(recipient.getLastName());
         recipientDto.setId(recipient.getId());
         recipientDto.setActive(recipient.getActive());
+        recipientDto.setMeetingCategoryList(buildMeetingCategoryList(recipient.getSubscriptionList()));
         return recipientDto;
+    }
+
+    private List<MeetingCategory> buildMeetingCategoryList(List<Subscription> subscriptions) {
+        if (Objects.nonNull(subscriptions)) {
+            subscriptions.stream()
+                    .map(Subscription::getMeetingCategory)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 }

@@ -49,6 +49,12 @@
                     <input th:field="*{email}" placeholder="Email" type="text" class="form-control"
                            id="email" required>
                 </div>
+                <div class="form-group">
+                    <select multiple="multiple" th:field="*{meetingCategoryList}">
+                        <option value="INNE">INNE</option>
+                        <option value="MODLITWA">MODLITWA</option>
+                    </select>
+                </div>
                 <button th:text="${pageAny_reset}" type="reset" class="btn btn-outline-danger"></button>
                 <button th:text="${pageAddEvent_form_button_submit}" type="submit"
                         onclick="window.location.href=''${hrefLink}"

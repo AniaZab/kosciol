@@ -1,13 +1,16 @@
 package com.apka.kosciol.entity;
 
-import com.apka.kosciol.entity.User;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
 @Table(name = "Recipient")
+@Slf4j
 public class Recipient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +32,16 @@ public class Recipient {
 
     @Column(name = "active")
     private Boolean active;
+
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
+    private List<Subscription> subscriptionList;
+
+    public void setSubscriptionList(List<Subscription> subscriptionList) {
+        this.subscriptionList.clear();
+        if (Objects.nonNull(subscriptionList)) {
+            log.debug("setting subscription list {}", subscriptionList);
+            subscriptionList.forEach(s -> s.setRecipient(this));
+            this.subscriptionList = subscriptionList;
+        }
+    }
 }
