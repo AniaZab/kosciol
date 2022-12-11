@@ -34,7 +34,7 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
     }
 
     UserDetails build(User u) {
-        var roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        var roles = Collections.singletonList(new SimpleGrantedAuthority(u.getRole().name()));
         return new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), roles);
     }
 
@@ -131,7 +131,7 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         if (isNew) {
-            user.setRole(Role.ADMIN);
+            user.setRole(Role.ROLE_ADMIN);
             user.setChangedPassword(false);
             user.setQtyOfWrongPassword(0);
             user.setActive(true);
