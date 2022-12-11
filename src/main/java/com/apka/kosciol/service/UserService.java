@@ -6,20 +6,37 @@ import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.repository.IUser;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService extends AbstractChangeService {
+public class UserService extends AbstractChangeService implements UserDetailsService {
 
     private final IUser userRepository;
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        return userRepository.findByLogin(username)
+                .map(this::build)
+                .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
+    }
+
+    UserDetails build(User u) {
+        var roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        return new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), roles);
+    }
 
     @Override
     public long count() {
@@ -76,12 +93,11 @@ public class UserService extends AbstractChangeService {
     }
 
     public void edit(UserDto userDto) {
-        try{
+        try {
             User user = userRepository.getOne(userDto.getId());
             user = setAllFieldsOfUser(userDto, user, false);
             userRepository.save(user);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             int i = 0; // cos poszlo nie tak
         }
     }
@@ -101,6 +117,7 @@ public class UserService extends AbstractChangeService {
     private boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+
     private boolean loginExists(String login) {
         return userRepository.findByLogin(login).isPresent(); //metoda exist, w repo ja napisac
     }
@@ -113,13 +130,12 @@ public class UserService extends AbstractChangeService {
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        if(isNew){
+        if (isNew) {
             user.setRole(Role.ADMIN);
             user.setChangedPassword(false);
             user.setQtyOfWrongPassword(0);
             user.setActive(true);
-        }
-        else{
+        } else {
             user.setChangedPassword(true); //todo
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
