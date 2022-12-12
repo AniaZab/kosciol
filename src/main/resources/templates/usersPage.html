@@ -208,7 +208,8 @@
         <h1 th:text="${pageUsers_ChangeUserData_Title}"></h1>
     </div>
     <div class="container-lg mt-lg-auto">
-        <form action="#" method="PUT" th:action="@{changeData}" th:object="${loggedUser}" style="background-color: ivory;">
+        <form action="#" method="PUT" th:action="@{changeData}" th:object="${loggedUser}"
+              style="background-color: ivory;" onsubmit="return checkIfEmailMeetsRequirments_ChangeData()">
             <div class="form-group">
                 <label>Login</label>
                 <input type="text" class="form-control" id="inputLoginChangeData"
@@ -217,7 +218,7 @@
             <div class="form-group">
                 <label >Email</label>
                 <input type="email" class="form-control" id="inputEmailChangeData"
-                       placeholder="Email" th:field="*{email}">
+                       placeholder="Email" th:field="*{email}" required>
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_first_name}"></label>
@@ -230,7 +231,7 @@
                        th:placeholder="${pageRegister_last_name}"  th:field="*{lastName}">
             </div>
             <button type="submit" class="btn btn-success" th:text="${pageUsers_ChangeUserData_Title}"
-                    onclick="window.location.href='/user/edit'"></button>
+                    th:onclick="checkIfEmailMeetsRequirments_ChangeData()== true : window.location.href='/user/edit'"></button>
         </form>
     </div>
 </section>
@@ -240,23 +241,24 @@
         <h1 th:text="${pageUsers_ChangeUserPassword_Title}"></h1>
     </div>
     <div class="container-lg mt-lg-auto">
-        <form action="#" onSubmit = "return checkPassword(this)" method="POST" th:action="@{/user/changeData}" style="background-color: ivory;">
+        <form action="#" onsubmit = "return checkIfPasswordsEqual_ChangePassword()" method="POST" th:action="@{/user/changeData}" style="background-color: ivory;">
             <div class="form-group">
                 <label th:text="${pageRegister_password}"></label>
                 <input type="password" class="form-control" id="inputPassword"
-                       th:placeholder="${pageRegister_password}" >
+                       th:placeholder="${pageRegister_password}" required>
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_new_password}"></label>
                 <input type="password" class="form-control" name = password1 id="inputNewPassword"
-                       th:placeholder="${pageRegister_new_password}">
+                       th:placeholder="${pageRegister_new_password}" required>
             </div>
             <div class="form-group">
                 <label th:text="${pageRegister_confirm_password}"></label>
                 <input type="password" class="form-control" name = password2 id="inputConfirmPassword"
-                       th:placeholder="${pageRegister_confirm_password}">
+                       th:placeholder="${pageRegister_confirm_password}" required>
             </div>
-            <button type="submit" class="btn btn-success" th:text="${pageUsers_ChangeUserPassword_Title}"></button>
+            <button type="submit" class="btn btn-success" th:text="${pageUsers_ChangeUserPassword_Title}"
+                    th:onclick="checkIfPasswordsEqual_ChangePassword() == true : window.location.href='/user/register'"></button>
         </form>
     </div>
 </section>

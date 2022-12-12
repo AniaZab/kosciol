@@ -30,6 +30,24 @@ var serverContext = "[[@{/}]]"
             });
     }
 
+var checkIfEmailMeetsRequirments_ChangeData = function() {
+    if(validateEmail(document.getElementById("inputEmailChangeData").value)){
+        return true;
+    }
+    else{
+        alert ("\nEmail is not valid!")
+        return false;
+    }
+}
+var checkIfPasswordsEqual_ChangePassword = function() {
+    if (document.getElementById("inputConfirmPassword").value == document.getElementById("inputNewPassword").value) {
+        return true;
+    }
+    else{
+        alert ("\nPassword did not match: Please try again...")
+        return false;
+    }
+}
 
 //showPage("PageEvents");
 
