@@ -39,8 +39,8 @@ public class UsersController {
         this.recipientService = recipientService;
     }
 
-    @PostMapping("/edit/{id}")
-    public String edit(Model model, @ModelAttribute("loggedUser") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
+    /*@PostMapping("/edit/{id}")
+    public String edit(Model model, Errors errors, BindingResult bindingResult) { //, @ModelAttribute("loggedUser") @Valid UserDto userDto,
         System.out.println("editPost1");
         setModelAttributes(model);
         if (!bindingResult.hasErrors()) {
@@ -76,7 +76,7 @@ public class UsersController {
             return "errorAdded";
         }
         //return "adduser";
-    }
+    }*/
 
     @RequestMapping("/startPage/language")
     public String setLanguage(Model model, @RequestParam("lang") String lang) {
@@ -186,16 +186,17 @@ public class UsersController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        User user = new User();
+        UserDto user = new UserDto();
         model.addAttribute("user", user);
         System.out.println("loginGet");
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
+    public String login(Model model, @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try{
+
             }
             catch(Exception e){
                 model.addAttribute("info", e.getMessage());
@@ -205,7 +206,7 @@ public class UsersController {
         }
         System.out.println("loginPost");
         setModelAttributes(model);
-        return "startPage";
+        return "usersPage";
     }
 
     @PostMapping("/reset")

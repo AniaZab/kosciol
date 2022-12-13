@@ -79,7 +79,7 @@ public class RecipientService {
             Recipient recipient = recipientRepository.getOne(recipientDto.getId());
             recipient = setAllFieldsOfEvent(recipientDto, recipient, false);
             log.debug("saving recipient with subsc {}", recipient.getSubscriptionList());
-           log.debug("del substr amount {}", subscriptionRepository.deleteAllByRecipient(recipient));
+           //log.debug("del substr amount {}", subscriptionRepository.deleteAllByRecipient(recipient));
             recipientRepository.save(recipient);
         } catch (Exception e) {
             log.error("cos jest grubo nie tak!!! ",e.getMessage());

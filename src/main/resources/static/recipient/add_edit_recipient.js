@@ -1,5 +1,5 @@
-function checkRecipientForm(form){
-    if(checkEmailEmpty(form)==true && checkIfEmailMeetsRequirments==true){
+function checkRecipientForm(){
+    if(checkIfEmailMeetsRequirments()==true){
         return true;
     }
     else{
@@ -24,7 +24,7 @@ const validateEmail = (email) => {
 };
 
 var checkIfEmailMeetsRequirments = function() {
-    if (validateEmail(document.getElementById("email").value)) {
+    if (validateEmail(document.getElementById("idEmail").value)) {
         return true;
     } else {
         alert("\nEmail is not valid!")

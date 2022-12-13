@@ -32,7 +32,8 @@
         </div>
     </div>
     <div class="container-sm mt-sm-auto">
-        <form onsubmit="return checkRecipientForm(this)" method="POST" th:object="${recipient}" style="background-color: ivory;">
+        <form onsubmit="return checkRecipientForm()" method="POST"
+              th:object="${recipient}" style="background-color: ivory;">
             <div class="text-info p-3">
                 <div class="form-group">
                     <label class="form-label" th:text="${pageRegister_first_name}"></label>
@@ -47,7 +48,7 @@
                 <div class="form-group">
                     <label class="form-label">Email</label>
                     <input th:field="*{email}" placeholder="Email" type="text" class="form-control"
-                           id="email" required>
+                           id="idEmail" required>
                 </div>
                 <div class="form-group">
                     <select multiple="multiple" th:field="*{meetingCategoryList}">
@@ -57,7 +58,7 @@
                 </div>
                 <button th:text="${pageAny_reset}" type="reset" class="btn btn-outline-danger"></button>
                 <button th:text="${pageAddEvent_form_button_submit}" type="submit"
-                        onclick="window.location.href=''${hrefLink}"
+                        th:onclick="checkRecipientForm()== true : window.location.href=''${hrefLink}"
                         class="btn btn-outline-primary"></button>
             </div>
         </form>
