@@ -37,7 +37,7 @@ public class User {
     private String lastName;
 
     @NotNull
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = false, length = 500)
     private String password;
 
     @Column(name = "qtyOfWrongPassword")
@@ -45,7 +45,7 @@ public class User {
 
     //@NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false, length = 5)
+    @Column(name = "role", nullable = false, length = 50)
     private Role role;
 
     @Column(name = "active")
@@ -56,7 +56,19 @@ public class User {
 
     @OneToMany(mappedBy = "user_user")
     private Set<Event> events = new LinkedHashSet<>();
-public Set<Event> getEvents() {
+
+    @OneToMany(mappedBy = "userUser")
+    private Set<Recipient> recipients = new LinkedHashSet<>();
+
+    public Set<Recipient> getRecipients() {
+        return recipients;
+    }
+
+    public void setRecipients(Set<Recipient> recipients) {
+        this.recipients = recipients;
+    }
+
+    public Set<Event> getEvents() {
         return events;
     }
 
