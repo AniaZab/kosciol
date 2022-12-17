@@ -4,7 +4,6 @@ import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
-import com.apka.kosciol.exceptions.DoesNotExistException;
 import com.apka.kosciol.repository.IUser;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
@@ -35,7 +34,7 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
     }
 
     UserDetails build(User u) {
-        var roles = Collections.singletonList(new SimpleGrantedAuthority(u.getRole().name()));
+        var roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), roles);
     }
 
@@ -102,28 +101,6 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
             int i = 0; // cos poszlo nie tak
         }
     }
-    public boolean checkLogin(UserDto userDto) throws DoesNotExistException{
-        if(loginExists(userDto.getLogin())) {
-            User user = userRepository.getByLogin(userDto.getLogin());
-            user = setAllFieldsOfUser(userDto, user, false);
-            userRepository.save(user);
-            return true;
-        } else{
-            throw new DoesNotExistException ("There is no account with that login: "
-                    + userDto.getLogin() + ". Please enter diffrent login.");
-
-        }
-    }
-    public boolean checkIsChangedPassword(UserDto userDto) {
-        try {
-            User user = userRepository.getOne(userDto.getId());
-            user = setAllFieldsOfUser(userDto, user, false);
-            userRepository.save(user);
-        } catch (Exception e) {
-            int i = 0; // cos poszlo nie tak
-        }
-        return false;
-    }
 
     public void registerNewUserAccount(UserDto userDto) throws AlreadyExistException {
         if (loginExists(userDto.getLogin())) {
@@ -142,7 +119,7 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
     }
 
     private boolean loginExists(String login) {
-        return userRepository.existsUserByLogin(login);//findByLogin(login).isPresent(); //metoda exist, w repo ja napisac
+        return userRepository.findByLogin(login).isPresent(); //metoda exist, w repo ja napisac
     }
 
     private User setAllFieldsOfUser(UserDto userDto, User user, boolean isNew) {

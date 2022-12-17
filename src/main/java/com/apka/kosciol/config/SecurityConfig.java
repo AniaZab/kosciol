@@ -56,14 +56,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/main","/signup","/about").permitAll()
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/event/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/recipient/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                //  .loginPage("/login") // tu ew mozesz zrobic wlasna strone do logowania
+                .permitAll();
+
+        //wylogowanie: podepnij wywolanie localhost:8080/logout
+        //zapisanie nowy odbiorcy nie dziala - blad w html?
+        //zmiana endpointow w UsersController
+    }
+}     /*   http
                 .httpBasic()
                 .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/main").permitAll()
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/event/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/recipient/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/1recipient/**").hasAnyRole("USER", "ADMIN")
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
@@ -71,5 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/user/startPage");
         //  .csrf().disable();
-    }
-}
+
+      */
+
+
