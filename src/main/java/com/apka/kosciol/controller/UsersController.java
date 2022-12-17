@@ -9,6 +9,8 @@ import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.RecipientService;
 import com.apka.kosciol.service.TranslationService;
 import com.apka.kosciol.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +26,8 @@ import java.util.Objects;
 import static com.apka.kosciol.util.TranslationCode.names;
 
 @Controller
-@RequestMapping(value="/user")
+//@RequestMapping(value="/user")
+@Slf4j
 public class UsersController {
 
     private TranslationService translationService;
@@ -39,8 +42,8 @@ public class UsersController {
         this.recipientService = recipientService;
     }
 
-    /*@PostMapping("/edit/{id}")
-    public String edit(Model model, Errors errors, BindingResult bindingResult) { //, @ModelAttribute("loggedUser") @Valid UserDto userDto,
+    @PostMapping("/user/edit/{id}")
+    public String edit(Model model, @ModelAttribute("loggedUser") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
         System.out.println("editPost1");
         setModelAttributes(model);
         if (!bindingResult.hasErrors()) {
@@ -76,9 +79,9 @@ public class UsersController {
             return "errorAdded";
         }
         //return "adduser";
-    }*/
+    }
 
-    @RequestMapping("/startPage/language")
+    @RequestMapping("/user/startPage/language")
     public String setLanguage(Model model, @RequestParam("lang") String lang) {
         Locale.setDefault(new Locale(lang));
         setModelAttributes(model);
@@ -94,7 +97,7 @@ public class UsersController {
         return "usersPage";
     }
 
-    @GetMapping("/startPage")
+    @GetMapping("/user/startPage")
     public String startPage(Model model, String whatPageToShow) {//, String whatPageToShow
         setModelAttributes(model);
         User user = new User();
@@ -117,7 +120,7 @@ public class UsersController {
     }
 
     //nie bedzie potrzebny
-    @GetMapping("/register") //do poprawienia potem
+    @GetMapping("/user/register") //do poprawienia potem
     public String showRegistrationForm( Model model) { //WebRequest request,
         UserDto userDto = new UserDto();
         //wywolywanie uslug serwisowych
@@ -128,7 +131,7 @@ public class UsersController {
         return "register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     public String register(Model model, @ModelAttribute("user") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
 
         if (!bindingResult.hasErrors()) {
@@ -169,14 +172,14 @@ public class UsersController {
         setModelAttributes(model);
         return "sucessfullyAdded"; //"register";
     }
-    @GetMapping("/success")
+    @GetMapping("/user/success")
     public String success(Model model) {
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
         model.addAttribute("hrefLink", "login");
 
         return "sucessfullyAdded";
     }
-    @GetMapping("/error")
+    @GetMapping("/user/error")
     public String error(Model model) {
         model.addAttribute("info", "Error, your account has not been successfully created.");
         model.addAttribute("hrefLink", "register");
@@ -186,17 +189,16 @@ public class UsersController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        UserDto user = new UserDto();
+        User user = new User();
         model.addAttribute("user", user);
         System.out.println("loginGet");
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(Model model, @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
+    public String login(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try{
-
             }
             catch(Exception e){
                 model.addAttribute("info", e.getMessage());
@@ -206,10 +208,10 @@ public class UsersController {
         }
         System.out.println("loginPost");
         setModelAttributes(model);
-        return "usersPage";
+        return "startPage";
     }
 
-    @PostMapping("/reset")
+    @PostMapping("/user/reset")
     public String reset(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
         }
