@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="form-group col-md-7">
                         <div class="input-group date" id="dateStartPicker">
-                            <input th:field="*{startDate}" type="text" class="form-control">
+                            <input th:field="*{startDate}" type="text" class="form-control" id="idStartDate">
                             <span class="input-group-append">
                                     <span class="input-group-text bg-white d-block">
                                         <i class="fa fa-calendar"></i>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="form-group col-md-5">
-                        <input th:field="*{startTime}" type="time" class="form-control" id="startTime">
+                        <input th:field="*{startTime}" type="time" class="form-control" id="idStartTime">
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@
                 <div class="row">
                     <div class="form-group col-md-7">
                         <div class="input-group date" id="dateFinishPicker">
-                            <input th:field="*{finishDate}" type="text" class="form-control">
+                            <input th:field="*{finishDate}" type="text" class="form-control" id="idFinishDate">
                             <span class="input-group-append">
                                 <span class="input-group-text bg-white d-block">
                                     <i class="fa fa-calendar"></i>
@@ -88,7 +88,7 @@
                         </div>
                     </div>
                     <div class="form-group col-md-5">
-                        <input th:field="*{finishTime}" type="time" class="form-control" id="finishTime">
+                        <input th:field="*{finishTime}" type="time" class="form-control" id="idFinishTime">
                     </div>
                 </div>
                 <div class="form-group">
@@ -143,36 +143,37 @@
                         class="btn btn-outline-primary"></button>
                         onclick="window.location.href='/event/add'"-->
                 <button th:text="${pageAny_reset}" type="reset" class="btn btn-outline-danger"></button>
-                <button th:text="${pageAddEvent_form_button_submit}" type="submit"
-                        onclick="window.location.href=''${hrefLink}"
-                        class="btn btn-outline-primary"></button>
+                <button th:text="${pageAddEvent_form_button_submit}"
+                        class="btn btn-outline-primary" type="submit"
+                        onclick="window.location.href=''${hrefLink}">
+                </button>
             </div>
         </form>
     </div>
 </section>
 <script type="text/javascript">
-    $(function() {
-        $('#dateFinishPicker').datepicker();
-    });
+$(function() {
+$('#dateFinishPicker').datepicker();
+});
 
-    $(function() {
-        $('#dateStartPicker').datepicker();
-    });
+$(function() {
+$('#dateStartPicker').datepicker();
+});
 
-    document.getElementById("toastbtn1").onclick = function () {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var toastList = toastElList.map(function(toastEl) {
-            return new bootstrap.Toast(toastEl)
-        })
-        toastList.forEach(toast => toast.show())
-    }
-    document.getElementById("toastbtn").onclick = function () {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var toastList = toastElList.map(function(toastEl) {
-            return new bootstrap.Toast(toastEl)
-        })
-        toastList.forEach(toast => toast.show())
-    }
+document.getElementById("toastbtn1").onclick = function () {
+var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElList.map(function(toastEl) {
+    return new bootstrap.Toast(toastEl)
+})
+toastList.forEach(toast => toast.show())
+}
+document.getElementById("toastbtn").onclick = function () {
+var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElList.map(function(toastEl) {
+    return new bootstrap.Toast(toastEl)
+})
+toastList.forEach(toast => toast.show())
+}
 </script>
 </body>
 </html>
