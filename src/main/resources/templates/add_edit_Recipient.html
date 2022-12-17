@@ -50,10 +50,14 @@
                     <input th:field="*{email}" placeholder="Email" type="text" class="form-control"
                            id="idEmail" required>
                 </div>
+
                 <div class="form-group">
-                    <select multiple="multiple" th:field="*{meetingCategoryList}">
-                        <option value="INNE">INNE</option>
-                        <option value="MODLITWA">MODLITWA</option>
+                    <label th:text="${pageAddEvent_form_category_label}" class="form-label"></label>
+                    <select multiple="multiple" id="category" name="category"  class="form-select"
+                            th:field="*{meetingCategoryList}">
+                        <option th:each="meetingCategoryToDisplay : ${T(com.apka.kosciol.entity.MeetingCategory).values()}"
+                                th:value="${meetingCategoryToDisplay}" th:text="${meetingCategoryToDisplay.displayValue}"
+                                th:selected="${meetingCategoryToDisplay.displayValue=='INNE'}"></option><!-- 'INNE'-->
                     </select>
                 </div>
                 <button th:text="${pageAny_reset}" type="reset" class="btn btn-outline-danger"></button>
