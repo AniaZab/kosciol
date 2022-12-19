@@ -1,5 +1,6 @@
-package com.apka.kosciol.config;
+package com.apka.kosciol.service;
 
+import com.apka.kosciol.config.LocaleConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -9,12 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.Locale;
 
 @Service
-public class Translator {
+public class TranslatorService {
     private final LocaleConfiguration localeConfiguration;
     private static ResourceBundleMessageSource messageSource;
 
-    public Translator(@Qualifier("messages") ResourceBundleMessageSource messageSource,
-                      LocaleConfiguration loc) {
+    public TranslatorService(@Qualifier("messages") ResourceBundleMessageSource messageSource,
+                             LocaleConfiguration loc) {
         this.messageSource = messageSource;
         this.localeConfiguration = loc;
     }

@@ -60,12 +60,12 @@ public class RecipientController {
                 model.addAttribute("info", eaeEx.getMessage());
                 model.addAttribute("hrefLink", "/recipient/add");
                 System.out.println("ErrorAddPost");
-                return "errorAdded";
+                return "error";
             }
             model.addAttribute("info", "Congratulations, your recipient has been successfully created.");
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("recipientAddPost");
-            return "sucessfullyAdded";
+            return "success";
         }
         else{
             String[] fields = { "title", "startDate", "startTime", "finishDate"};
@@ -80,7 +80,7 @@ public class RecipientController {
 
             model.addAttribute("info", fullEr);
             model.addAttribute("hrefLink", "/recipient/add");
-            return "errorAdded";
+            return "error";
         }
     }
     @GetMapping("/edit/{id}")
@@ -95,7 +95,7 @@ public class RecipientController {
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorEditGet");
-            return "errorAdded";
+            return "error";
         }
         return "add_edit_Recipient";
     }
@@ -112,12 +112,12 @@ public class RecipientController {
                 model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit");
                 model.addAttribute("hrefLink", "edit/{"+recipientDto.getId()+"}");
                 System.out.println("ErrorAddPost");
-                return "errorAdded";
+                return "error";
             }
             model.addAttribute("info", "Congratulations, your recipient has been successfully edited.");
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("eventEditPost");
-            return "sucessfullyAdded";
+            return "success";
         }
         else{
             System.out.println("Wrong bindingResult");
@@ -133,7 +133,7 @@ public class RecipientController {
 
             model.addAttribute("info", fullEr);
             model.addAttribute("hrefLink", "/recipient/edit/{"+recipientDto.getId()+"}");
-            return "errorAdded";
+            return "error";
         }
         //return "addEvent";
     }
@@ -146,13 +146,13 @@ public class RecipientController {
             model.addAttribute("info", "Congratulations, your recipient has been successfully deleted.");
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("eventDelete");
-            return "sucessfullyAdded";
+            return "success";
         }
         catch(DoesNotExistException dnee){
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorDelete");
-            return "errorAdded";
+            return "error";
         }
     }
     private void setModelAttributes(Model model) {

@@ -95,12 +95,12 @@ public class HomeController {
                 model.addAttribute("info", eaeEx.getMessage());
                 model.addAttribute("hrefLink", "add");
                 System.out.println("ErrorAddPost");
-                return "errorAdded";
+                return "error";
             }
             model.addAttribute("info", "Congratulations, your user has been successfully created.");
             model.addAttribute("hrefLink", "list");
             System.out.println("userAddPost");
-            return "sucessfullyAdded";
+            return "success";
         }
         else{
             String[] fields = { "title", "startDate", "startTime", "finishDate"};
@@ -115,7 +115,7 @@ public class HomeController {
 
             model.addAttribute("info", fullEr);
             model.addAttribute("hrefLink", "/user/add");
-            return "errorAdded";
+            return "error";
         }
     }*/
 

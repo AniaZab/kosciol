@@ -71,12 +71,12 @@ public class EventController {
                 model.addAttribute("info", eaeEx.getMessage());
                 model.addAttribute("hrefLink", "add");
                 System.out.println("ErrorAddPost");
-                return "errorAdded";
+                return "error";
             }
             model.addAttribute("info", "Congratulations, your event has been successfully created.");
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("eventAddPost");
-            return "sucessfullyAdded";
+            return "success";
         }
         else{
             String[] fields = { "title", "startDate", "startTime", "finishDate"};
@@ -91,7 +91,7 @@ public class EventController {
 
             model.addAttribute("info", fullEr);
             model.addAttribute("hrefLink", "/event/add");
-            return "errorAdded";
+            return "error";
         }
     }
     @GetMapping("/edit/{id}")
@@ -106,7 +106,7 @@ public class EventController {
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorEditGet");
-            return "errorAdded";
+            return "error";
         }
         return "add_edit_Event";
     }
@@ -123,12 +123,12 @@ public class EventController {
                     model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit");
                     model.addAttribute("hrefLink", "edit/{"+eventDto.getId()+"}");
                     System.out.println("ErrorAddPost");
-                    return "errorAdded";
+                    return "error";
                 }
                 model.addAttribute("info", "Congratulations, your event has been successfully edited.");
                 model.addAttribute("hrefLink", "/user/startPage");
                 System.out.println("eventEditPost");
-                return "sucessfullyAdded";
+                return "success";
             }
             else{
                 System.out.println("Wrong bindingResult");
@@ -144,7 +144,7 @@ public class EventController {
 
                 model.addAttribute("info", fullEr);
                 model.addAttribute("hrefLink", "/event/edit/{"+eventDto.getId()+"}");
-                return "errorAdded";
+                return "error";
             }
         //return "add_edit_Event";
     }
@@ -157,13 +157,13 @@ public class EventController {
             model.addAttribute("info", "Congratulations, your event has been successfully deleted.");
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("eventDelete");
-            return "sucessfullyAdded";
+            return "success";
         }
         catch(DoesNotExistException dnee){
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             System.out.println("ErrorDelete");
-            return "errorAdded";
+            return "error";
         }
     }
 

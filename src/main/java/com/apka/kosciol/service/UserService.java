@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService extends AbstractChangeService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     private final IUser userRepository;
 
@@ -39,12 +39,10 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
         return new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), roles);
     }
 
-    @Override
     public long count() {
         return userRepository.count();
     }
 
-    @Override
     public void delete(Object changeEntity) {
         if (changeEntity != null && changeEntity instanceof User) {
             userRepository.delete((User) changeEntity);
@@ -53,7 +51,6 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
         }
     }
 
-    @Override
     public void save(Object changeEntity) {
         if (changeEntity instanceof User && changeEntity != null) {
             userRepository.save((User) changeEntity);
@@ -62,12 +59,10 @@ public class UserService extends AbstractChangeService implements UserDetailsSer
         }
     }
 
-    @Override
     public Optional<Object> findById(int id) {
         return Optional.of(userRepository.findById(id));
     }
 
-    @Override
     public void update(int id, Object changeEntity) {
         User newUser;
         if (changeEntity instanceof User && changeEntity != null) {

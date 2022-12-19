@@ -55,12 +55,12 @@ public class UsersController {
                 model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit");
                 model.addAttribute("hrefLink", "edit/{"+userDto.getId()+"}");
                 System.out.println("ErrorAddPost");
-                return "errorAdded";
+                return "error";
             }
             model.addAttribute("info", "Congratulations, your data has been successfully edited.");
             model.addAttribute("hrefLink", "/user/startPage"); ////user/list
             System.out.println("userEditPost");
-            return "sucessfullyAdded";
+            return "success";
         }
         else{
             System.out.println("Wrong bindingResult");
@@ -76,7 +76,7 @@ public class UsersController {
 
             model.addAttribute("info", fullEr);
             model.addAttribute("hrefLink", "/user/edit/{"+userDto.getId()+"}");
-            return "errorAdded";
+            return "error";
         }
         //return "adduser";
     }
@@ -143,7 +143,7 @@ public class UsersController {
                 model.addAttribute("info", uaeEx.getMessage());
                 model.addAttribute("hrefLink", "startPage");
                 model.addAttribute("whatPageToShow", "PageAddUser");
-                return "errorAdded";
+                return "error";
             }
             //allUsers.add(user);
         }
@@ -170,49 +170,49 @@ public class UsersController {
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
         model.addAttribute("hrefLink", "startPage");
         setModelAttributes(model);
-        return "sucessfullyAdded"; //"register";
+        return "success"; //"register";
     }
     @GetMapping("/user/success")
     public String success(Model model) {
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
         model.addAttribute("hrefLink", "login");
 
-        return "sucessfullyAdded";
+        return "success";
     }
     @GetMapping("/user/error")
     public String error(Model model) {
         model.addAttribute("info", "Error, your account has not been successfully created.");
         model.addAttribute("hrefLink", "register");
 
-        return "errorAdded";
+        return "error";
     }
 
     @GetMapping("/login")
     public String login(Model model) {
-        User user = new User();
+        UserDto user = new UserDto();
         model.addAttribute("user", user);
         System.out.println("loginGet");
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
+    public String login(Model model, @Valid UserDto user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try{
             }
             catch(Exception e){
                 model.addAttribute("info", e.getMessage());
                 model.addAttribute("hrefLink", "/main");
-                return "errorAdded";
+                return "error";
             }
         }
         System.out.println("loginPost");
         setModelAttributes(model);
-        return "startPage";
+        return "/user/startPage";
     }
 
     @PostMapping("/user/reset")
-    public String reset(Model model, @Valid User user, Errors errors, BindingResult bindingResult) {
+    public String reset(Model model, @Valid UserDto user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
         }
         System.out.println("reset");
