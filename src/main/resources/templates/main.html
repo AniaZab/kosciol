@@ -45,10 +45,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#contact" th:text="${contact_Title}"></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="document.getElementById('PageLogin').style.display='block'" th:text="${pageLogin_Title}"></a>
-                    </li>
                 </ul>
+                <button type="button" name="logout" style="color: white"
+                        onclick="document.getElementById('PageLogin').style.display='block'"
+                        class="btn nav-item d-flex mx-1" th:text="${pageLogin_Title}">
+                </button>
                 <button class="btn language_button nav-item pl_button mx-1" style="float: right" th:text="pl"
                         onclick="window.location.href='/main/language?lang=pl'">
                 </button>
