@@ -101,8 +101,7 @@ public class UsersController {
     @GetMapping("/user/startPage")
     public String startPage(Model model, String whatPageToShow) throws DoesNotExistException {//, String whatPageToShow
         setModelAttributes(model);
-        User user = new User();
-        model.addAttribute("user", user);
+        model.addAttribute("user", new UserDto());
         model.addAttribute("loggedUser", userService.getLoggedInUser());
         if(Objects.isNull(whatPageToShow))
         {
@@ -121,7 +120,7 @@ public class UsersController {
     }
 
     //nie bedzie potrzebny
-    @GetMapping("/user/register") //do poprawienia potem
+    /*@GetMapping("/user/register") //do poprawienia potem
     public String showRegistrationForm( Model model) { //WebRequest request,
         UserDto userDto = new UserDto();
         //wywolywanie uslug serwisowych
@@ -130,7 +129,7 @@ public class UsersController {
         setModelAttributes(model);
         System.out.println("registerGet");
         return "register";
-    }
+    }*/
 
     @PostMapping("/user/register")
     public String register(Model model, @ModelAttribute("user") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
@@ -146,7 +145,6 @@ public class UsersController {
                 model.addAttribute("whatPageToShow", "PageAddUser");
                 return "error";
             }
-            //allUsers.add(user);
         }
         else{
             System.out.println(bindingResult.hasErrors());
@@ -158,15 +156,6 @@ public class UsersController {
                 }
             }
         }
-        /*try {
-            User userToRegister = new User();
-            userToRegister.setLogin(user.getLogin());
-            userToRegister.setPassword(user.getPassword());
-            userService.registerNewUserAccount(userToRegister);
-            System.out.println("registerPost user");
-        } catch (UserAlreadyExistException uaeEx) {
-            return uaeEx.getMessage(); //do popr. pozniej
-        }*/
         System.out.println("registerPost");
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
         model.addAttribute("hrefLink", "startPage");
