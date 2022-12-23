@@ -5,6 +5,7 @@ import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
+import com.apka.kosciol.exceptions.DoesNotExistException;
 import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.RecipientService;
 import com.apka.kosciol.service.TranslationService;
@@ -42,14 +43,14 @@ public class UsersController {
         this.recipientService = recipientService;
     }
 
-    @PostMapping("/user/edit/{id}")
+    @PostMapping("/user/edit")
     public String edit(Model model, @ModelAttribute("loggedUser") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
         System.out.println("editPost1");
         setModelAttributes(model);
         if (!bindingResult.hasErrors()) {
             try {
+                System.out.println("editPost" + userDto.getId());
                 userService.edit(userDto);
-                System.out.println("editPost");
             } catch (Exception eaeEx) {
                 System.out.println("Something went wrong edit");
                 model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit");
@@ -98,11 +99,11 @@ public class UsersController {
     }
 
     @GetMapping("/user/startPage")
-    public String startPage(Model model, String whatPageToShow) {//, String whatPageToShow
+    public String startPage(Model model, String whatPageToShow) throws DoesNotExistException {//, String whatPageToShow
         setModelAttributes(model);
         User user = new User();
         model.addAttribute("user", user);
-        model.addAttribute("loggedUser", user);
+        model.addAttribute("loggedUser", userService.getLoggedInUser());
         if(Objects.isNull(whatPageToShow))
         {
             model.addAttribute("whatPageToShow", "PageChangeUserPassword");

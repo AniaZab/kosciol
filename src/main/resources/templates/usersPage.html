@@ -209,7 +209,7 @@
         <h1 th:text="${pageUsers_ChangeUserData_Title}"></h1>
     </div>
     <div class="container-lg mt-lg-auto">
-        <form action="#" method="PUT" th:action="@{changeData}" th:object="${loggedUser}"
+        <form method="POST" th:object="${loggedUser}" th:action="@{/user/edit}"
               style="background-color: ivory;" onsubmit="return checkIfEmailMeetsRequirments_ChangeData()">
             <div class="form-group">
                 <label>Login</label>

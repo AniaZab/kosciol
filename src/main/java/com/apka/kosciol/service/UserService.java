@@ -9,6 +9,7 @@ import com.apka.kosciol.repository.IUser;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -90,11 +91,9 @@ public class UserService implements UserDetailsService {
 
     public void edit(UserDto userDto) {
         try {
-            User user = userRepository.getOne(userDto.getId());
-            user = setAllFieldsOfUser(userDto, user, false);
-            userRepository.save(user);
+            userRepository.save(setAllFieldsOfUser(userDto, userRepository.getOne(userDto.getId()), false));
         } catch (Exception e) {
-            int i = 0; // cos poszlo nie tak
+            System.out.println(e.getMessage());
         }
     }
     public boolean checkLogin(UserDto userDto) throws DoesNotExistException{
@@ -106,14 +105,12 @@ public class UserService implements UserDetailsService {
         } else{
             throw new DoesNotExistException ("There is no account with that login: "
                     + userDto.getLogin() + ". Please enter diffrent login.");
-
         }
     }
+
     public boolean checkIsChangedPassword(UserDto userDto) {
         try {
-            User user = userRepository.getOne(userDto.getId());
-            user = setAllFieldsOfUser(userDto, user, false);
-            userRepository.save(user);
+            userRepository.save(setAllFieldsOfUser(userDto, userRepository.getOne(userDto.getId()), false));
         } catch (Exception e) {
             int i = 0; // cos poszlo nie tak
         }
@@ -130,6 +127,20 @@ public class UserService implements UserDetailsService {
                     + userDto.getLogin() + ". Please enter diffrent email.");
         }
         userRepository.save(setAllFieldsOfUser(userDto, new User(), true));
+    }
+
+    public UserDto getLoggedInUser() throws DoesNotExistException {
+        String name = getNameOfLoggedUser();
+        System.out.println("Email " + name);
+        if(userRepository.existsUserByEmail(name)){
+            return setAllFieldsOfUserDto(userRepository.getByEmail(name));
+        }
+        else
+            throw new DoesNotExistException("There is no account with that email: "+ name);
+    }
+
+    private String getNameOfLoggedUser(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     private boolean emailExists(String email) {
@@ -153,18 +164,18 @@ public class UserService implements UserDetailsService {
             user.setChangedPassword(false);
             user.setQtyOfWrongPassword(0);
             user.setActive(true);
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            user.setPassword(passwordEncoder.encode(userDto.getPassword())); //todo czy jest haslo
         } else {
             user.setChangedPassword(true); //todo
         }
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(passwordEncoder.encode(userDto.getPassword())); //todo czy jest haslo
         return user;
     }
 
     private UserDto setAllFieldsOfUserDto(User user) {
-        //todo password odkodowac
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
+        System.out.println("Id" + userDto.getId());
         userDto.setLogin(user.getLogin());
         userDto.setEmail(user.getEmail());
         userDto.setFirstName(user.getFirstName());

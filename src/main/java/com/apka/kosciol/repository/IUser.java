@@ -17,6 +17,7 @@ public interface IUser extends JpaRepository<User, Integer> {
     boolean existsUserByLogin(@Param("login") String login);
 
     User getByLogin(@Param("login") String login);
+    User getByEmail(@Param("email") String email);
     //    //List<User> search(String stringFilter);
 /*    @Query("select * from [church].[dbo].[User_Table] " +
             "where lower(c.firstName) like lower(concat('%', :searchTerm, '%')) " +

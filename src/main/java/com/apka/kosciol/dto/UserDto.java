@@ -9,7 +9,6 @@ public class UserDto {
         private Integer id;
         @NotEmpty
         private String login;
-        @NotEmpty
         private String password;
         @NotEmpty
         private String email;
