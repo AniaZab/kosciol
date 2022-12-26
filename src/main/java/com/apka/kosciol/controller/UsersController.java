@@ -4,6 +4,7 @@ import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.PasswordDto;
 import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
+import com.apka.kosciol.entity.Recipient;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
@@ -45,11 +46,29 @@ public class UsersController {
         this.recipientService = recipientService;
     }
 
+    @GetMapping("/user/publish/{id}")
+    public String publish(Model model, @PathVariable Integer id) {
+        setModelAttributes(model);
+        try{
+            EventDto eventToSend = eventService.findEventDtoById(id);
+            List<RecipientDto> recipientList = recipientService.getRecipientsOfTheMeetingCategory(eventToSend.getMeetingCategory());
+            UserDto sender = userService.getLoggedInUser();
+        }
+        catch(DoesNotExistException dnee){
+            model.addAttribute("info", dnee.getMessage());
+            model.addAttribute("hrefLink", "/user/startPage");
+            return "error";
+        }
+        model.addAttribute("hrefLink", "/user/startPage");
+        model.addAttribute("info", "Congratulations, your event has been successfully published.");
+        return "success";
+    }
+
     @PostMapping("/user/edit")
     public String edit(Model model, @ModelAttribute("loggedUser") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
         System.out.println("editPost1");
         setModelAttributes(model);
-        model.addAttribute("hrefLink", "/user/usersPage");
+        model.addAttribute("hrefLink", "/user/startPage");
         if (!bindingResult.hasErrors()) {
             try {
                 System.out.println("editPost" + userDto.getId());
@@ -92,7 +111,7 @@ public class UsersController {
     public String changePassword(Model model, @ModelAttribute("passwords") @Valid PasswordDto passwords,
                                  Errors errors, BindingResult bindingResult)
     {
-        model.addAttribute("hrefLink", "/user/usersPage");
+        model.addAttribute("hrefLink", "/user/startPage");
         setModelAttributes(model);
         if (!bindingResult.hasErrors()) {
             try {
@@ -136,7 +155,7 @@ public class UsersController {
         return "usersPage";
     }
 
-    @GetMapping("/user/startPage") //PasswordEncoder
+    @GetMapping("/user/startPage")
     public String startPage(Model model, String whatPageToShow) throws DoesNotExistException {//, String whatPageToShow
         setModelAttributes(model);
         model.addAttribute("user", new UserDto());
@@ -180,7 +199,7 @@ public class UsersController {
                 System.out.println("registerPost2 user");
             } catch (AlreadyExistException uaeEx) {
                 model.addAttribute("info", uaeEx.getMessage());
-                model.addAttribute("hrefLink", "usersPage");
+                model.addAttribute("hrefLink", "/user/startPage");
                 model.addAttribute("whatPageToShow", "PageAddUser");
                 return "error";
             }
@@ -197,7 +216,7 @@ public class UsersController {
         }
         System.out.println("registerPost");
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
-        model.addAttribute("hrefLink", "usersPage");
+        model.addAttribute("hrefLink", "/user/startPage");
         setModelAttributes(model);
         return "success"; //"register";
     }
@@ -237,7 +256,7 @@ public class UsersController {
         }
         System.out.println("loginPost");
         setModelAttributes(model);
-        return "/user/usersPage";
+        return "usersPage";
     }
 
     @PostMapping("/user/reset")
