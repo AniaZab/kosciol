@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/main","/main/**","/signup","/about").permitAll()
+                .antMatchers("/main","/main/**","/signup","/about","/changePassword2").permitAll()
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/event/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/recipient/**").hasAnyRole("USER", "ADMIN")
@@ -67,10 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //  .loginPage("/login") // tu ew mozesz zrobic wlasna strone do logowania
                 .permitAll();
-
-        //wylogowanie: podepnij wywolanie localhost:8080/logout
-        //zapisanie nowy odbiorcy nie dziala - blad w html?
-        //zmiana endpointow w UsersController
     }
 }     /*   http
                 .httpBasic()

@@ -30,8 +30,8 @@ var serverContext = "[[@{/}]]"
             });
     }
 
-var checkIfEmailMeetsRequirments_ChangeData = function() {
-    if(validateEmail(document.getElementById("inputEmailChangeData").value)){
+var checkIfEmailMeetsRequirments_ChangeData = function(elementID) {
+    if(validateEmail(document.getElementById(elementID).value)){
         return true;
     }
     else{
@@ -45,6 +45,41 @@ var checkIfPasswordsEqual_ChangePassword = function() {
     }
     else{
         alert ("\nPassword did not match: Please try again...")
+        return false;
+    }
+}
+
+const validateName = (name) => {
+    return String(name)
+        .toLowerCase()
+        .match(
+            /^([a-zA-Z\\xC0-\\uFFFF]+([ \-']{0,1}[a-zA-Z\\xC0-\\uFFFF]+)*[.]{0,1}){1,2}$/
+        );
+};
+
+var checkIfName = function(elementID, name) {
+    validName = /^[a-z ,.'-]+$/i
+    if(validName.test(document.getElementById(elementID).value)){
+        return true;
+    }
+    else{
+        if(name == 'l'){
+            alert ("\nLastname is not valid!")
+        }
+        else{
+            alert ("\nFirstname is not valid!")
+        }
+        return false;
+    }
+}
+
+var checkChangeUserDataForm = function(inputIdLastName, inputIdFirstName, inputIdEmail) {
+    if(checkIfName(inputIdLastName, 'l')==true &&
+        checkIfName(inputIdFirstName, 'f')==true &&
+        checkIfEmailMeetsRequirments_ChangeData(inputIdEmail)==true){
+        return true;
+    }
+    else{
         return false;
     }
 }

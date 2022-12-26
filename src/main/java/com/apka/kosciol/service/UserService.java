@@ -1,10 +1,12 @@
 package com.apka.kosciol.service;
 
+import com.apka.kosciol.dto.PasswordDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Role;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
+import com.apka.kosciol.exceptions.WrongPasswordException;
 import com.apka.kosciol.repository.IUser;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
@@ -139,13 +141,50 @@ public class UserService implements UserDetailsService {
         userRepository.save(setAllFieldsOfUser(userDto, new User(), true));
     }
 
+    public void changePassword(PasswordDto passwords) throws WrongPasswordException, DoesNotExistException {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //previousPassword = passwordEncoder.encode(previousPassword);
+        UserDto userLoggedIn = getLoggedInUser();
+        if(passwordEncoder.matches(passwords.getPreviousPassword(), userLoggedIn.getPassword())){
+            User user = userRepository.getOne(userLoggedIn.getId());
+            user.setChangedPassword(true);
+            user.setPassword(passwordEncoder.encode(passwords.getNewPassword()));
+            userRepository.save(user);
+        }
+        else{
+            throw new WrongPasswordException("Password does not match, please try again!");
+        }
+    }
+    public void changePassword2(PasswordDto passwords) throws WrongPasswordException, DoesNotExistException {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //previousPassword = passwordEncoder.encode(previousPassword);
+            User user = userRepository.getOne(1);
+            user.setChangedPassword(true);
+            user.setPassword(passwordEncoder.encode("t"));
+            userRepository.save(user);
+
+
+        /*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        previousPassword = passwordEncoder.encode(previousPassword);
+        UserDto userLoggedIn = getLoggedInUser();
+        if(userLoggedIn.getPassword().equals(previousPassword)){
+            User user = userRepository.getOne(userLoggedIn.getId());
+            user.setChangedPassword(true);
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        }
+        else{
+            throw new WrongPasswordException("Password does not match, please try again!");
+        }*/
+    }
+
     public UserDto getLoggedInUser() throws DoesNotExistException {
         int name = getNameOfLoggedUser();
         if(userRepository.existsById(name)){
             return setAllFieldsOfUserDto(userRepository.getOne(name));
         }
         else
-            throw new DoesNotExistException("There is no account with that id`: "+ name);
+            throw new DoesNotExistException("There is no account with that id: "+ name);
     }
 
     private int getNameOfLoggedUser(){

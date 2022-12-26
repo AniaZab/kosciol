@@ -1,11 +1,13 @@
 package com.apka.kosciol.controller;
 
 import com.apka.kosciol.dto.EventDto;
+import com.apka.kosciol.dto.PasswordDto;
 import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
+import com.apka.kosciol.exceptions.WrongPasswordException;
 import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.RecipientService;
 import com.apka.kosciol.service.TranslationService;
@@ -53,9 +55,8 @@ public class UsersController {
                 userService.edit(userDto);
             } catch (Exception eaeEx) {
                 System.out.println("Something went wrong edit");
-                model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit");
-                model.addAttribute("hrefLink", "edit/{"+userDto.getId()+"}");
-                System.out.println("ErrorAddPost");
+                model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit.");
+                model.addAttribute("hrefLink", "edit");
                 return "error";
             }
             model.addAttribute("info", "Congratulations, your data has been successfully edited.");
@@ -76,10 +77,52 @@ public class UsersController {
             }
 
             model.addAttribute("info", fullEr);
-            model.addAttribute("hrefLink", "/user/edit/{"+userDto.getId()+"}");
+            model.addAttribute("hrefLink", "/user/edit");
             return "error";
         }
-        //return "adduser";
+    }
+
+//metoda do usuniecia, byla na wszelki wypadek
+    @GetMapping("/changePassword2")
+    public String changePassword2(Model model) throws DoesNotExistException, WrongPasswordException {
+        userService.changePassword2(new PasswordDto());
+            return "error";
+
+    }
+
+    @PostMapping("/user/changePassword")
+    public String changePassword(Model model, @ModelAttribute("passwords") @Valid PasswordDto passwords,
+                                 Errors errors, BindingResult bindingResult)
+    {
+        setModelAttributes(model);
+        if (!bindingResult.hasErrors()) {
+            try {
+                userService.changePassword(passwords);
+            } catch (Exception eaeEx) {
+                model.addAttribute("info", eaeEx.getMessage() +" Something went wrong in changing password.");
+                model.addAttribute("hrefLink", "/user/changePassword");
+                return "error";
+            }
+            model.addAttribute("info", "Congratulations, your password has been successfully edited.");
+            model.addAttribute("hrefLink", "/user/startPage");
+            return "success";
+        }
+        else{
+            System.out.println("Wrong bindingResult");
+            String[] fields = { "title", "startDate", "startTime", "finishDate"};
+            String fullEr = "";
+            for (String field : fields) {
+                if (errors.hasFieldErrors(field)) {
+                    String er = field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
+                    System.out.println(er);
+                    fullEr+=er;
+                }
+            }
+
+            model.addAttribute("info", fullEr);
+            model.addAttribute("hrefLink", "/user/changePassword");
+            return "error";
+        }
     }
 
     @RequestMapping("/user/startPage/language")
@@ -98,10 +141,11 @@ public class UsersController {
         return "usersPage";
     }
 
-    @GetMapping("/user/startPage")
+    @GetMapping("/user/startPage") //PasswordEncoder
     public String startPage(Model model, String whatPageToShow) throws DoesNotExistException {//, String whatPageToShow
         setModelAttributes(model);
         model.addAttribute("user", new UserDto());
+        model.addAttribute("passwords", new PasswordDto());
         model.addAttribute("loggedUser", userService.getLoggedInUser());
         if(Objects.isNull(whatPageToShow))
         {
