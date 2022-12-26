@@ -174,7 +174,7 @@
                     <td th:text="${eventToDisplay.place}"></td>
                     <td th:text="${eventToDisplay.description}"></td>
                     <td>
-                        <a th:text="${pageEventsPage_publish_event}" href="#" id="publishRow" class="btn btn-success btn-sm"></a>
+                        <a th:text="${pageEventsPage_publish_event}" th:href="@{/user/publish/{id}(id=${eventToDisplay.id})}" id="publishRow" class="btn btn-success btn-sm"></a>
                         <a th:text="${pageEventsPage_edit_event}" th:href="@{/event/edit/{id}(id=${eventToDisplay.id})}" id="editRow" class="btn btn-info btn-sm"></a>
                         <a th:text="${pageEventsPage_delete_event}" th:href="@{/event/delete/{id}(id=${eventToDisplay.id})}" id="delitRow" class="btn btn-danger btn-sm"
                            onclick="return confirm('Are you sure you want to delete this item?');"></a>

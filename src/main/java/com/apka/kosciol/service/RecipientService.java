@@ -96,11 +96,11 @@ public class RecipientService {
         recipientRepository.save(recipient);
     }
 
-    public List<Recipient> getRecipientsOfTheMeetingCategory(MeetingCategory meetingCategory){
+    public List<RecipientDto> getRecipientsOfTheMeetingCategory(MeetingCategory meetingCategory){
         List<Subscription> subscriptionList = subscriptionRepository.findAllByMeetingCategory(meetingCategory);
-        List<Recipient> recipientList = new ArrayList<>();
+        List<RecipientDto> recipientList = new ArrayList<>();
         for (Subscription subscription: subscriptionList) {
-            recipientList.add(subscription.getRecipient());
+            recipientList.add(setAllFieldsOfEventDto(subscription.getRecipient()));
         }
         return recipientList;
     }
