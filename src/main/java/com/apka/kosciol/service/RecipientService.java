@@ -96,6 +96,15 @@ public class RecipientService {
         recipientRepository.save(recipient);
     }
 
+    public List<Recipient> getRecipientsOfTheMeetingCategory(MeetingCategory meetingCategory){
+        List<Subscription> subscriptionList = subscriptionRepository.findAllByMeetingCategory(meetingCategory);
+        List<Recipient> recipientList = new ArrayList<>();
+        for (Subscription subscription: subscriptionList) {
+            recipientList.add(subscription.getRecipient());
+        }
+        return recipientList;
+    }
+
     private boolean idExists(Integer id) {
         return recipientRepository.existsById(id); //metoda exist, w repo ja napisac
     }
