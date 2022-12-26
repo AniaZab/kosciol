@@ -44,7 +44,7 @@ var checkIfPasswordsEqual_ChangePassword = function() {
         return true;
     }
     else{
-        alert ("\nPassword did not match: Please try again...")
+        alert ("\nPasswords did not match: Please try again...")
         return false;
     }
 }

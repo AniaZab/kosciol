@@ -152,7 +152,7 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
         }
         else{
-            throw new WrongPasswordException("Password does not match, please try again!");
+            throw new WrongPasswordException("Current and given passwords did not match, please try again!");
         }
     }
     public void changePassword2(PasswordDto passwords) throws WrongPasswordException, DoesNotExistException {
@@ -162,20 +162,6 @@ public class UserService implements UserDetailsService {
             user.setChangedPassword(true);
             user.setPassword(passwordEncoder.encode("t"));
             userRepository.save(user);
-
-
-        /*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        previousPassword = passwordEncoder.encode(previousPassword);
-        UserDto userLoggedIn = getLoggedInUser();
-        if(userLoggedIn.getPassword().equals(previousPassword)){
-            User user = userRepository.getOne(userLoggedIn.getId());
-            user.setChangedPassword(true);
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
-        }
-        else{
-            throw new WrongPasswordException("Password does not match, please try again!");
-        }*/
     }
 
     public UserDto getLoggedInUser() throws DoesNotExistException {

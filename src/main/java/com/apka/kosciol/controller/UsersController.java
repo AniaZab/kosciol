@@ -49,18 +49,17 @@ public class UsersController {
     public String edit(Model model, @ModelAttribute("loggedUser") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
         System.out.println("editPost1");
         setModelAttributes(model);
+        model.addAttribute("hrefLink", "/user/startPage");
         if (!bindingResult.hasErrors()) {
             try {
                 System.out.println("editPost" + userDto.getId());
                 userService.edit(userDto);
             } catch (Exception eaeEx) {
                 System.out.println("Something went wrong edit");
-                model.addAttribute("info", eaeEx.getMessage() +" Something went wrong edit.");
-                model.addAttribute("hrefLink", "edit");
+                model.addAttribute("info", eaeEx.getMessage());
                 return "error";
             }
             model.addAttribute("info", "Congratulations, your data has been successfully edited.");
-            model.addAttribute("hrefLink", "/user/startPage"); ////user/list
             System.out.println("userEditPost");
             return "success";
         }
@@ -75,7 +74,6 @@ public class UsersController {
                     fullEr+=er;
                 }
             }
-
             model.addAttribute("info", fullEr);
             model.addAttribute("hrefLink", "/user/edit");
             return "error";
@@ -94,17 +92,16 @@ public class UsersController {
     public String changePassword(Model model, @ModelAttribute("passwords") @Valid PasswordDto passwords,
                                  Errors errors, BindingResult bindingResult)
     {
+        model.addAttribute("hrefLink", "/user/usersPage");
         setModelAttributes(model);
         if (!bindingResult.hasErrors()) {
             try {
                 userService.changePassword(passwords);
             } catch (Exception eaeEx) {
-                model.addAttribute("info", eaeEx.getMessage() +" Something went wrong in changing password.");
-                model.addAttribute("hrefLink", "/user/changePassword");
+                model.addAttribute("info", eaeEx.getMessage());
                 return "error";
             }
             model.addAttribute("info", "Congratulations, your password has been successfully edited.");
-            model.addAttribute("hrefLink", "/user/startPage");
             return "success";
         }
         else{
@@ -118,9 +115,7 @@ public class UsersController {
                     fullEr+=er;
                 }
             }
-
             model.addAttribute("info", fullEr);
-            model.addAttribute("hrefLink", "/user/changePassword");
             return "error";
         }
     }
