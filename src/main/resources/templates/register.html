@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title th:text="${pageRegister_Title}"></title>
     <script type="text/javascript" th:src="@{/userPage/register.js}"></script>
-    <link rel="stylesheet" th:href="@{/main/login.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/login/login_style.css}" type="text/css" />
 </head>
 <body>
 
@@ -16,13 +16,17 @@
           th:object="${user}" style="background-color: ivory;">
         <div class="imgcontainer">
             <span onclick="document.getElementById('idRegister').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+            <h1>Zarejestruj się</h1>
         </div>
         <div class="container">
             <label>Login</label>
             <input type="text" class="form-control" name="login" id="inputLogin"
                    placeholder="Login"  th:field="*{login}">
             <div style="display:none" id="errorLogin"></div>
+            <label>Email</label>
+            <input type="text" class="form-control" name="email" id="inputEmail"
+                   placeholder="Email"  th:field="*{email}">
+            <div style="display:none" id="errorEmail"></div>
             <label th:text="${pageRegister_new_password}"></label>
             <input type="password" name="password1" class="form-control" id="inputPassword1"
                th:placeholder="${pageRegister_new_password}" th:field="*{password}">

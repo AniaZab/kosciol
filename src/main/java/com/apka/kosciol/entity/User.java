@@ -2,6 +2,7 @@ package com.apka.kosciol.entity;
 
 import com.apka.kosciol.validations.PasswordMatches;
 import com.apka.kosciol.validations.ValidEmail;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -10,7 +11,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 //@PasswordMatches
+@Data
 @Entity
+@Table(name="User_Account")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,15 +37,16 @@ public class User {
     private String lastName;
 
     @NotNull
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = false, length = 500)
     private String password;
 
     @Column(name = "qtyOfWrongPassword")
     private Integer qtyOfWrongPassword;
 
     //@NotNull
-    @Column(name = "role", nullable = false, length = 5)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 50)
+    private Role role;
 
     @Column(name = "active")
     private Boolean active;
@@ -50,8 +54,19 @@ public class User {
     @Column(name = "changedPassword")
     private Boolean changedPassword;
 
-    @OneToMany(mappedBy = "idUser")
+    @OneToMany(mappedBy = "user_user")
     private Set<Event> events = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "userUser")
+    private Set<Recipient> recipients = new LinkedHashSet<>();
+
+    public Set<Recipient> getRecipients() {
+        return recipients;
+    }
+
+    public void setRecipients(Set<Recipient> recipients) {
+        this.recipients = recipients;
+    }
 
     public Set<Event> getEvents() {
         return events;
@@ -61,14 +76,8 @@ public class User {
         this.events = events;
     }
 
-    public Boolean getChangedPassword() {
-        return changedPassword;
-    }
 
-    public void setChangedPassword(Boolean changedPassword) {
-        this.changedPassword = changedPassword;
-    }
-
+    /*
     public Boolean getActive() {
         return active;
     }
@@ -77,11 +86,11 @@ public class User {
         this.active = active;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -139,7 +148,7 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
-    }
+    }*/
 
 
 

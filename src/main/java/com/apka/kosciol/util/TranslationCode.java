@@ -20,6 +20,7 @@ public class TranslationCode {
             "pageNewEvents_table_title",
             "pageNewEvents_table_when",
             "pageNewEvents_table_ForWho",
+            "pageNewEvents_table_place",
             "pageNewEvents_table_description",
             "pageNewEvents_table_extraInfo",
             "pageNewEvents_table_list",
@@ -54,6 +55,7 @@ public class TranslationCode {
             "pageAddEvent_form_placeholder_ForWho",
             "pageAddEvent_form_placeholder_description",
             "pageAddEvent_form_placeholder_extraInfo",
+            "pageAddEvent_form_placeholder_place",
             "pageAddEvent_form_button_reset",
             "pageAddEvent_form_button_submit",
 
@@ -69,7 +71,27 @@ public class TranslationCode {
             "pageLogin_Title",
             "pageLogin_password",
 
-            "pageResetPassword_Title"
+            "pageResetPassword_Title",
+
+            "pageEventsPage_Title",
+            "pageEventsPage_add_new_event",
+            "pageEventsPage_edit_event",
+            "pageEventsPage_delete_event",
+            "pageEventsPage_publish_event",
+            "pageEvent_addTitle",
+            "pageEvent_editTitle",
+
+            "pageUsers_logout",
+            "pageUsers_ChangeUserData_Title",
+            "pageUsers_ChangeUserPassword_Title",
+            "pageUsers_RecipientsList",
+            "pageUsers_options",
+
+            "pageAny_reset",
+
+            "pageRecipient_addTitle",
+            "pageRecipient_editTitle",
+            "pageRecipient_recipientList"
     };
 }
 //         pageRegularEvents_Title

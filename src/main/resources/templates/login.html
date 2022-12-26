@@ -14,28 +14,33 @@
 <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
 
 <div id="id01" class="modal">
-    <form onsubmit="return checkLoginForm(this)" class="modal-content animate" method="post" action="#" th:action="@{login}" th:object="${user}">
+    <form onsubmit="return checkLoginForm(this)" class="modal-content animate"
+          method="post" action="#" th:action="@{login}" th:object="${user}"
+          style="background-color: ivory;">
         <div class="imgcontainer">
             <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+
+            <div class="col-sm-3 px-0">
+                <img th:src="@{/main/person.svg}" alt="Avatar" class="avatar img-responsive" style="width: 10%" >
+            </div>
         </div>
 
         <div class="container">
-            <label><b>Username</b></label>
-            <input type="text" th:field="*{login}" placeholder="Enter Username" name="uname" required>
+            <label><b>Login</b></label>
+            <input type="text" th:field="*{login}" placeholder="Podaj login" name="uname" required>
 
-            <label><b>Password</b></label>
-            <input type="password" th:field="*{password}" placeholder="Enter Password" name="psw" required>
+            <label><b>Hasło</b></label>
+            <input type="password" th:field="*{password}" placeholder="Podaj hasło" name="psw" required>
 
-            <button type="submit" onclick="window.location.href='/user/login'">Login</button>
+            <button type="submit" onclick="window.location.href='/user/login'">Zaloguj się</button>
             <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
+                <input type="checkbox" checked="checked" name="remember"> Zapamiętaj mnie
             </label>
         </div>
 
         <div class="container" style="background-color:#f1f1f1">
-            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-            <span class="psw">Forgot <a href="#">password?</a></span>
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Anuluj</button>
+            <span class="psw">Zapomniałeś/łaś <a href="#">hasła?</a></span>
         </div>
     </form>
 </div>
