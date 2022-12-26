@@ -49,7 +49,7 @@ public class UsersController {
     public String edit(Model model, @ModelAttribute("loggedUser") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
         System.out.println("editPost1");
         setModelAttributes(model);
-        model.addAttribute("hrefLink", "/user/startPage");
+        model.addAttribute("hrefLink", "/user/usersPage");
         if (!bindingResult.hasErrors()) {
             try {
                 System.out.println("editPost" + userDto.getId());
@@ -180,7 +180,7 @@ public class UsersController {
                 System.out.println("registerPost2 user");
             } catch (AlreadyExistException uaeEx) {
                 model.addAttribute("info", uaeEx.getMessage());
-                model.addAttribute("hrefLink", "startPage");
+                model.addAttribute("hrefLink", "usersPage");
                 model.addAttribute("whatPageToShow", "PageAddUser");
                 return "error";
             }
@@ -197,7 +197,7 @@ public class UsersController {
         }
         System.out.println("registerPost");
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
-        model.addAttribute("hrefLink", "startPage");
+        model.addAttribute("hrefLink", "usersPage");
         setModelAttributes(model);
         return "success"; //"register";
     }
@@ -237,7 +237,7 @@ public class UsersController {
         }
         System.out.println("loginPost");
         setModelAttributes(model);
-        return "/user/startPage";
+        return "/user/usersPage";
     }
 
     @PostMapping("/user/reset")
