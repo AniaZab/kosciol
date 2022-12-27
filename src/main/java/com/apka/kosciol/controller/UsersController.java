@@ -9,10 +9,7 @@ import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
 import com.apka.kosciol.exceptions.WrongPasswordException;
-import com.apka.kosciol.service.EventService;
-import com.apka.kosciol.service.RecipientService;
-import com.apka.kosciol.service.TranslationService;
-import com.apka.kosciol.service.UserService;
+import com.apka.kosciol.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -38,12 +35,14 @@ public class UsersController {
     private UserService userService;
     private EventService eventService;
     private RecipientService recipientService;
+    private PublishService publishService;
 
-    public UsersController(EventService eventService, TranslationService translationService, UserService userService, RecipientService recipientService) {
+    public UsersController(PublishService publishService, EventService eventService, TranslationService translationService, UserService userService, RecipientService recipientService) {
         this.userService = userService;
         this.translationService = translationService;
         this.eventService = eventService;
         this.recipientService = recipientService;
+        this.publishService = publishService;
     }
 
     @GetMapping("/user/publish/{id}")
@@ -53,6 +52,7 @@ public class UsersController {
             EventDto eventToSend = eventService.findEventDtoById(id);
             List<RecipientDto> recipientList = recipientService.getRecipientsOfTheMeetingCategory(eventToSend.getMeetingCategory());
             UserDto sender = userService.getLoggedInUser();
+            publishService.publish(eventToSend, recipientList, sender);
         }
         catch(DoesNotExistException dnee){
             model.addAttribute("info", dnee.getMessage());

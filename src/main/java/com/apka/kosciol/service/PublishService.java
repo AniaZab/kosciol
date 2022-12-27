@@ -6,6 +6,9 @@ import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -15,10 +18,13 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Properties;
 
-@Service
+@Service("emailService")
 @RequiredArgsConstructor
 public class PublishService {
 
+    @Autowired
+    private JavaMailSender mailSender;
+    /*
     private EventDto eventToSend;
     private List<RecipientDto> recipientDtoList;
     private UserDto sender;
@@ -27,12 +33,12 @@ public class PublishService {
         this.eventToSend = eventToSend;
         this.recipientDtoList = recipientDtoList;
         this.sender = sender;
-    }
+    }*/
 
     //EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender
-    public void publish(){
+    public void publish(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender){
         if(eventToSend.getEmailPublish()){
-            publishEmail();
+            publishEmail(eventToSend, recipientDtoList, sender);
         }
         if(eventToSend.getFacebookPublish()){
             publishFacebook();
@@ -41,8 +47,17 @@ public class PublishService {
             publishMessenger();
         }
     }
+    private void publishEmail(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(sender.getEmail());
+        message.setTo(sender.getEmail());
+        message.setText("cos");
+        message.setSubject("subject");
+        mailSender.send(message);
+        System.out.println("Sent message successfully....");
+    }
 
-    private void publishEmail(){
+    /*private void publishEmail2(){
         String from = sender.getEmail();
         Authenticator auth = new Email_Autherticator();
 
@@ -52,11 +67,11 @@ public class PublishService {
        // prop.setProperty("mail.smtp.host", host);
 
         Session session = Session.getInstance(MailConfiguration.getConfiguration(), auth);
-        /*Session session = Session.getDefaultInstance(prop,
+        *//*Session session = Session.getDefaultInstance(prop,
                 new Authenticator(){
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication("username", "password");
-                    }});*/
+                    }});*//*
         System.out.println("auth");
         try {
             MimeMessage message = new MimeMessage(session);
@@ -78,7 +93,7 @@ public class PublishService {
             mex.printStackTrace();
         }
         //prepareEmail();
-    }
+    }*/
 
     private void publishFacebook(){}
 
