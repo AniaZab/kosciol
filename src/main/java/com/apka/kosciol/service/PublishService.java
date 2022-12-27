@@ -54,6 +54,8 @@ public class PublishService {
         message.setText("cos");
         message.setSubject("subject");
         mailSender.send(message);
+        // link do strony: https://howtodoinjava.com/spring-core/send-email-with-spring-javamailsenderimpl-example/
+        // link do yt: https://www.youtube.com/watch?v=ugIUObNHZdo&t=213s
         System.out.println("Sent message successfully....");
     }
 
