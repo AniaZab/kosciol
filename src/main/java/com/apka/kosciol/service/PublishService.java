@@ -7,14 +7,19 @@ import com.apka.kosciol.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.util.List;
 import java.util.Properties;
 
@@ -47,7 +52,7 @@ public class PublishService {
             publishMessenger();
         }
     }
-    private void publishEmail(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender){
+    /*private void publishEmail(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(sender.getEmail());
         message.setTo(sender.getEmail());
@@ -56,6 +61,39 @@ public class PublishService {
         mailSender.send(message);
         // link do strony: https://howtodoinjava.com/spring-core/send-email-with-spring-javamailsenderimpl-example/
         // link do yt: https://www.youtube.com/watch?v=ugIUObNHZdo&t=213s
+        System.out.println("Sent message successfully....");
+    }*/
+    private void publishEmail(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender){
+        String from = sender.getEmail();
+        MimeMessagePreparator preparator = new MimeMessagePreparator()
+        {
+            public void prepare(MimeMessage mimeMessage) throws Exception
+            {
+                mimeMessage.setFrom(new InternetAddress(from));
+                for (RecipientDto recipientDto:
+                        recipientDtoList) {
+                    mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientDto.getEmail()));
+                }
+                mimeMessage.setSubject(eventToSend.getMeetingCategory().getDisplayValue() + ": " + eventToSend.getTitle());
+                mimeMessage.setText(eventToSend.getDescription());
+
+
+                /*MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+                helper.setText("<html><body><img src='cid:identifier1234'></body></html>", true);
+
+                FileSystemResource res = new FileSystemResource(new File("C:\\Users\\aniaz\\Documents\\studia\\semestr6\\progr_w_int\\kosciol\\src\\main\\resources\\static\\main\\bible.jpg"));
+                helper.addInline("identifier1234", res);*/
+            }
+        };
+
+        try {
+            mailSender.send(preparator);
+        }
+        catch (MailException ex) {
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
+        }
         System.out.println("Sent message successfully....");
     }
 
