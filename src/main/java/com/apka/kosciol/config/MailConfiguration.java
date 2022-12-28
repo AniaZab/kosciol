@@ -2,25 +2,16 @@ package com.apka.kosciol.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 import java.util.Properties;
 
 @Configuration
 public class MailConfiguration {
-   /* public static Properties getConfiguration(){
-        Properties prop = System.getProperties();
-        //props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-        //props.setProperty("mail.smtp.socketFactory.fallback", "false");
-        //prop.setProperty("mail.smtp.socketFactory.port", "465");
-        prop.put("mail.smtp.auth", true); // włączenie autoryzacji
-        prop.put("mail.smtp.starttls.enable", "true"); //ukrywamy protokół
-        prop.put("mail.smtp.host", "smtp.gmail.com"); // adres hosta
-        prop.put("mail.smtp.port", "587"); //587 - javax.mail.MessagingException: Could not convert socket to TLS;
-        //prop.put("mail.debug", "true");
-        return prop;
-    }*/
+
     @Bean
     public JavaMailSender getJavaMailSender()
     {
@@ -38,5 +29,12 @@ public class MailConfiguration {
         props.put("mail.debug", "true");
 
         return mailSender;
+    }
+    @Primary
+    @Bean
+    public FreeMarkerConfigurationFactoryBean factoryBean() {
+        FreeMarkerConfigurationFactoryBean bean=new FreeMarkerConfigurationFactoryBean();
+        bean.setTemplateLoaderPath("classpath:/templates");
+        return bean;
     }
 }

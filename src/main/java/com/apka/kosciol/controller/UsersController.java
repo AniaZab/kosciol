@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class UsersController {
             UserDto sender = userService.getLoggedInUser();
             publishService.publish(eventToSend, recipientList, sender);
         }
-        catch(DoesNotExistException dnee){
+        catch(DoesNotExistException | MessagingException dnee){
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             return "error";
