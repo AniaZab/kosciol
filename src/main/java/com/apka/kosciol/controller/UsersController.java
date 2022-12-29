@@ -49,13 +49,12 @@ public class UsersController {
     @GetMapping("/user/publish/{id}")
     public String publish(Model model, @PathVariable Integer id) {
         setModelAttributes(model);
-        try{
+        try {
             EventDto eventToSend = eventService.findEventDtoById(id);
             List<RecipientDto> recipientList = recipientService.getRecipientsOfTheMeetingCategory(eventToSend.getMeetingCategory());
             UserDto sender = userService.getLoggedInUser();
             publishService.publish(eventToSend, recipientList, sender);
-        }
-        catch(DoesNotExistException | MessagingException dnee){
+        } catch (DoesNotExistException | MessagingException dnee) {
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             return "error";
@@ -82,16 +81,15 @@ public class UsersController {
             model.addAttribute("info", "Congratulations, your data has been successfully edited.");
             System.out.println("userEditPost");
             return "success";
-        }
-        else{
+        } else {
             System.out.println("Wrong bindingResult");
-            String[] fields = { "title", "startDate", "startTime", "finishDate"};
+            String[] fields = {"title", "startDate", "startTime", "finishDate"};
             String fullEr = "";
             for (String field : fields) {
                 if (errors.hasFieldErrors(field)) {
-                    String er = field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
+                    String er = field + "Error" + Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
                     System.out.println(er);
-                    fullEr+=er;
+                    fullEr += er;
                 }
             }
             model.addAttribute("info", fullEr);
@@ -100,18 +98,17 @@ public class UsersController {
         }
     }
 
-//metoda do usuniecia, byla na wszelki wypadek
+    //metoda do usuniecia, byla na wszelki wypadek
     @GetMapping("/changePassword2")
     public String changePassword2(Model model) throws DoesNotExistException, WrongPasswordException {
         userService.changePassword2(new PasswordDto());
-            return "error";
+        return "error";
 
     }
 
     @PostMapping("/user/changePassword")
     public String changePassword(Model model, @ModelAttribute("passwords") @Valid PasswordDto passwords,
-                                 Errors errors, BindingResult bindingResult)
-    {
+                                 Errors errors, BindingResult bindingResult) {
         model.addAttribute("hrefLink", "/user/startPage");
         setModelAttributes(model);
         if (!bindingResult.hasErrors()) {
@@ -123,16 +120,15 @@ public class UsersController {
             }
             model.addAttribute("info", "Congratulations, your password has been successfully edited.");
             return "success";
-        }
-        else{
+        } else {
             System.out.println("Wrong bindingResult");
-            String[] fields = { "title", "startDate", "startTime", "finishDate"};
+            String[] fields = {"title", "startDate", "startTime", "finishDate"};
             String fullEr = "";
             for (String field : fields) {
                 if (errors.hasFieldErrors(field)) {
-                    String er = field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
+                    String er = field + "Error" + Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage();
                     System.out.println(er);
-                    fullEr+=er;
+                    fullEr += er;
                 }
             }
             model.addAttribute("info", fullEr);
@@ -143,38 +139,23 @@ public class UsersController {
     @RequestMapping("/user/startPage/language")
     public String setLanguage(Model model, @RequestParam("lang") String lang) {
         Locale.setDefault(new Locale(lang));
-        setModelAttributes(model);
-        User user = new User();
-        model.addAttribute("user", user);
-        model.addAttribute("loggedUser", user);
-        model.addAttribute("whatPageToShow", "PageChangeUserPassword");
-        List<EventDto> eventDtoList = eventService.returnAllEvents();
-        model.addAttribute("eventsListToDisplay", eventDtoList);
-        List<RecipientDto> recipientDtoList = recipientService.returnAllRecipients();
-        model.addAttribute("recipientsListToDisplay", recipientDtoList);
-
+        try{
+            setStartPageModel(model);
+        } catch (DoesNotExistException eaeEx) {
+            model.addAttribute("info", eaeEx.getMessage());
+            return "error";
+        }
         return "usersPage";
     }
 
     @GetMapping("/user/startPage")
-    public String startPage(Model model, String whatPageToShow) throws DoesNotExistException {//, String whatPageToShow
-        setModelAttributes(model);
-        model.addAttribute("user", new UserDto());
-        model.addAttribute("passwords", new PasswordDto());
-        model.addAttribute("loggedUser", userService.getLoggedInUser());
-        if(Objects.isNull(whatPageToShow))
-        {
-            model.addAttribute("whatPageToShow", "PageChangeUserPassword");
+    public String startPage(Model model) {//, String whatPageToShow
+        try{
+            setStartPageModel(model);
+        } catch (DoesNotExistException eaeEx) {
+            model.addAttribute("info", eaeEx.getMessage());
+            return "error";
         }
-        else{
-            model.addAttribute("whatPageToShow", whatPageToShow);
-        }
-
-        List<RecipientDto> recipientDtoList = recipientService.returnAllRecipients();
-        model.addAttribute("recipientsListToDisplay", recipientDtoList);
-        List<EventDto> eventDtoList = eventService.returnAllEvents();
-        model.addAttribute("eventsListToDisplay", eventDtoList);
-
         return "usersPage";
     }
 
@@ -204,14 +185,13 @@ public class UsersController {
                 model.addAttribute("whatPageToShow", "PageAddUser");
                 return "error";
             }
-        }
-        else{
+        } else {
             System.out.println(bindingResult.hasErrors());
-            String[] fields = { "login", "role", "password", "id_user"};
+            String[] fields = {"login", "role", "password", "id_user"};
 
             for (String field : fields) {
                 if (errors.hasFieldErrors(field)) {
-                    System.out.println((field + "Error"+ Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage()));
+                    System.out.println((field + "Error" + Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage()));
                 }
             }
         }
@@ -221,6 +201,7 @@ public class UsersController {
         setModelAttributes(model);
         return "success"; //"register";
     }
+
     @GetMapping("/user/success")
     public String success(Model model) {
         model.addAttribute("info", "Congratulations, your account has been successfully created.");
@@ -228,6 +209,7 @@ public class UsersController {
 
         return "success";
     }
+
     @GetMapping("/user/error")
     public String error(Model model) {
         model.addAttribute("info", "Error, your account has not been successfully created.");
@@ -247,9 +229,8 @@ public class UsersController {
     @PostMapping("/login")
     public String login(Model model, @Valid UserDto user, Errors errors, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            try{
-            }
-            catch(Exception e){
+            try {
+            } catch (Exception e) {
                 model.addAttribute("info", e.getMessage());
                 model.addAttribute("hrefLink", "/main");
                 return "error";
@@ -289,5 +270,20 @@ public class UsersController {
         for (int i = 0; i < translation.length; i++) {
             model.addAttribute(names[i], translation[i]);
         }
+    }
+
+    private void setStartPageModel(Model model) throws DoesNotExistException {
+        setModelAttributes(model);
+        model.addAttribute("user", new UserDto());
+        model.addAttribute("passwords", new PasswordDto());
+        model.addAttribute("loggedUser", userService.getLoggedInUser());
+
+        List<RecipientDto> recipientDtoList = recipientService.returnAllRecipients();
+        model.addAttribute("whatPageToShow", "PageEvents");
+        model.addAttribute("recipientsListToDisplay", recipientDtoList);
+        List<EventDto> eventDtoList = eventService.returnAllEvents();
+        model.addAttribute("eventsListToDisplay", eventDtoList);
+
+        //return model;
     }
 }
