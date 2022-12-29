@@ -50,10 +50,6 @@ public class PublishService {
     private void publishEmail(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender) throws MessagingException {
         String from = sender.getEmail();
         MimeMessage message = mailSender.createMimeMessage();
-        for (RecipientDto recipientDto :
-                recipientDtoList) {
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientDto.getEmail()));
-        }
         try {
             MimeMessageHelper mimeMessage = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
@@ -61,11 +57,32 @@ public class PublishService {
 
             mimeMessage.setSubject(eventToSend.getMeetingCategory().getDisplayValue() + ": " + eventToSend.getTitle());
             Map<String, Object> model = new HashMap<>();
-            model.put("Name", sender.getLogin());
+            model.put("Title", eventToSend.getTitle());
+            model.put("Place", eventToSend.getPlace());
+            model.put("WhenStart", eventToSend.getStartDate() + " o godz. " + eventToSend.getStartTime());
+            model.put("WhenFinish", eventToSend.getFinishDate() + " o godz. " + eventToSend.getFinishTime());
+            model.put("RecipientCategory", eventToSend.getRecipientCategory().getDisplayValue());
+            model.put("Description", eventToSend.getDescription());
+            if(sender.getFirstName()==null && sender.getLastName()==null){
+                model.put("SenderName", sender.getLogin());
+            }
+            else{
+                model.put("SenderName", sender.getFirstName() + " " + sender.getLastName());
+            }
             model.put("location", "Bangalore,India");
-            mimeMessage.setText(geContentFromTemplate(model), true);
-            mailSender.send(message);
-            System.out.println("Sent message successfully....");
+            for (RecipientDto recipientDto :
+                    recipientDtoList) {
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientDto.getEmail()));
+                if(recipientDto.getFirstName()==null && recipientDto.getLastName()==null){
+                    model.put("RecipientName", "XYZ");
+                }
+                else{
+                    model.put("RecipientName", recipientDto.getFirstName() + " " + recipientDto.getLastName());
+                }
+                mimeMessage.setText(geContentFromTemplate(model), true);
+                mailSender.send(message);
+                System.out.println("Sent message successfully....");
+            }
         } catch (AddressException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
@@ -75,7 +92,7 @@ public class PublishService {
 
     private String geContentFromTemplate(Map<String, Object> model) {
         try {
-            Template t = config.getTemplate("mail-template.ftl");
+            Template t = config.getTemplate("mail.ftl"); //mail-template
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
             return html;
         } catch (Exception e) {
