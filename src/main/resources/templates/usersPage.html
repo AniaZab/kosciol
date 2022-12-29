@@ -80,7 +80,6 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th th:text="${pageNewEvents_table_category}" scope="col"></th>
                     <th th:text="${pageRegister_first_name}" scope="col"></th>
                     <th th:text="${pageRegister_last_name}" scope="col"></th>
                     <th scope="col">Email</th>
@@ -90,7 +89,6 @@
                 <tbody th:each="recipientToDisplay, stats : ${recipientsListToDisplay}">
                 <tr>
                     <th scope="row" th:text="${stats.index+1}"></th>
-                    <td>Nie ma jeszcze tego pola</td>
                     <td th:text="${recipientToDisplay.firstName}"></td>
                     <td th:text="${recipientToDisplay.lastName}"></td>
                     <td th:text="${recipientToDisplay.email}"></td>
@@ -110,7 +108,6 @@
                 <tfoot>
                 <tr>
                     <th scope="col">#</th>
-                    <th th:text="${pageNewEvents_table_category}" scope="col"></th>
                     <th th:text="${pageRegister_first_name}" scope="col"></th>
                     <th th:text="${pageRegister_last_name}" scope="col"></th>
                     <th scope="col">Email</th>
