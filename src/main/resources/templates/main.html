@@ -46,8 +46,9 @@
                         <a class="nav-link" href="#contact" th:text="${contact_Title}"></a>
                     </li>
                 </ul>
+                <!--                        onclick="document.getElementById('PageLogin').style.display='block'"-->
                 <button type="button" name="logout" style="color: white"
-                        onclick="document.getElementById('PageLogin').style.display='block'"
+                        onclick="window.location.href='/user/startPage'"
                         class="btn nav-item d-flex mx-1" th:text="${pageLogin_Title}">
                 </button>
                 <button class="btn language_button nav-item pl_button mx-1" style="float: right" th:text="pl"
