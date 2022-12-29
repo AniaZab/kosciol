@@ -8,6 +8,7 @@ import com.apka.kosciol.entity.Recipient;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
+import com.apka.kosciol.exceptions.MissingDataException;
 import com.apka.kosciol.exceptions.WrongPasswordException;
 import com.apka.kosciol.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -51,10 +52,11 @@ public class UsersController {
         setModelAttributes(model);
         try {
             EventDto eventToSend = eventService.findEventDtoById(id);
+            eventService.checkIfAllDataIsFilled(eventToSend);
             List<RecipientDto> recipientList = recipientService.getRecipientsOfTheMeetingCategory(eventToSend.getMeetingCategory());
             UserDto sender = userService.getLoggedInUser();
             publishService.publish(eventToSend, recipientList, sender);
-        } catch (DoesNotExistException | MessagingException dnee) {
+        } catch (DoesNotExistException | MessagingException | MissingDataException dnee) {
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
             return "error";

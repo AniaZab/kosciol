@@ -5,6 +5,7 @@ import com.apka.kosciol.entity.Event;
 import com.apka.kosciol.entity.Status;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
+import com.apka.kosciol.exceptions.MissingDataException;
 import com.apka.kosciol.repository.IEvent;
 import org.springframework.stereotype.Service;
 
@@ -96,6 +97,16 @@ public class EventService  { //extends AbstractChangeService
         eventRepository.save(event);
     }
 
+
+
+    public boolean checkIfAllDataIsFilled(EventDto eventDto) throws DoesNotExistException, MissingDataException {
+        if(eventDto.getDescription()==null || eventDto.getPlace()==null || eventDto.getFinishDate()==null
+        || eventDto.getFinishTime()==null || eventDto.getStartDate()==null || eventDto.getStartTime()==null){
+            throw new MissingDataException("This event does not have all the data filled, please fill all the fields.");
+        }
+        return true;
+    }
+
     private boolean titleExists(String title) {
         return eventRepository.existsEventByTitle(title); //metoda exist, w repo ja napisac
     }
@@ -171,4 +182,5 @@ public class EventService  { //extends AbstractChangeService
         eventDto.setStatus(event.getStatus());
         return eventDto;
     }
+
 }
