@@ -4,6 +4,7 @@ import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.MeetingCategory;
 import com.apka.kosciol.entity.RecipientCategory;
+import com.apka.kosciol.service.EventService;
 import com.apka.kosciol.service.TranslationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,21 +26,12 @@ import static com.apka.kosciol.util.TranslationCode.names;
 @RequestMapping(value="/main")
 public class HomeController {
 
+    private EventService eventService;
     private TranslationService translationService;
-    private List<EventDto> allEvents = new ArrayList<EventDto>();
 
-    public HomeController(TranslationService translationService) {
+    public HomeController(EventService eventService, TranslationService translationService) {
+        this.eventService = eventService;
         this.translationService = translationService;
-        EventDto event = new EventDto();
-        event.setTitle("uwielbionkoTytuł");
-        event.setMeetingCategory(MeetingCategory.UWIELBIENIE);
-        event.setDescription("Fajnie");
-        /*event.setStartDate(LocalDate.of(2023, Month.JANUARY, 1));
-        event.setStartTime(LocalTime.of(12, 0));
-        event.setFinishDate(LocalDate.of(2023, Month.JANUARY, 14));
-        event.setFinishTime(LocalTime.of(12, 0));*/
-        event.setRecipientCategory(RecipientCategory.WSZYSCY);
-        allEvents.add(event);
     }
 
     @GetMapping()
@@ -55,15 +47,6 @@ public class HomeController {
         return "main";
     }
 
-    @PostMapping("/addEvent")
-    public String addEvent(Model model, @Valid EventDto event, Errors errors, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            allEvents.add(event);
-        }
-        setModelAttributes(model);
-        return "main";
-    }
-
     private void setModelAttributes(Model model) {
         String[] translation = translationService.getTranslation();
         for (int i = 0; i < translation.length; i++) {
@@ -71,7 +54,7 @@ public class HomeController {
         }
         model.addAttribute("event", new EventDto());
         model.addAttribute("user", new UserDto());
-        model.addAttribute("eventsListToDisplay", allEvents);
+        model.addAttribute("eventsListToDisplay", eventService.getAllPublishedEvents());
     }
 
 /*

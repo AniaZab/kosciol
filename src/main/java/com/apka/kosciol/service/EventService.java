@@ -97,7 +97,14 @@ public class EventService  { //extends AbstractChangeService
         eventRepository.save(event);
     }
 
-
+    public List<EventDto> getAllPublishedEvents() {
+        List<EventDto> eventDtoList = new ArrayList<>();
+        List<Event> eventList = eventRepository.findAllByStatus(Status.PUBLISHED);
+        for (Event event : eventList) {
+            eventDtoList.add(setAllFieldsOfEventDto(event));
+        }
+        return eventDtoList;
+    }
 
     public boolean checkIfAllDataIsFilled(EventDto eventDto) throws DoesNotExistException, MissingDataException {
         if(eventDto.getDescription()==null || eventDto.getPlace()==null || eventDto.getFinishDate()==null
@@ -138,9 +145,8 @@ public class EventService  { //extends AbstractChangeService
         //te co sa opcjonalne:
         if (isNew) {
             event.setVersion(1);
-            event.setStatus(Status.TOUPDATE);
+            event.setStatus(Status.NOTPUBLISHED);
         } else {
-            //todo status
             event.setVersion(event.getVersion() + 1);
             event.setStatus(eventDto.getStatus());
         }

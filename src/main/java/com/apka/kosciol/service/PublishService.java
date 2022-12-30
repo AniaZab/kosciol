@@ -3,6 +3,7 @@ package com.apka.kosciol.service;
 import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
+import com.apka.kosciol.exceptions.MissingDataException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class PublishService {
     @Autowired
     Configuration config;
 
-    public void publish(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender) throws MessagingException {
+    public void publish(EventDto eventToSend, List<RecipientDto> recipientDtoList, UserDto sender) throws MessagingException, MissingDataException {
         if (eventToSend.getEmailPublish()) {
             publishEmail(eventToSend, recipientDtoList, sender);
         }
@@ -44,6 +45,9 @@ public class PublishService {
         }
         if (eventToSend.getMessengerPublish()) {
             publishMessenger();
+        }
+        if(!eventToSend.getEmailPublish() && !eventToSend.getFacebookPublish() && !eventToSend.getMessengerPublish()){
+            throw new MissingDataException("There is no publish channel checked, please choose at least one channel before publishing.");
         }
     }
 

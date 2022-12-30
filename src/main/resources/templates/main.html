@@ -259,6 +259,7 @@
                         <a id="toastbtn1" th:text="${pageNewEvents_table_when}" href="#"></a>
                     </th>
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_place}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
                 </tr>
                 </thead>
@@ -266,7 +267,7 @@
                 <tr>
                     <th scope="row" th:text="${stats.index+1}"></th>
                     <!--                    <td th:text="${eventToDisplay.category}"></td>-->
-                    <td th:text="${eventToDisplay.meetingCategory}"></td>
+                    <td th:text="${eventToDisplay.meetingCategory.displayValue}"></td>
                     <td th:text="${eventToDisplay.title}"></td>
                     <td>
                         <div class="toast">
@@ -285,7 +286,8 @@
                             </div>
                         </div>
                     </td>
-                    <td th:text="${eventToDisplay.recipientCategory}"></td>
+                    <td th:text="${eventToDisplay.recipientCategory.displayValue}"></td>
+                    <td th:text="${eventToDisplay.place}"></td>
                     <td th:text="${eventToDisplay.description}"></td>
                     <!--                    <td th:text="${eventToDisplay.extraInfo}"></td>-->
                 </tr>
@@ -299,6 +301,7 @@
                         <a id="toastbtn" th:text="${pageNewEvents_table_when}" href="#"></a>
                     </th>
                     <th th:text="${pageNewEvents_table_ForWho}" scope="col"></th>
+                    <th th:text="${pageNewEvents_table_place}" scope="col"></th>
                     <th th:text="${pageNewEvents_table_description}" scope="col"></th>
                     <!--                    <th th:text="${pageNewEvents_table_extraInfo}" scope="col"></th>-->
                 </tr>

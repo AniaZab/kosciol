@@ -5,6 +5,7 @@ import com.apka.kosciol.dto.PasswordDto;
 import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
 import com.apka.kosciol.entity.Recipient;
+import com.apka.kosciol.entity.Status;
 import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
@@ -56,6 +57,8 @@ public class UsersController {
             List<RecipientDto> recipientList = recipientService.getRecipientsOfTheMeetingCategory(eventToSend.getMeetingCategory());
             UserDto sender = userService.getLoggedInUser();
             publishService.publish(eventToSend, recipientList, sender);
+            eventToSend.setStatus(Status.PUBLISHED);
+            eventService.edit(eventToSend);
         } catch (DoesNotExistException | MessagingException | MissingDataException dnee) {
             model.addAttribute("info", dnee.getMessage());
             model.addAttribute("hrefLink", "/user/startPage");
