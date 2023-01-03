@@ -68,22 +68,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //  .loginPage("/login") // tu ew mozesz zrobic wlasna strone do logowania
                 .permitAll();
     }
-}     /*   http
-                .httpBasic()
-                .and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/main").permitAll()
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/event/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/1recipient/**").hasAnyRole("USER", "ADMIN")
-                .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/user/startPage");
-        //  .csrf().disable();
-
-      */
-
-
+}
