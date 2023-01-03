@@ -6,10 +6,12 @@ import com.apka.kosciol.entity.Status;
 import com.apka.kosciol.exceptions.AlreadyExistException;
 import com.apka.kosciol.exceptions.DoesNotExistException;
 import com.apka.kosciol.exceptions.MissingDataException;
+import com.apka.kosciol.exceptions.PastDateException;
 import com.apka.kosciol.repository.IEvent;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,11 @@ public class EventService  { //extends AbstractChangeService
         return eventDtoList;
     }
 
+    public boolean checkIfEventCanBePublished(EventDto eventDto) throws DoesNotExistException, MissingDataException, PastDateException {
+        checkIfAllDataIsFilled(eventDto);
+        checkIfDateIsFuture(eventDto);
+        return true;
+    }
     //@Override
     public void edit(EventDto eventDto) {
         try{
@@ -111,6 +118,14 @@ public class EventService  { //extends AbstractChangeService
         || eventDto.getFinishTime()==null || eventDto.getStartDate()==null || eventDto.getStartTime()==null){
             throw new MissingDataException("This event does not have all the data filled, please fill all the fields.");
         }
+        return true;
+    }
+
+    private boolean checkIfDateIsFuture(EventDto eventDto) throws PastDateException {
+        LocalDate today = LocalDate.now();
+        LocalDate eventDate = LocalDate.parse(eventDto.getStartDate());
+        if(today.isAfter(eventDate))
+            throw new PastDateException("This event has set start date which has already past. Please change the start date.");
         return true;
     }
 
