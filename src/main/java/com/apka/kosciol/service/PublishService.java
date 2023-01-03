@@ -80,6 +80,9 @@ public class PublishService {
                 if(recipientDto.getFirstName()==null && recipientDto.getLastName()==null){
                     model.put("RecipientName", "XYZ");
                 }
+                else if(recipientDto.getLastName()==null){
+                    model.put("RecipientName", recipientDto.getFirstName());
+                }
                 else{
                     model.put("RecipientName", recipientDto.getFirstName() + " " + recipientDto.getLastName());
                 }
