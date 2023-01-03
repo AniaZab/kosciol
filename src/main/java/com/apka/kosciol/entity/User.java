@@ -1,11 +1,8 @@
 package com.apka.kosciol.entity;
 
-import com.apka.kosciol.validations.PasswordMatches;
-import com.apka.kosciol.validations.ValidEmail;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -13,7 +10,7 @@ import java.util.Set;
 //@PasswordMatches
 @Data
 @Entity
-@Table(name="User_Account")
+@Table(name = "User_Account")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -149,7 +146,6 @@ public class User {
     public void setId(Integer id) {
         this.id = id;
     }*/
-
 
 
     //TODO Reverse Engineering! Migrate other columns to the entity

@@ -23,13 +23,10 @@ public class RecipientService {
     private final IRecipient recipientRepository;
     private final ISubscription subscriptionRepository;
 
-
-    //@Override
     public long count() {
         return recipientRepository.count();
     }
 
-    //@Override
     public void delete(Integer id) throws DoesNotExistException {
         if (idExists(id)) {
             Recipient recipient = recipientRepository.getOne(id);
@@ -49,7 +46,6 @@ public class RecipientService {
         }
     }
 
-    //@Override
     public Optional<Object> findById(Integer id) {
         return Optional.of(recipientRepository.findById(id));
     }
@@ -72,7 +68,6 @@ public class RecipientService {
         return eventDtoList;
     }
 
-    //@Override
     @Transactional
     public void edit(RecipientDto recipientDto) {
         try {
@@ -81,7 +76,7 @@ public class RecipientService {
             log.debug("saving recipient with subsc {}", recipient.getSubscriptionList());
             log.debug("del substr amount {}", subscriptionRepository.deleteAllByRecipient(recipient));
         } catch (Exception e) {
-            log.error("cos jest grubo nie tak!!! ",e.getMessage());
+            log.error("cos jest grubo nie tak!!! ", e.getMessage());
             e.printStackTrace();
             int i = 0; // cos poszlo nie tak
         }
@@ -96,10 +91,10 @@ public class RecipientService {
         recipientRepository.save(recipient);
     }
 
-    public List<RecipientDto> getRecipientsOfTheMeetingCategory(MeetingCategory meetingCategory){
+    public List<RecipientDto> getRecipientsOfTheMeetingCategory(MeetingCategory meetingCategory) {
         List<Subscription> subscriptionList = subscriptionRepository.findAllByMeetingCategory(meetingCategory);
         List<RecipientDto> recipientList = new ArrayList<>();
-        for (Subscription subscription: subscriptionList) {
+        for (Subscription subscription : subscriptionList) {
             recipientList.add(setAllFieldsOfEventDto(subscription.getRecipient()));
         }
         return recipientList;

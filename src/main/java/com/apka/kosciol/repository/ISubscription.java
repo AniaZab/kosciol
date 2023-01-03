@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface ISubscription extends JpaRepository<Subscription, Integer> {
     int deleteAllByRecipient(@Param("recipient") Recipient recipient);
-    List<Subscription> findAllByMeetingCategory(@Param("meeting_category") MeetingCategory meeting_category);
-    //public int deleteAllByRecipientId(Recipient recipient);
 
+    List<Subscription> findAllByMeetingCategory(@Param("meeting_category") MeetingCategory meeting_category);
 }

@@ -4,13 +4,10 @@ import com.apka.kosciol.dto.EventDto;
 import com.apka.kosciol.dto.PasswordDto;
 import com.apka.kosciol.dto.RecipientDto;
 import com.apka.kosciol.dto.UserDto;
-import com.apka.kosciol.entity.Recipient;
 import com.apka.kosciol.entity.Status;
-import com.apka.kosciol.entity.User;
 import com.apka.kosciol.exceptions.*;
 import com.apka.kosciol.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -27,7 +23,6 @@ import java.util.Objects;
 import static com.apka.kosciol.util.TranslationCode.names;
 
 @Controller
-//@RequestMapping(value="/user")
 @Slf4j
 public class UsersController {
 
@@ -141,7 +136,7 @@ public class UsersController {
     @RequestMapping("/user/startPage/language")
     public String setLanguage(Model model, @RequestParam("lang") String lang) {
         Locale.setDefault(new Locale(lang));
-        try{
+        try {
             setStartPageModel(model);
         } catch (DoesNotExistException eaeEx) {
             model.addAttribute("info", eaeEx.getMessage());
@@ -152,7 +147,7 @@ public class UsersController {
 
     @GetMapping("/user/startPage")
     public String startPage(Model model) {//, String whatPageToShow
-        try{
+        try {
             setStartPageModel(model);
         } catch (DoesNotExistException eaeEx) {
             model.addAttribute("info", eaeEx.getMessage());
@@ -160,18 +155,6 @@ public class UsersController {
         }
         return "usersPage";
     }
-
-    //nie bedzie potrzebny
-    /*@GetMapping("/user/register") //do poprawienia potem
-    public String showRegistrationForm( Model model) { //WebRequest request,
-        UserDto userDto = new UserDto();
-        //wywolywanie uslug serwisowych
-        //lapac exception w froncie
-        model.addAttribute("user", userDto);
-        setModelAttributes(model);
-        System.out.println("registerGet");
-        return "register";
-    }*/
 
     @PostMapping("/user/register")
     public String register(Model model, @ModelAttribute("user") @Valid UserDto userDto, Errors errors, BindingResult bindingResult) {
@@ -252,21 +235,6 @@ public class UsersController {
         return "main";
     }
 
-/*    @PostMapping("/user/updatePassword")
-    @PreAuthorize("hasRole('READ_PRIVILEGE')")
-    public GenericResponse changeUserPassword(Locale locale,
-                                              @RequestParam("password") String password,
-                                              @RequestParam("oldpassword") String oldPassword) {
-        User user = allUsers.findUserByEmail(
-                SecurityContextHolder.getContext().getAuthentication().getName());
-
-        if (!allUsers.checkIfValidOldPassword(user, oldPassword)) {
-            throw new InvalidOldPasswordException();
-        }
-        allUsers.changeUserPassword(user, password);
-        return new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale));
-    }*/
-
     private void setModelAttributes(Model model) {
         String[] translation = translationService.getTranslation();
         for (int i = 0; i < translation.length; i++) {
@@ -285,7 +253,5 @@ public class UsersController {
         model.addAttribute("recipientsListToDisplay", recipientDtoList);
         List<EventDto> eventDtoList = eventService.returnAllEvents();
         model.addAttribute("eventsListToDisplay", eventDtoList);
-
-        //return model;
     }
 }

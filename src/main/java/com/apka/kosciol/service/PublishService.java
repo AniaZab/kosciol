@@ -8,7 +8,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -46,7 +45,7 @@ public class PublishService {
         if (eventToSend.getMessengerPublish()) {
             publishMessenger();
         }
-        if(!eventToSend.getEmailPublish() && !eventToSend.getFacebookPublish() && !eventToSend.getMessengerPublish()){
+        if (!eventToSend.getEmailPublish() && !eventToSend.getFacebookPublish() && !eventToSend.getMessengerPublish()) {
             throw new MissingDataException("There is no publish channel checked, please choose at least one channel before publishing.");
         }
     }
@@ -67,23 +66,20 @@ public class PublishService {
             model.put("WhenFinish", eventToSend.getFinishDate() + " o godz. " + eventToSend.getFinishTime());
             model.put("RecipientCategory", eventToSend.getRecipientCategory().getDisplayValue());
             model.put("Description", eventToSend.getDescription());
-            if(sender.getFirstName()==null && sender.getLastName()==null){
+            if (sender.getFirstName() == null && sender.getLastName() == null) {
                 model.put("SenderName", sender.getLogin());
-            }
-            else{
+            } else {
                 model.put("SenderName", sender.getFirstName() + " " + sender.getLastName());
             }
             model.put("location", "Bangalore,India");
             for (RecipientDto recipientDto :
                     recipientDtoList) {
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientDto.getEmail()));
-                if(recipientDto.getFirstName()==null && recipientDto.getLastName()==null){
+                if (recipientDto.getFirstName() == null && recipientDto.getLastName() == null) {
                     model.put("RecipientName", "XYZ");
-                }
-                else if(recipientDto.getLastName()==null){
+                } else if (recipientDto.getLastName() == null) {
                     model.put("RecipientName", recipientDto.getFirstName());
-                }
-                else{
+                } else {
                     model.put("RecipientName", recipientDto.getFirstName() + " " + recipientDto.getLastName());
                 }
                 mimeMessage.setText(geContentFromTemplate(model), true);

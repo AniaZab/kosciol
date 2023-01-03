@@ -13,8 +13,7 @@ import java.util.Properties;
 public class MailConfiguration {
 
     @Bean
-    public JavaMailSender getJavaMailSender()
-    {
+    public JavaMailSender getJavaMailSender() {
         JavaMailSender mailSender = new JavaMailSenderImpl();
         ((JavaMailSenderImpl) mailSender).setHost("smtp.gmail.com");
         ((JavaMailSenderImpl) mailSender).setPort(587);
@@ -30,10 +29,11 @@ public class MailConfiguration {
 
         return mailSender;
     }
+
     @Primary
     @Bean
     public FreeMarkerConfigurationFactoryBean factoryBean() {
-        FreeMarkerConfigurationFactoryBean bean=new FreeMarkerConfigurationFactoryBean();
+        FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
         bean.setTemplateLoaderPath("classpath:/templates");
         return bean;
     }

@@ -15,7 +15,7 @@ public class LocaleConfiguration {
     private String defaultLocale;
 
     @Bean(name = "messages")
-    public ResourceBundleMessageSource messageSource(){
+    public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename(baseName);
         messageSource.setDefaultEncoding("UTF-8");

@@ -37,10 +37,9 @@ public class Recipient {
     private List<Subscription> subscriptionList;
 
     public void setSubscriptionList(List<Subscription> subscriptionList) {
-        try{
+        try {
             this.subscriptionList.clear();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         if (Objects.nonNull(subscriptionList)) {

@@ -1,7 +1,6 @@
 package com.apka.kosciol.dto;
 
 import com.apka.kosciol.entity.MeetingCategory;
-import com.apka.kosciol.entity.RecipientCategory;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;

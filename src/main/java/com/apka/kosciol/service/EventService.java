@@ -11,15 +11,13 @@ import com.apka.kosciol.repository.IEvent;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
-public class EventService  { //extends AbstractChangeService
+public class EventService {
 
     private IEvent eventRepository;
 
@@ -27,44 +25,26 @@ public class EventService  { //extends AbstractChangeService
         this.eventRepository = eventRepository;
     }
 
-    //@Override
     public long count() {
         return eventRepository.count();
     }
 
-    //@Override
     public void delete(Integer id) throws DoesNotExistException {
-        if(idExists(id)){
+        if (idExists(id)) {
             Event event = eventRepository.getOne(id);
             eventRepository.delete(event);
-        }
-        else{
-            System.out.println("Delete error.");
-            throw new DoesNotExistException("That event with id = "+ id +" doesn't exist.");
-        }
-    }
-
-    //@Override
-    public void save(Object changeEntity) {
-        if (changeEntity instanceof Event && changeEntity != null) {
-            eventRepository.save((Event) changeEntity);
         } else {
-            System.err.println("Your event doesn't have data.");
+            System.out.println("Delete error.");
+            throw new DoesNotExistException("That event with id = " + id + " doesn't exist.");
         }
-    }
-
-    //@Override
-    public Optional<Object> findById(Integer id) {
-        return Optional.of(eventRepository.findById(id));
     }
 
     public EventDto findEventDtoById(Integer id) throws DoesNotExistException {
-        if(idExists(id)){
+        if (idExists(id)) {
             Event event = eventRepository.getOne(id);
             return setAllFieldsOfEventDto(event);
-        }
-        else{
-            throw new DoesNotExistException("That event with id = "+ id.intValue()+" doesn't exist.");
+        } else {
+            throw new DoesNotExistException("That event with id = " + id.intValue() + " doesn't exist.");
         }
     }
 
@@ -82,15 +62,14 @@ public class EventService  { //extends AbstractChangeService
         checkIfDateIsFuture(eventDto);
         return true;
     }
-    //@Override
+
     public void edit(EventDto eventDto) {
-        try{
+        try {
             Event event = eventRepository.getOne(eventDto.getId());
             event = setAllFieldsOfEvent(eventDto, event, false);
 
             eventRepository.save(event);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             int i = 0; // cos poszlo nie tak
         }
     }
@@ -114,8 +93,8 @@ public class EventService  { //extends AbstractChangeService
     }
 
     public boolean checkIfAllDataIsFilled(EventDto eventDto) throws DoesNotExistException, MissingDataException {
-        if(eventDto.getDescription()==null || eventDto.getPlace()==null || eventDto.getFinishDate()==null
-        || eventDto.getFinishTime()==null || eventDto.getStartDate()==null || eventDto.getStartTime()==null){
+        if (eventDto.getDescription() == null || eventDto.getPlace() == null || eventDto.getFinishDate() == null
+                || eventDto.getFinishTime() == null || eventDto.getStartDate() == null || eventDto.getStartTime() == null) {
             throw new MissingDataException("This event does not have all the data filled, please fill all the fields.");
         }
         return true;
@@ -124,7 +103,7 @@ public class EventService  { //extends AbstractChangeService
     private boolean checkIfDateIsFuture(EventDto eventDto) throws PastDateException {
         LocalDate today = LocalDate.now();
         LocalDate eventDate = LocalDate.parse(eventDto.getStartDate());
-        if(today.isAfter(eventDate))
+        if (today.isAfter(eventDate))
             throw new PastDateException("This event has set start date which has already past. Please change the start date.");
         return true;
     }
@@ -144,13 +123,13 @@ public class EventService  { //extends AbstractChangeService
     private Event setAllFieldsOfEvent(EventDto eventDto, Event event, boolean isNew) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
         //te co musza byc:
-        if(Objects.isNull(eventDto.getEmailPublish())){
+        if (Objects.isNull(eventDto.getEmailPublish())) {
             eventDto.setEmailPublish(false);
         }
-        if(Objects.isNull(eventDto.getFacebookPublish())){
+        if (Objects.isNull(eventDto.getFacebookPublish())) {
             eventDto.setFacebookPublish(false);
         }
-        if(Objects.isNull(eventDto.getMessengerPublish())){
+        if (Objects.isNull(eventDto.getMessengerPublish())) {
             eventDto.setMessengerPublish(false);
         }
         event.setTitle(eventDto.getTitle());
@@ -167,11 +146,11 @@ public class EventService  { //extends AbstractChangeService
         }
         event.setMeetingCategory(eventDto.getMeetingCategory());
         event.setRecipientCategory(eventDto.getRecipientCategory());
-        try{
+        try {
             event.setStartDate(LocalDate.parse(eventDto.getStartDate(), formatter));
             event.setFinishDate(LocalDate.parse(eventDto.getFinishDate(), formatter));
+        } catch (Exception e) {
         }
-        catch(Exception e){}
         event.setStartTime(eventDto.getStartTime());
         event.setFinishTime(eventDto.getFinishTime());
         event.setDescription(eventDto.getDescription());
@@ -191,11 +170,12 @@ public class EventService  { //extends AbstractChangeService
         //te co sa opcjonalne:
         eventDto.setMeetingCategory(event.getMeetingCategory());
         eventDto.setRecipientCategory(event.getRecipientCategory());
-        if(!Objects.isNull(event.getStartDate()))
+        if (!Objects.isNull(event.getStartDate()))
             eventDto.setStartDate(event.getStartDate().toString());
-        if(!Objects.isNull(event.getFinishDate()))
+        if (!Objects.isNull(event.getFinishDate()))
             eventDto.setFinishDate(event.getFinishDate().toString());
-        eventDto.setStartTime(event.getStartTime());;
+        eventDto.setStartTime(event.getStartTime());
+
         eventDto.setFinishTime(event.getFinishTime());
         eventDto.setDescription(event.getDescription());
         eventDto.setPlace(event.getPlace());

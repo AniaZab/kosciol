@@ -39,7 +39,6 @@ public class UserService implements UserDetailsService {
 
     UserDetails build(User u) {
         var roles = Collections.singletonList(new SimpleGrantedAuthority(u.getRole().name()));
-        //return new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), roles);
         return new org.springframework.security.core.userdetails.User(u.getId().toString(), u.getPassword(), roles);
     }
 
@@ -87,19 +86,6 @@ public class UserService implements UserDetailsService {
         userRepository.save(userTableEntity);
     }
 
-    // zwraca znalezionego usera o danym adresie email
-    public Optional<User> findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    /*public void edit(UserDto userDto) {
-        try {
-            userRepository.save(setAllFieldsOfUser(userDto, userRepository.getOne(userDto.getId()), false));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }*/
-
     public void edit(UserDto userDto) {
         try {
             userRepository.save(setAllFieldsOfUser(userDto, userRepository.getOne(getNameOfLoggedUser()), false));
@@ -108,14 +94,14 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public boolean checkLogin(UserDto userDto) throws DoesNotExistException{
-        if(loginExists(userDto.getLogin())) {
+    public boolean checkLogin(UserDto userDto) throws DoesNotExistException {
+        if (loginExists(userDto.getLogin())) {
             User user = userRepository.getByLogin(userDto.getLogin());
             user = setAllFieldsOfUser(userDto, user, false);
             userRepository.save(user);
             return true;
-        } else{
-            throw new DoesNotExistException ("There is no account with that login: "
+        } else {
+            throw new DoesNotExistException("There is no account with that login: "
                     + userDto.getLogin() + ". Please enter diffrent login.");
         }
     }
@@ -143,38 +129,36 @@ public class UserService implements UserDetailsService {
 
     public void changePassword(PasswordDto passwords) throws WrongPasswordException, DoesNotExistException {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        //previousPassword = passwordEncoder.encode(previousPassword);
         UserDto userLoggedIn = getLoggedInUser();
-        if(passwordEncoder.matches(passwords.getPreviousPassword(), userLoggedIn.getPassword())){
+        if (passwordEncoder.matches(passwords.getPreviousPassword(), userLoggedIn.getPassword())) {
             User user = userRepository.getOne(userLoggedIn.getId());
             user.setChangedPassword(true);
             user.setPassword(passwordEncoder.encode(passwords.getNewPassword()));
             userRepository.save(user);
-        }
-        else{
+        } else {
             throw new WrongPasswordException("Current and given passwords did not match, please try again!");
         }
     }
+
     public void changePassword2(PasswordDto passwords) throws WrongPasswordException, DoesNotExistException {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //previousPassword = passwordEncoder.encode(previousPassword);
-            User user = userRepository.getOne(1);
-            user.setChangedPassword(true);
-            user.setPassword(passwordEncoder.encode("t"));
-            userRepository.save(user);
+        User user = userRepository.getOne(1);
+        user.setChangedPassword(true);
+        user.setPassword(passwordEncoder.encode("t"));
+        userRepository.save(user);
     }
 
     public UserDto getLoggedInUser() throws DoesNotExistException {
         int name = getNameOfLoggedUser();
-        if(userRepository.existsById(name)){
+        if (userRepository.existsById(name)) {
             return setAllFieldsOfUserDto(userRepository.getOne(name));
-        }
-        else
-            throw new DoesNotExistException("There is no account with that id: "+ name);
+        } else
+            throw new DoesNotExistException("There is no account with that id: " + name);
     }
 
-    private int getNameOfLoggedUser(){
-        return Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName()) ;
+    private int getNameOfLoggedUser() {
+        return Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     private boolean emailExists(String email) {
