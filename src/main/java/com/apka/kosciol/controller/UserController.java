@@ -24,7 +24,7 @@ import static com.apka.kosciol.util.TranslationCode.names;
 
 @Controller
 @Slf4j
-public class UsersController {
+public class UserController {
 
     private TranslationService translationService;
     private UserService userService;
@@ -32,7 +32,7 @@ public class UsersController {
     private RecipientService recipientService;
     private PublishService publishService;
 
-    public UsersController(PublishService publishService, EventService eventService, TranslationService translationService, UserService userService, RecipientService recipientService) {
+    public UserController(PublishService publishService, EventService eventService, TranslationService translationService, UserService userService, RecipientService recipientService) {
         this.userService = userService;
         this.translationService = translationService;
         this.eventService = eventService;
