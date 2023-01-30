@@ -46,8 +46,8 @@ public class UserController {
         try {
             EventDto eventToSend = eventService.findEventDtoById(id);
             eventService.checkIfEventCanBePublished(eventToSend);
-            List<RecipientDto> recipientList = recipientService.getRecipientsOfTheMeetingCategory(eventToSend.getMeetingCategory());
             UserDto sender = userService.getLoggedInUser();
+            List<RecipientDto> recipientList = recipientService.getRecipientsOfTheMeetingCategory(eventToSend.getMeetingCategory());
             publishService.publish(eventToSend, recipientList, sender);
             eventToSend.setStatus(Status.PUBLISHED);
             eventService.edit(eventToSend);

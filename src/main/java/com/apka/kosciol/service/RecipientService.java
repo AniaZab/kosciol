@@ -91,11 +91,14 @@ public class RecipientService {
         recipientRepository.save(recipient);
     }
 
-    public List<RecipientDto> getRecipientsOfTheMeetingCategory(MeetingCategory meetingCategory) {
+    public List<RecipientDto> getRecipientsOfTheMeetingCategory(MeetingCategory meetingCategory) throws DoesNotExistException {
         List<Subscription> subscriptionList = subscriptionRepository.findAllByMeetingCategory(meetingCategory);
         List<RecipientDto> recipientList = new ArrayList<>();
         for (Subscription subscription : subscriptionList) {
             recipientList.add(setAllFieldsOfEventDto(subscription.getRecipient()));
+        }
+        if(recipientList.isEmpty()){
+            throw new DoesNotExistException("There is no recipient who subscribed the meeting category: "+meetingCategory.getDisplayValue() +".");
         }
         return recipientList;
     }

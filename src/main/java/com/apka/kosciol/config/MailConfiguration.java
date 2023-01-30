@@ -17,7 +17,6 @@ public class MailConfiguration {
         JavaMailSender mailSender = new JavaMailSenderImpl();
         ((JavaMailSenderImpl) mailSender).setHost("smtp.gmail.com");
         ((JavaMailSenderImpl) mailSender).setPort(587);
-
         ((JavaMailSenderImpl) mailSender).setUsername("aniawiller@gmail.com");
         ((JavaMailSenderImpl) mailSender).setPassword("nycqgvykvabrkvnz");
 
@@ -32,7 +31,7 @@ public class MailConfiguration {
 
     @Primary
     @Bean
-    public FreeMarkerConfigurationFactoryBean factoryBean() {
+    public FreeMarkerConfigurationFactoryBean getFreeMarkerConfigurationFactoryBean() {
         FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
         bean.setTemplateLoaderPath("classpath:/templates");
         return bean;
